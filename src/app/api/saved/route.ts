@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import type { Platform as PlatformType } from '@/types';
 import { Platform } from '@prisma/client';
+import { decodeHtmlEntities } from '@/lib/utils';
 
 // GET - Fetch all saved searches
 export async function GET() {
@@ -23,8 +24,8 @@ export async function GET() {
       createdAt: search.createdAt.toISOString(),
       results: search.results.map((r) => ({
         id: r.externalId,
-        username: r.creatorName,
-        title: r.title,
+        username: decodeHtmlEntities(r.creatorName),
+        title: decodeHtmlEntities(r.title),
         views: Number(r.viewCount),
         likes: Number(r.likeCount),
         comments: Number(r.commentCount),

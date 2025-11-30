@@ -1,4 +1,5 @@
 import { getYouTubeClient } from './client';
+import { decodeHtmlEntities } from '../utils';
 
 export interface YouTubeVideoDetails {
   id: string;
@@ -27,15 +28,15 @@ export async function getVideoDetails(videoId: string): Promise<YouTubeVideoDeta
 
   return {
     id: item.id || '',
-    title: item.snippet?.title || '',
-    description: item.snippet?.description || '',
+    title: decodeHtmlEntities(item.snippet?.title || ''),
+    description: decodeHtmlEntities(item.snippet?.description || ''),
     thumbnail:
       item.snippet?.thumbnails?.high?.url ||
       item.snippet?.thumbnails?.medium?.url ||
       item.snippet?.thumbnails?.default?.url ||
       '',
     channelId: item.snippet?.channelId || '',
-    channelTitle: item.snippet?.channelTitle || '',
+    channelTitle: decodeHtmlEntities(item.snippet?.channelTitle || ''),
     publishedAt: item.snippet?.publishedAt || '',
     viewCount: item.statistics?.viewCount || '0',
     likeCount: item.statistics?.likeCount || '0',
@@ -58,15 +59,15 @@ export async function getMultipleVideoDetails(
 
   return items.map((item) => ({
     id: item.id || '',
-    title: item.snippet?.title || '',
-    description: item.snippet?.description || '',
+    title: decodeHtmlEntities(item.snippet?.title || ''),
+    description: decodeHtmlEntities(item.snippet?.description || ''),
     thumbnail:
       item.snippet?.thumbnails?.high?.url ||
       item.snippet?.thumbnails?.medium?.url ||
       item.snippet?.thumbnails?.default?.url ||
       '',
     channelId: item.snippet?.channelId || '',
-    channelTitle: item.snippet?.channelTitle || '',
+    channelTitle: decodeHtmlEntities(item.snippet?.channelTitle || ''),
     publishedAt: item.snippet?.publishedAt || '',
     viewCount: item.statistics?.viewCount || '0',
     likeCount: item.statistics?.likeCount || '0',
