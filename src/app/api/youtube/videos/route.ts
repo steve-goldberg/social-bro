@@ -10,7 +10,17 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const videoIds = ids.split(',').filter(Boolean);
+    // YouTube video IDs are 11 characters, alphanumeric with - and _
+    const videoIdPattern = /^[a-zA-Z0-9_-]{11}$/;
+    const videoIds = ids
+      .split(',')
+      .filter(Boolean)
+      .filter((id) => videoIdPattern.test(id));
+
+    if (videoIds.length === 0) {
+      return NextResponse.json({ error: 'No valid video IDs provided' }, { status: 400 });
+    }
+
     const videos = await getMultipleVideoDetails(videoIds);
     return NextResponse.json({ videos });
   } catch (error) {

@@ -24,8 +24,7 @@ export function WelcomeHeader() {
   return (
     <div className="flex flex-col items-center gap-3 text-center">
       <h1
-        className="flex text-4xl font-medium text-white"
-        style={{ fontFamily: 'var(--font-doto)' }}
+        className="flex text-4xl font-medium text-white font-doto"
         onMouseLeave={() => setHoveredIndex(null)}
       >
         {TEXT.split('').map((char, index) => (

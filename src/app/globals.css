@@ -179,3 +179,8 @@ body {
 .mode-card.active {
   border: none;
 }
+
+/* Font utilities */
+.font-doto {
+  font-family: var(--font-doto);
+}

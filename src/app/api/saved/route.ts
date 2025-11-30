@@ -4,9 +4,13 @@ import type { Platform as PlatformType } from '@/types';
 import { Platform } from '@prisma/client';
 import { decodeHtmlEntities } from '@/lib/utils';
 
-// GET - Fetch all saved searches
-export async function GET() {
+// GET - Fetch all saved searches with pagination
+export async function GET(request: NextRequest) {
   try {
+    const { searchParams } = new URL(request.url);
+    const limit = Math.min(Number(searchParams.get('limit')) || 20, 50);
+    const offset = Number(searchParams.get('offset')) || 0;
+
     const savedSearches = await prisma.savedSearch.findMany({
       include: {
         results: true,
@@ -14,6 +18,8 @@ export async function GET() {
       orderBy: {
         createdAt: 'desc',
       },
+      take: limit,
+      skip: offset,
     });
 
     // Transform to match frontend types
@@ -151,6 +157,17 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json(
         { error: 'Missing search ID' },
         { status: 400 }
+      );
+    }
+
+    const existing = await prisma.savedSearch.findUnique({
+      where: { id },
+    });
+
+    if (!existing) {
+      return NextResponse.json(
+        { error: 'Saved search not found' },
+        { status: 404 }
       );
     }
 

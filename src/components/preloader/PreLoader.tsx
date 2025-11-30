@@ -64,8 +64,7 @@ export function PreLoader({ onComplete, duration = 2000 }: PreLoaderProps) {
       }`}
     >
       <h1
-        className="flex text-6xl font-medium text-white"
-        style={{ fontFamily: 'var(--font-doto)' }}
+        className="flex text-6xl font-medium text-white font-doto"
       >
         {TEXT.split('').map((char, index) => (
           <span

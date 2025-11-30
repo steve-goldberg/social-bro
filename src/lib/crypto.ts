@@ -5,7 +5,13 @@ const KEY_LENGTH = 32;
 const IV_LENGTH = 16;
 
 function getEncryptionKey(): Buffer {
-  const secret = process.env.ENCRYPTION_SECRET || 'default-dev-secret-change-in-prod';
+  const secret = process.env.ENCRYPTION_SECRET;
+  if (!secret) {
+    throw new Error(
+      'ENCRYPTION_SECRET environment variable is required. ' +
+        'Generate one with: openssl rand -base64 32'
+    );
+  }
   return scryptSync(secret, 'salt', KEY_LENGTH);
 }
 

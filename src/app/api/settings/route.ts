@@ -78,10 +78,24 @@ export async function POST(request: Request) {
 export async function DELETE(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const service = searchParams.get('service') as ApiKeyService;
+    const service = searchParams.get('service');
 
     if (!service) {
       return NextResponse.json({ error: 'Service is required' }, { status: 400 });
+    }
+
+    const validServices: ApiKeyService[] = ['youtube', 'rapidapi'];
+    if (!validServices.includes(service as ApiKeyService)) {
+      return NextResponse.json({ error: 'Invalid service' }, { status: 400 });
+    }
+
+    // Check if the key exists before deleting
+    const existing = await prisma.apiKey.findUnique({
+      where: { service },
+    });
+
+    if (!existing) {
+      return NextResponse.json({ error: 'API key not found' }, { status: 404 });
     }
 
     await prisma.apiKey.delete({

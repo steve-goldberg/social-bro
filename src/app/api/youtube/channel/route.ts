@@ -22,7 +22,8 @@ export async function GET(request: NextRequest) {
       if (dbConfig) {
         maxResults = dbConfig.maxResults;
       }
-    } catch {
+    } catch (dbError) {
+      console.error('Failed to fetch YouTube config:', dbError);
       // Use default if config fetch fails
     }
 

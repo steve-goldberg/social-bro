@@ -32,8 +32,15 @@ export default function Home() {
   // Check if YouTube API key is configured
   useEffect(() => {
     fetch('/api/settings')
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error('Failed to fetch settings');
+        return res.json();
+      })
       .then((data) => {
+        if (!Array.isArray(data)) {
+          setHasYouTubeKey(false);
+          return;
+        }
         const youtubeKey = data.find((k: { service: string; hasKey: boolean }) => k.service === 'youtube');
         setHasYouTubeKey(youtubeKey?.hasKey ?? false);
       })

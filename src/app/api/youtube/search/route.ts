@@ -2,6 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { searchYouTube } from '@/lib/youtube';
 import { prisma } from '@/lib/db';
 
+// Simple in-memory cache for YouTube config (refreshes every 5 minutes)
+let configCache: {
+  data: { maxResults: number; dateRange: string; region: string; videoDuration: string; order: string } | null;
+  timestamp: number;
+} = { data: null, timestamp: 0 };
+const CONFIG_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
 // Helper to calculate publishedAfter date from dateRange
 function getPublishedAfterDate(dateRange: string): string | undefined {
   if (dateRange === 'any') return undefined;
@@ -36,8 +43,8 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // Fetch config from database
-    let config = {
+    // Fetch config from database with caching
+    const defaultConfig = {
       maxResults: 25,
       dateRange: 'any',
       region: 'US',
@@ -45,19 +52,30 @@ export async function GET(request: NextRequest) {
       order: 'relevance',
     };
 
-    try {
-      const dbConfig = await prisma.youTubeConfig.findFirst();
-      if (dbConfig) {
-        config = {
-          maxResults: dbConfig.maxResults,
-          dateRange: dbConfig.dateRange,
-          region: dbConfig.region,
-          videoDuration: dbConfig.videoDuration,
-          order: dbConfig.order,
-        };
+    let config = defaultConfig;
+    const now = Date.now();
+
+    // Check if cache is valid
+    if (configCache.data && now - configCache.timestamp < CONFIG_CACHE_TTL) {
+      config = configCache.data;
+    } else {
+      try {
+        const dbConfig = await prisma.youTubeConfig.findFirst();
+        if (dbConfig) {
+          config = {
+            maxResults: dbConfig.maxResults,
+            dateRange: dbConfig.dateRange,
+            region: dbConfig.region,
+            videoDuration: dbConfig.videoDuration,
+            order: dbConfig.order,
+          };
+        }
+        // Update cache
+        configCache = { data: config, timestamp: now };
+      } catch (dbError) {
+        console.error('Failed to fetch YouTube config from database:', dbError);
+        // Use defaults if config fetch fails
       }
-    } catch {
-      // Use defaults if config fetch fails
     }
 
     const results = await searchYouTube({

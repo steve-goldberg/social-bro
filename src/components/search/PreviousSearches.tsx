@@ -24,7 +24,8 @@ function getSearchHistory(): SearchHistory[] {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     return stored ? JSON.parse(stored) : [];
-  } catch {
+  } catch (error) {
+    console.error('Failed to parse search history from localStorage:', error);
     return [];
   }
 }
@@ -34,8 +35,8 @@ function saveSearchHistory(history: SearchHistory[]): void {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
     window.dispatchEvent(new Event(HISTORY_UPDATE_EVENT));
-  } catch {
-    // Ignore storage errors
+  } catch (error) {
+    console.error('Failed to save search history to localStorage:', error);
   }
 }
 
@@ -130,7 +131,10 @@ export function PreviousSearches({
     if (activeTab !== 'saved' || savedSearches !== null) return;
 
     fetch('/api/saved')
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error('Failed to fetch saved searches');
+        return res.json();
+      })
       .then((data) => {
         setSavedSearches(data.savedSearches || []);
       })

@@ -50,7 +50,16 @@ export async function POST(request: NextRequest) {
     const validDateRange = ['any', 'day', 'week', 'month'].includes(dateRange)
       ? dateRange
       : 'any';
-    const validRegion = typeof region === 'string' && region.length === 2 ? region : 'US';
+    // Validate region code (ISO 3166-1 alpha-2)
+    const validRegionCodes = [
+      'US', 'GB', 'CA', 'AU', 'DE', 'FR', 'JP', 'KR', 'IN', 'BR', 'MX', 'ES', 'IT', 'NL', 'RU',
+      'PL', 'SE', 'NO', 'DK', 'FI', 'AT', 'CH', 'BE', 'PT', 'IE', 'NZ', 'SG', 'HK', 'TW', 'PH',
+      'ID', 'MY', 'TH', 'VN', 'ZA', 'AR', 'CL', 'CO', 'PE', 'EG', 'SA', 'AE', 'IL', 'TR', 'UA',
+    ];
+    const validRegion =
+      typeof region === 'string' && validRegionCodes.includes(region.toUpperCase())
+        ? region.toUpperCase()
+        : 'US';
     const validDuration = ['any', 'short', 'medium', 'long'].includes(videoDuration)
       ? videoDuration
       : 'any';
