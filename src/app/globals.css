@@ -1,26 +1,151 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Background colors */
+  --bg-primary: 0 0 0; /* #000000 - Main background */
+  --bg-input: 38 40 42; /* #26282A - Input background */
+  --bg-hover: 55 65 81; /* Gray-700 - Hover states */
+  --bg-disabled: 107 114 128; /* Gray-500 - Disabled state */
+
+  /* Text colors */
+  --text-primary: 243 244 246; /* Gray-100 */
+  --text-secondary: 156 163 175; /* Gray-400 */
+
+  /* Accent colors */
+  --blue-accent: 218 238 255; /* #DAEEFF - Light blue */
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg-primary: rgb(var(--bg-primary));
+  --color-bg-input: rgb(var(--bg-input));
+  --color-bg-hover: rgb(var(--bg-hover));
+  --color-text-primary: rgb(var(--text-primary));
+  --color-text-secondary: rgb(var(--text-secondary));
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* CSS Property for border angle animation */
+@property --border-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+/* Animations */
+@keyframes border-rotate {
+  to {
+    --border-angle: 360deg;
   }
 }
 
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes waterfall {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Utility classes */
+.animate-shimmer {
+  background-size: 200% auto;
+  animation: shimmer 3s linear infinite;
+}
+
+.animate-border-rotate {
+  animation: border-rotate 3s linear infinite;
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
+.animate-waterfall {
+  animation: waterfall 0.3s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+/* Scrollbar hidden utility */
+.scrollbar-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+/* Base styles */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: rgb(var(--bg-primary));
+  color: rgb(var(--text-primary));
+  font-family: var(--font-sans);
+}
+
+/* Input field wrapper styles */
+.input-field-wrapper {
+  background-color: rgb(var(--bg-input));
+  border-bottom: 2px solid rgb(255 255 255 / 0.1);
+  border-radius: 0.75rem;
+  transition: all 0.3s;
+}
+
+.input-field-wrapper:hover {
+  background-color: rgb(var(--bg-hover));
+}
+
+.input-field-wrapper:focus-within {
+  border-bottom-color: rgb(255 255 255 / 0.2);
+}
+
+/* Platform mode card styles */
+.mode-card {
+  background-color: rgb(var(--bg-input));
+  border-bottom: 2px solid rgb(255 255 255 / 0.1);
+  border-radius: 0.75rem;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.mode-card:hover {
+  border-bottom-color: rgb(255 255 255 / 0.2);
+}
+
+.mode-card.active {
+  border: none;
 }
