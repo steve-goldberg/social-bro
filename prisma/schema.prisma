@@ -1,0 +1,118 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Platform enum
+enum Platform {
+  youtube
+  instagram
+  tiktok
+}
+
+// Search history - stores user searches
+model Search {
+  id        String   @id @default(cuid())
+  query     String
+  platform  Platform
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Results from this search
+  results SearchResult[]
+
+  @@index([platform])
+  @@index([createdAt])
+}
+
+// Search results - cached results from API calls
+model SearchResult {
+  id          String   @id @default(cuid())
+  searchId    String
+  search      Search   @relation(fields: [searchId], references: [id], onDelete: Cascade)
+
+  // Common fields across platforms
+  externalId  String   // YouTube video ID, Instagram post ID, TikTok video ID
+  platform    Platform
+  title       String
+  description String?  @db.Text
+  thumbnail   String?
+  url         String
+
+  // Creator/Channel info
+  creatorId   String?
+  creatorName String?
+
+  // Stats
+  viewCount   BigInt?
+  likeCount   BigInt?
+  commentCount BigInt?
+
+  // Dates
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+
+  @@unique([searchId, externalId])
+  @@index([platform])
+  @@index([externalId])
+}
+
+// Saved searches - user bookmarked searches with full data
+model SavedSearch {
+  id        String   @id @default(cuid())
+  query     String
+  platform  Platform
+  createdAt DateTime @default(now())
+
+  // Saved results
+  results SavedSearchResult[]
+
+  @@unique([query, platform])
+  @@index([platform])
+  @@index([createdAt])
+}
+
+// Saved search results - stores the actual data from when search was saved
+model SavedSearchResult {
+  id            String      @id @default(cuid())
+  savedSearchId String
+  savedSearch   SavedSearch @relation(fields: [savedSearchId], references: [id], onDelete: Cascade)
+
+  // Video data
+  externalId   String
+  title        String
+  creatorName  String
+  thumbnail    String?
+  url          String
+  viewCount    BigInt      @default(0)
+  likeCount    BigInt      @default(0)
+  commentCount BigInt      @default(0)
+
+  @@index([savedSearchId])
+}
+
+// Saved items - individual videos/posts saved by user
+model SavedItem {
+  id          String   @id @default(cuid())
+  externalId  String
+  platform    Platform
+  title       String
+  description String?  @db.Text
+  thumbnail   String?
+  url         String
+  creatorId   String?
+  creatorName String?
+  viewCount   BigInt?
+  likeCount   BigInt?
+  commentCount BigInt?
+  publishedAt DateTime?
+  savedAt     DateTime @default(now())
+
+  @@unique([externalId, platform])
+  @@index([platform])
+  @@index([savedAt])
+}

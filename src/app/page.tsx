@@ -1,27 +1,158 @@
 'use client';
 
 import { useState } from 'react';
-import { SearchInput, PlatformSelector, PreviousSearches } from '@/components/search';
+import { Bookmark, BookmarkCheck, Loader2 } from 'lucide-react';
+import {
+  SearchInput,
+  PlatformSelector,
+  PreviousSearches,
+  addSearchToHistory,
+} from '@/components/search';
 import { WelcomeHeader } from '@/components/search/WelcomeHeader';
 import { PreLoader } from '@/components/preloader';
-import type { Platform } from '@/types';
+import { DataTable, youtubeColumns } from '@/components/data-table';
+import { searchYouTubeWithDetails } from '@/lib/api';
+import type { Platform, YouTubeTableData, SavedSearchWithResults } from '@/types';
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedPlatform, setSelectedPlatform] = useState<Platform>('youtube');
   const [showPreLoader, setShowPreLoader] = useState(true);
+  const [isSearching, setIsSearching] = useState(false);
+  const [tableData, setTableData] = useState<YouTubeTableData[]>([]);
+  const [hasSearched, setHasSearched] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+  const [viewingSavedSearch, setViewingSavedSearch] = useState<SavedSearchWithResults | null>(null);
 
-  const handleSearch = () => {
-    if (!searchQuery.trim()) return;
-    // TODO: Implement actual search functionality
-    // eslint-disable-next-line no-console
-    console.log(`Searching for "${searchQuery}" on ${selectedPlatform}`);
+  const handleSearch = async () => {
+    if (!searchQuery.trim() || isSearching) return;
+
+    setIsSearching(true);
+    setHasSearched(true);
+    setIsSaved(false);
+    setViewingSavedSearch(null);
+
+    // Add to search history
+    addSearchToHistory(searchQuery.trim(), selectedPlatform);
+
+    try {
+      const results = await searchYouTubeWithDetails(searchQuery);
+      setTableData(results);
+    } catch (error) {
+      console.error('Search failed:', error);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const handleSaveSearch = async () => {
+    if (isSaving || isSaved || tableData.length === 0) return;
+
+    setIsSaving(true);
+    try {
+      const response = await fetch('/api/saved', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          query: searchQuery.trim(),
+          platform: selectedPlatform,
+          data: tableData,
+        }),
+      });
+
+      if (response.ok) {
+        setIsSaved(true);
+      }
+    } catch (error) {
+      console.error('Failed to save search:', error);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleSearchSelect = (query: string, platform: Platform) => {
     setSearchQuery(query);
     setSelectedPlatform(platform);
   };
+
+  const handleSavedSearchSelect = (savedSearch: SavedSearchWithResults) => {
+    setViewingSavedSearch(savedSearch);
+    setSearchQuery(savedSearch.query);
+    setSelectedPlatform(savedSearch.platform);
+    setTableData(savedSearch.results);
+    setHasSearched(true);
+    setIsSaved(true);
+  };
+
+  const handleBackToSearch = () => {
+    setHasSearched(false);
+    setTableData([]);
+    setSearchQuery('');
+    setIsSaved(false);
+    setViewingSavedSearch(null);
+  };
+
+  // Show results view if we have searched
+  if (hasSearched) {
+    return (
+      <div className="min-h-screen px-4 py-8">
+        <div className="mx-auto max-w-7xl">
+          {/* Header */}
+          <div className="mb-8 flex items-center justify-between">
+            <div>
+              <button
+                onClick={handleBackToSearch}
+                className="mb-2 text-sm text-white/60 hover:text-white transition-colors"
+              >
+                &larr; Back to search
+              </button>
+              <h1 className="text-2xl font-semibold text-white">
+                {viewingSavedSearch ? (
+                  <>Saved: &ldquo;{searchQuery}&rdquo;</>
+                ) : (
+                  <>Results for &ldquo;{searchQuery}&rdquo;</>
+                )}
+              </h1>
+              <p className="text-sm text-white/60 mt-1">
+                {isSearching ? 'Searching...' : `${tableData.length} videos found`}
+              </p>
+            </div>
+
+            {/* Save Button */}
+            {!isSearching && tableData.length > 0 && (
+              <button
+                onClick={handleSaveSearch}
+                disabled={isSaving || isSaved}
+                className={`flex items-center gap-2 rounded-xl border px-4 py-2 text-[11px] font-medium uppercase tracking-[0.15em] transition-all duration-200 ${
+                  isSaved
+                    ? 'border-white/30 bg-white/10 text-white/70'
+                    : 'border-white/20 bg-transparent text-white/70 hover:border-white/40 hover:text-white'
+                }`}
+              >
+                {isSaving ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : isSaved ? (
+                  <BookmarkCheck className="h-4 w-4" />
+                ) : (
+                  <Bookmark className="h-4 w-4" />
+                )}
+                {isSaved ? 'Saved' : 'Save'}
+              </button>
+            )}
+          </div>
+
+          {/* Data Table */}
+          <DataTable
+            columns={youtubeColumns}
+            data={tableData}
+            isLoading={isSearching}
+            skeletonRows={10}
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -41,15 +172,18 @@ export default function Home() {
               value={searchQuery}
               onChange={setSearchQuery}
               onSearch={handleSearch}
-              platform={selectedPlatform}
               placeholder="Search for videos, creators, or topics..."
+              isLoading={isSearching}
             />
           </div>
         </div>
 
         {/* Previous Searches - absolute positioned at bottom */}
         <div className="absolute bottom-8 left-0 right-0 flex justify-center px-4">
-          <PreviousSearches onSearchSelect={handleSearchSelect} />
+          <PreviousSearches
+            onSearchSelect={handleSearchSelect}
+            onSavedSearchSelect={handleSavedSearchSelect}
+          />
         </div>
       </div>
     </>

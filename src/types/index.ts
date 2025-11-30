@@ -19,3 +19,23 @@ export interface SearchResult {
   platform: Platform;
   url: string;
 }
+
+export interface YouTubeTableData {
+  id: string;
+  username: string;
+  title: string;
+  views: number;
+  likes: number;
+  comments: number;
+  engagementScore: number;
+  url: string;
+  thumbnail?: string;
+}
+
+export interface SavedSearchWithResults {
+  id: string;
+  query: string;
+  platform: Platform;
+  createdAt: string;
+  results: YouTubeTableData[];
+}

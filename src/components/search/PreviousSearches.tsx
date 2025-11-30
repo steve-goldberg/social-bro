@@ -1,32 +1,62 @@
 'use client';
 
-import { useState } from 'react';
-import type { Platform } from '@/types';
+import { useState, useEffect } from 'react';
+import { Bookmark } from 'lucide-react';
+import type { Platform, SavedSearchWithResults } from '@/types';
 
-interface SearchHistory {
+export interface SearchHistory {
   id: string;
   query: string;
   platform: Platform;
-  timestamp: Date;
+  timestamp: number;
 }
 
-// Mock data for now - this would come from localStorage or API
-const MOCK_SEARCHES: SearchHistory[] = [
-  {
-    id: '1',
-    query: 'how to edit videos for beginners',
-    platform: 'youtube',
-    timestamp: new Date(),
-  },
-  { id: '2', query: 'best camera settings 2024', platform: 'youtube', timestamp: new Date() },
-  { id: '3', query: 'viral hooks compilation', platform: 'youtube', timestamp: new Date() },
-  { id: '4', query: 'mr beast analysis', platform: 'youtube', timestamp: new Date() },
-  { id: '5', query: 'aesthetic reels inspiration', platform: 'instagram', timestamp: new Date() },
-  { id: '6', query: 'carousel post ideas', platform: 'instagram', timestamp: new Date() },
-  { id: '7', query: 'trending audio sounds', platform: 'tiktok', timestamp: new Date() },
-  { id: '8', query: 'fyp algorithm tips', platform: 'tiktok', timestamp: new Date() },
-  { id: '9', query: 'duet trends this week', platform: 'tiktok', timestamp: new Date() },
-];
+const STORAGE_KEY = 'social-bro-search-history';
+const MAX_HISTORY = 20;
+
+// Event for notifying search history updates
+const HISTORY_UPDATE_EVENT = 'social-bro-history-update';
+
+// Helper functions for localStorage
+function getSearchHistory(): SearchHistory[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveSearchHistory(history: SearchHistory[]): void {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+    window.dispatchEvent(new Event(HISTORY_UPDATE_EVENT));
+  } catch {
+    // Ignore storage errors
+  }
+}
+
+export function addSearchToHistory(query: string, platform: Platform): void {
+  const history = getSearchHistory();
+
+  // Remove duplicate if exists
+  const filtered = history.filter(
+    (h) => !(h.query.toLowerCase() === query.toLowerCase() && h.platform === platform)
+  );
+
+  // Add new search at the beginning
+  const newSearch: SearchHistory = {
+    id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+    query,
+    platform,
+    timestamp: Date.now(),
+  };
+
+  const updated = [newSearch, ...filtered].slice(0, MAX_HISTORY);
+  saveSearchHistory(updated);
+}
 
 const TABS: { id: Platform | 'all' | 'saved'; label: string }[] = [
   { id: 'all', label: 'All' },
@@ -38,24 +68,60 @@ const TABS: { id: Platform | 'all' | 'saved'; label: string }[] = [
 
 interface PreviousSearchesProps {
   onSearchSelect: (query: string, platform: Platform) => void;
+  onSavedSearchSelect: (savedSearch: SavedSearchWithResults) => void;
 }
 
-export function PreviousSearches({ onSearchSelect }: PreviousSearchesProps) {
+export function PreviousSearches({
+  onSearchSelect,
+  onSavedSearchSelect,
+}: PreviousSearchesProps) {
   const [activeTab, setActiveTab] = useState<Platform | 'all' | 'saved'>('all');
+  const [searches, setSearches] = useState<SearchHistory[]>(getSearchHistory);
+  const [savedSearches, setSavedSearches] = useState<SavedSearchWithResults[] | null>(null);
+
+  // Listen for search history updates
+  useEffect(() => {
+    const handleUpdate = () => setSearches(getSearchHistory());
+    window.addEventListener(HISTORY_UPDATE_EVENT, handleUpdate);
+    window.addEventListener('storage', handleUpdate);
+
+    return () => {
+      window.removeEventListener(HISTORY_UPDATE_EVENT, handleUpdate);
+      window.removeEventListener('storage', handleUpdate);
+    };
+  }, []);
+
+  // Fetch saved searches when tab changes to 'saved'
+  useEffect(() => {
+    if (activeTab !== 'saved' || savedSearches !== null) return;
+
+    fetch('/api/saved')
+      .then((res) => res.json())
+      .then((data) => {
+        setSavedSearches(data.savedSearches || []);
+      })
+      .catch((err) => {
+        console.error('Failed to fetch saved searches:', err);
+        setSavedSearches([]);
+      });
+  }, [activeTab, savedSearches]);
 
   const filteredSearches =
     activeTab === 'all'
-      ? MOCK_SEARCHES
+      ? searches
       : activeTab === 'saved'
-        ? [] // TODO: Implement saved searches
-        : MOCK_SEARCHES.filter((s) => s.platform === activeTab);
+        ? []
+        : searches.filter((s) => s.platform === activeTab);
 
-  if (MOCK_SEARCHES.length === 0) return null;
+  // Show component if we have searches OR if we're on the saved tab
+  if (searches.length === 0 && activeTab !== 'saved') return null;
 
   return (
     <div className="w-full max-w-4xl">
       {/* Header */}
-      <h2 className="mb-4 text-sm font-medium text-white/50">Your previous searches</h2>
+      <h2 className="mb-4 text-sm font-medium text-white/50">
+        {activeTab === 'saved' ? 'Your saved searches' : 'Your previous searches'}
+      </h2>
 
       {/* Tabs */}
       <div className="mb-4 flex items-center gap-1">
@@ -63,10 +129,11 @@ export function PreviousSearches({ onSearchSelect }: PreviousSearchesProps) {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-150 ${
+            className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-150 ${
               activeTab === tab.id ? 'bg-white text-black' : 'text-white/50 hover:text-white/80'
             }`}
           >
+            {tab.id === 'saved' && <Bookmark className="h-3 w-3" />}
             {tab.label}
           </button>
         ))}
@@ -74,15 +141,37 @@ export function PreviousSearches({ onSearchSelect }: PreviousSearchesProps) {
 
       {/* Search tiles - fixed 4 rows height */}
       <div className="flex h-[176px] flex-wrap content-start gap-2 overflow-hidden">
-        {filteredSearches.map((search) => (
-          <button
-            key={search.id}
-            onClick={() => onSearchSelect(search.query, search.platform)}
-            className="max-w-[180px] truncate rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white/70 transition-all duration-150 hover:border-white/20 hover:bg-white/10 hover:text-white"
-          >
-            {search.query}
-          </button>
-        ))}
+        {activeTab === 'saved' ? (
+          savedSearches === null ? (
+            <p className="text-sm text-white/40">Loading saved searches...</p>
+          ) : savedSearches.length === 0 ? (
+            <p className="text-sm text-white/40">No saved searches yet</p>
+          ) : (
+            savedSearches.map((saved) => (
+              <button
+                key={saved.id}
+                onClick={() => onSavedSearchSelect(saved)}
+                className="flex items-center gap-2 max-w-[200px] truncate rounded-lg border border-white/20 bg-white/[0.08] px-3 py-2 text-sm text-white/80 transition-all duration-150 hover:border-white/30 hover:bg-white/[0.12] hover:text-white"
+              >
+                <Bookmark className="h-3 w-3 shrink-0 text-white/50" />
+                <span className="truncate">{saved.query}</span>
+                <span className="shrink-0 text-[10px] text-white/40">
+                  {saved.results.length}
+                </span>
+              </button>
+            ))
+          )
+        ) : (
+          filteredSearches.map((search) => (
+            <button
+              key={search.id}
+              onClick={() => onSearchSelect(search.query, search.platform)}
+              className="max-w-[180px] truncate rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white/70 transition-all duration-150 hover:border-white/20 hover:bg-white/10 hover:text-white"
+            >
+              {search.query}
+            </button>
+          ))
+        )}
       </div>
     </div>
   );
