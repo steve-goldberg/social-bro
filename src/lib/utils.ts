@@ -16,11 +16,7 @@ export function formatNumber(num: number | undefined): string {
   return num.toLocaleString();
 }
 
-export function calculateEngagement(
-  views: number,
-  likes: number,
-  comments: number
-): number {
+export function calculateEngagement(views: number, likes: number, comments: number): number {
   if (!views || views === 0) return 0;
   return ((likes + comments) / views) * 100;
 }
@@ -49,9 +45,7 @@ export function decodeHtmlEntities(text: string): string {
   }
 
   // Handle numeric entities like &#123;
-  decoded = decoded.replace(/&#(\d+);/g, (_, dec) =>
-    String.fromCharCode(parseInt(dec, 10))
-  );
+  decoded = decoded.replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(parseInt(dec, 10)));
 
   // Handle hex entities like &#x1F;
   decoded = decoded.replace(/&#x([0-9a-fA-F]+);/g, (_, hex) =>

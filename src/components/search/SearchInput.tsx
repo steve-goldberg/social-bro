@@ -93,9 +93,7 @@ export function SearchInput({
       <div className="mt-4 flex justify-center">
         <p className="text-[10px] uppercase tracking-[0.15em] text-white/25">
           {isChannelMode ? (
-            <span className="text-white/40">
-              @{value.trim().slice(1) || '...'}
-            </span>
+            <span className="text-white/40">@{value.trim().slice(1) || '...'}</span>
           ) : (
             <span>
               Use <span className="text-white/40">@username</span> for channel

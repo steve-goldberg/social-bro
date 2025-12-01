@@ -47,10 +47,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ savedSearches: transformed });
   } catch (error) {
     console.error('Error fetching saved searches:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch saved searches' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch saved searches' }, { status: 500 });
   }
 }
 
@@ -74,10 +71,7 @@ export async function POST(request: NextRequest) {
     };
 
     if (!query || !platform || !data) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     // Map string platform to Prisma enum
@@ -140,10 +134,7 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Error saving search:', error);
-    return NextResponse.json(
-      { error: 'Failed to save search' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to save search' }, { status: 500 });
   }
 }
 
@@ -154,10 +145,7 @@ export async function DELETE(request: NextRequest) {
     const id = searchParams.get('id');
 
     if (!id) {
-      return NextResponse.json(
-        { error: 'Missing search ID' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing search ID' }, { status: 400 });
     }
 
     const existing = await prisma.savedSearch.findUnique({
@@ -165,10 +153,7 @@ export async function DELETE(request: NextRequest) {
     });
 
     if (!existing) {
-      return NextResponse.json(
-        { error: 'Saved search not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Saved search not found' }, { status: 404 });
     }
 
     await prisma.savedSearch.delete({
@@ -178,9 +163,6 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error deleting saved search:', error);
-    return NextResponse.json(
-      { error: 'Failed to delete saved search' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to delete saved search' }, { status: 500 });
   }
 }

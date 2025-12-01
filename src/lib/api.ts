@@ -1,9 +1,5 @@
 import type { Platform, YouTubeTableData } from '@/types';
-import type {
-  YouTubeSearchResult,
-  YouTubeVideoDetails,
-  YouTubeChannelDetails,
-} from './youtube';
+import type { YouTubeSearchResult, YouTubeVideoDetails, YouTubeChannelDetails } from './youtube';
 import { calculateEngagement } from './utils';
 
 export interface ChannelVideosResponse {
@@ -16,15 +12,10 @@ export interface SearchResponse {
   results: YouTubeSearchResult[];
 }
 
-export async function searchPlatform(
-  platform: Platform,
-  query: string
-): Promise<SearchResponse> {
+export async function searchPlatform(platform: Platform, query: string): Promise<SearchResponse> {
   switch (platform) {
     case 'youtube': {
-      const response = await fetch(
-        `/api/youtube/search?q=${encodeURIComponent(query)}&type=video`
-      );
+      const response = await fetch(`/api/youtube/search?q=${encodeURIComponent(query)}&type=video`);
       if (!response.ok) {
         throw new Error('Failed to search YouTube');
       }
@@ -39,12 +30,8 @@ export async function searchPlatform(
   }
 }
 
-export async function getVideoDetails(
-  videoIds: string[]
-): Promise<YouTubeVideoDetails[]> {
-  const response = await fetch(
-    `/api/youtube/videos?ids=${videoIds.join(',')}`
-  );
+export async function getVideoDetails(videoIds: string[]): Promise<YouTubeVideoDetails[]> {
+  const response = await fetch(`/api/youtube/videos?ids=${videoIds.join(',')}`);
   if (!response.ok) {
     throw new Error('Failed to fetch video details');
   }
@@ -69,12 +56,8 @@ export function extractUsername(query: string): string {
 /**
  * Fetch videos from a specific YouTube channel by username
  */
-export async function getChannelVideosWithDetails(
-  username: string
-): Promise<YouTubeTableData[]> {
-  const response = await fetch(
-    `/api/youtube/channel?username=${encodeURIComponent(username)}`
-  );
+export async function getChannelVideosWithDetails(username: string): Promise<YouTubeTableData[]> {
+  const response = await fetch(`/api/youtube/channel?username=${encodeURIComponent(username)}`);
 
   if (!response.ok) {
     if (response.status === 404) {
@@ -83,8 +66,7 @@ export async function getChannelVideosWithDetails(
     throw new Error('Failed to fetch channel videos');
   }
 
-  const { channel, videos, videoDetails } =
-    (await response.json()) as ChannelVideosResponse;
+  const { channel, videos, videoDetails } = (await response.json()) as ChannelVideosResponse;
 
   // Create a map for quick lookup
   const detailsMap = new Map(videoDetails.map((d) => [d.id, d]));
@@ -110,9 +92,7 @@ export async function getChannelVideosWithDetails(
   });
 }
 
-export async function searchYouTubeWithDetails(
-  query: string
-): Promise<YouTubeTableData[]> {
+export async function searchYouTubeWithDetails(query: string): Promise<YouTubeTableData[]> {
   // Check if this is a @username query
   if (isUsernameQuery(query)) {
     const username = extractUsername(query);

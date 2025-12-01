@@ -294,7 +294,6 @@ export function YouTubeConfigModal({ isOpen, onClose }: YouTubeConfigModalProps)
             </div>
           </div>
         )}
-
       </div>
     </div>
   );

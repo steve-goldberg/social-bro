@@ -46,9 +46,7 @@ export async function getVideoDetails(videoId: string): Promise<YouTubeVideoDeta
   };
 }
 
-export async function getMultipleVideoDetails(
-  videoIds: string[]
-): Promise<YouTubeVideoDetails[]> {
+export async function getMultipleVideoDetails(videoIds: string[]): Promise<YouTubeVideoDetails[]> {
   const youtube = await getYouTubeClient();
   const response = await youtube.videos.list({
     part: ['snippet', 'statistics', 'contentDetails'],

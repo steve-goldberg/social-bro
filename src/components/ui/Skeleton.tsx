@@ -7,14 +7,7 @@ interface SkeletonProps {
 }
 
 export function Skeleton({ className }: SkeletonProps) {
-  return (
-    <div
-      className={cn(
-        'animate-pulse rounded-md bg-white/10',
-        className
-      )}
-    />
-  );
+  return <div className={cn('animate-pulse rounded-md bg-white/10', className)} />;
 }
 
 interface TableSkeletonProps {
@@ -37,10 +30,7 @@ export function TableSkeleton({ rows = 5, columns = 8 }: TableSkeletonProps) {
           {Array.from({ length: columns }).map((_, colIndex) => (
             <td key={colIndex} className="px-4 py-3">
               <Skeleton
-                className={cn(
-                  'h-4',
-                  colIndex === 0 ? 'w-24' : colIndex === 1 ? 'w-48' : 'w-16'
-                )}
+                className={cn('h-4', colIndex === 0 ? 'w-24' : colIndex === 1 ? 'w-48' : 'w-16')}
               />
             </td>
           ))}

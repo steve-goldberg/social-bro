@@ -47,14 +47,54 @@ export async function POST(request: NextRequest) {
 
     // Validate inputs
     const validMaxResults = Math.min(Math.max(Number(maxResults) || 25, 1), 50);
-    const validDateRange = ['any', 'day', 'week', 'month'].includes(dateRange)
-      ? dateRange
-      : 'any';
+    const validDateRange = ['any', 'day', 'week', 'month'].includes(dateRange) ? dateRange : 'any';
     // Validate region code (ISO 3166-1 alpha-2)
     const validRegionCodes = [
-      'US', 'GB', 'CA', 'AU', 'DE', 'FR', 'JP', 'KR', 'IN', 'BR', 'MX', 'ES', 'IT', 'NL', 'RU',
-      'PL', 'SE', 'NO', 'DK', 'FI', 'AT', 'CH', 'BE', 'PT', 'IE', 'NZ', 'SG', 'HK', 'TW', 'PH',
-      'ID', 'MY', 'TH', 'VN', 'ZA', 'AR', 'CL', 'CO', 'PE', 'EG', 'SA', 'AE', 'IL', 'TR', 'UA',
+      'US',
+      'GB',
+      'CA',
+      'AU',
+      'DE',
+      'FR',
+      'JP',
+      'KR',
+      'IN',
+      'BR',
+      'MX',
+      'ES',
+      'IT',
+      'NL',
+      'RU',
+      'PL',
+      'SE',
+      'NO',
+      'DK',
+      'FI',
+      'AT',
+      'CH',
+      'BE',
+      'PT',
+      'IE',
+      'NZ',
+      'SG',
+      'HK',
+      'TW',
+      'PH',
+      'ID',
+      'MY',
+      'TH',
+      'VN',
+      'ZA',
+      'AR',
+      'CL',
+      'CO',
+      'PE',
+      'EG',
+      'SA',
+      'AE',
+      'IL',
+      'TR',
+      'UA',
     ];
     const validRegion =
       typeof region === 'string' && validRegionCodes.includes(region.toUpperCase())

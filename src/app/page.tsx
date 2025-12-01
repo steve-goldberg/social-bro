@@ -41,7 +41,9 @@ export default function Home() {
           setHasYouTubeKey(false);
           return;
         }
-        const youtubeKey = data.find((k: { service: string; hasKey: boolean }) => k.service === 'youtube');
+        const youtubeKey = data.find(
+          (k: { service: string; hasKey: boolean }) => k.service === 'youtube'
+        );
         setHasYouTubeKey(youtubeKey?.hasKey ?? false);
       })
       .catch(() => setHasYouTubeKey(false));

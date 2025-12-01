@@ -96,9 +96,7 @@ export async function getChannelVideos(
       '',
     channelTitle: decodeHtmlEntities(item.snippet?.channelTitle || ''),
     publishedAt: item.snippet?.publishedAt || '',
-    videoUrl: item.id?.videoId
-      ? `https://www.youtube.com/watch?v=${item.id.videoId}`
-      : '',
+    videoUrl: item.id?.videoId ? `https://www.youtube.com/watch?v=${item.id.videoId}` : '',
   }));
 }
 

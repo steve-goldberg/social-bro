@@ -8,10 +8,7 @@ export async function GET(request: NextRequest) {
   const username = searchParams.get('username');
 
   if (!username) {
-    return NextResponse.json(
-      { error: 'Username parameter is required' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'Username parameter is required' }, { status: 400 });
   }
 
   try {
@@ -30,19 +27,14 @@ export async function GET(request: NextRequest) {
     const { channel, videos } = await getChannelVideosByUsername(username, maxResults);
 
     if (!channel) {
-      return NextResponse.json(
-        { error: 'Channel not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Channel not found' }, { status: 404 });
     }
 
     // Get video IDs to fetch detailed stats
     const videoIds = videos.map((v) => v.id).filter(Boolean);
 
     // Fetch video details with stats
-    const videoDetails = videoIds.length > 0
-      ? await getMultipleVideoDetails(videoIds)
-      : [];
+    const videoDetails = videoIds.length > 0 ? await getMultipleVideoDetails(videoIds) : [];
 
     return NextResponse.json({
       channel,
@@ -51,9 +43,6 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error('Error fetching channel videos:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch channel videos' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch channel videos' }, { status: 500 });
   }
 }

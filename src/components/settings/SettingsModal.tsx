@@ -178,7 +178,10 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                   const isEditing = editingService === service;
 
                   return (
-                    <div key={service} className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
+                    <div
+                      key={service}
+                      className="rounded-xl border border-white/10 bg-white/[0.03] p-4"
+                    >
                       <div className="mb-2 flex items-center justify-between">
                         <label className="text-sm font-medium text-white/80">{config.label}</label>
                         {keyState?.hasKey && !isEditing && (
@@ -229,7 +232,11 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                                 onClick={() => setShowKey(!showKey)}
                                 className="absolute right-2 top-1/2 -translate-y-1/2 text-white/40 transition-colors hover:text-white/60"
                               >
-                                {showKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                                {showKey ? (
+                                  <EyeOff className="h-4 w-4" />
+                                ) : (
+                                  <Eye className="h-4 w-4" />
+                                )}
                               </button>
                             </div>
                             <div className="flex justify-end gap-2 pb-1">

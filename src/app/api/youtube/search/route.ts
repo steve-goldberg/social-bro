@@ -4,7 +4,13 @@ import { prisma } from '@/lib/db';
 
 // Simple in-memory cache for YouTube config (refreshes every 5 minutes)
 let configCache: {
-  data: { maxResults: number; dateRange: string; region: string; videoDuration: string; order: string } | null;
+  data: {
+    maxResults: number;
+    dateRange: string;
+    region: string;
+    videoDuration: string;
+    order: string;
+  } | null;
   timestamp: number;
 } = { data: null, timestamp: 0 };
 const CONFIG_CACHE_TTL = 5 * 60 * 1000; // 5 minutes

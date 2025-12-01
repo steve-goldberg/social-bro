@@ -13,17 +13,23 @@ export function PreLoader({ onComplete, duration = 2000 }: PreLoaderProps) {
   const [isFadingOut, setIsFadingOut] = useState(false);
   const [animatedIndex, setAnimatedIndex] = useState(-2);
 
-  const getScale = useCallback((index: number) => {
-    if (animatedIndex < 0) return 1;
-    const distance = Math.abs(index - animatedIndex);
-    return Math.max(1, 1.4 - distance * 0.15);
-  }, [animatedIndex]);
+  const getScale = useCallback(
+    (index: number) => {
+      if (animatedIndex < 0) return 1;
+      const distance = Math.abs(index - animatedIndex);
+      return Math.max(1, 1.4 - distance * 0.15);
+    },
+    [animatedIndex]
+  );
 
-  const getTranslateY = useCallback((index: number) => {
-    if (animatedIndex < 0) return 0;
-    const distance = Math.abs(index - animatedIndex);
-    return Math.min(0, -8 + distance * 3);
-  }, [animatedIndex]);
+  const getTranslateY = useCallback(
+    (index: number) => {
+      if (animatedIndex < 0) return 0;
+      const distance = Math.abs(index - animatedIndex);
+      return Math.min(0, -8 + distance * 3);
+    },
+    [animatedIndex]
+  );
 
   useEffect(() => {
     // Start animation after a brief delay
@@ -63,9 +69,7 @@ export function PreLoader({ onComplete, duration = 2000 }: PreLoaderProps) {
         isFadingOut ? 'opacity-0' : 'opacity-100'
       }`}
     >
-      <h1
-        className="flex text-6xl font-medium text-white font-doto"
-      >
+      <h1 className="flex text-6xl font-medium text-white font-doto">
         {TEXT.split('').map((char, index) => (
           <span
             key={index}

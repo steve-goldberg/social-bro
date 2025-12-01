@@ -38,16 +38,12 @@ export const youtubeColumns: ColumnDef<YouTubeTableData>[] = [
   {
     accessorKey: 'views',
     header: 'Views',
-    cell: ({ row }) => (
-      <span className="tabular-nums">{formatNumber(row.getValue('views'))}</span>
-    ),
+    cell: ({ row }) => <span className="tabular-nums">{formatNumber(row.getValue('views'))}</span>,
   },
   {
     accessorKey: 'likes',
     header: 'Likes',
-    cell: ({ row }) => (
-      <span className="tabular-nums">{formatNumber(row.getValue('likes'))}</span>
-    ),
+    cell: ({ row }) => <span className="tabular-nums">{formatNumber(row.getValue('likes'))}</span>,
   },
   {
     accessorKey: 'comments',

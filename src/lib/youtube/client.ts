@@ -18,9 +18,7 @@ export async function getYouTubeApiKey(): Promise<string> {
     return envKey;
   }
 
-  throw new Error(
-    'YouTube API key not configured. Please add your API key in Settings.'
-  );
+  throw new Error('YouTube API key not configured. Please add your API key in Settings.');
 }
 
 export async function getYouTubeClient(): Promise<youtube_v3.Youtube> {

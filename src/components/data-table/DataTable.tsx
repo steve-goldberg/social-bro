@@ -10,14 +10,7 @@ import {
 } from '@tanstack/react-table';
 import { useState, useMemo } from 'react';
 import { ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui';
 import { Skeleton } from '@/components/ui';
 import { cn } from '@/lib/utils';
 
@@ -65,17 +58,15 @@ export function DataTable<TData, TValue>({
                   <TableHead
                     key={header.id}
                     className={cn(
-                      isSortable && 'cursor-pointer select-none hover:text-white/80 transition-colors'
+                      isSortable &&
+                        'cursor-pointer select-none hover:text-white/80 transition-colors'
                     )}
                     onClick={header.column.getToggleSortingHandler()}
                   >
                     <div className="flex items-center gap-2">
                       {header.isPlaceholder
                         ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                        : flexRender(header.column.columnDef.header, header.getContext())}
                       {isSortable && (
                         <span className="text-white/40">
                           {sortDirection === 'asc' ? (
@@ -109,11 +100,7 @@ export function DataTable<TData, TValue>({
                     <Skeleton
                       className={cn(
                         'h-4',
-                        colIndex === 0
-                          ? 'w-20'
-                          : colIndex === 1
-                            ? 'w-40'
-                            : 'w-14'
+                        colIndex === 0 ? 'w-20' : colIndex === 1 ? 'w-40' : 'w-14'
                       )}
                     />
                   </TableCell>
@@ -137,10 +124,7 @@ export function DataTable<TData, TValue>({
             ))
           ) : (
             <TableRow isAnimated={false}>
-              <TableCell
-                colSpan={columns.length}
-                className="h-24 text-center text-white/40"
-              >
+              <TableCell colSpan={columns.length} className="h-24 text-center text-white/40">
                 No results found.
               </TableCell>
             </TableRow>

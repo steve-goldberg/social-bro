@@ -81,9 +81,7 @@ let cachedHistory: SearchHistory[] | null = null;
 let cachedHistoryString: string | null = null;
 
 function getSearchHistorySnapshot(): SearchHistory[] {
-  const currentString = typeof window !== 'undefined'
-    ? localStorage.getItem(STORAGE_KEY)
-    : null;
+  const currentString = typeof window !== 'undefined' ? localStorage.getItem(STORAGE_KEY) : null;
 
   if (currentString !== cachedHistoryString) {
     cachedHistoryString = currentString;
@@ -112,10 +110,7 @@ interface PreviousSearchesProps {
   onSavedSearchSelect: (savedSearch: SavedSearchWithResults) => void;
 }
 
-export function PreviousSearches({
-  onSearchSelect,
-  onSavedSearchSelect,
-}: PreviousSearchesProps) {
+export function PreviousSearches({ onSearchSelect, onSavedSearchSelect }: PreviousSearchesProps) {
   const [activeTab, setActiveTab] = useState<Platform | 'all' | 'saved'>('all');
   const [savedSearches, setSavedSearches] = useState<SavedSearchWithResults[] | null>(null);
 
@@ -207,19 +202,14 @@ export function PreviousSearches({
             <p className="text-sm text-white/40">No saved searches yet</p>
           ) : (
             savedSearches.map((saved) => (
-              <div
-                key={saved.id}
-                className="group relative"
-              >
+              <div key={saved.id} className="group relative">
                 <button
                   onClick={() => onSavedSearchSelect(saved)}
                   className="flex items-center gap-2 max-w-[200px] truncate rounded-lg border border-white/20 bg-white/[0.08] px-3 py-2 pr-7 text-sm text-white/80 transition-all duration-150 hover:border-white/30 hover:bg-white/[0.12] hover:text-white"
                 >
                   <Bookmark className="h-3 w-3 shrink-0 text-white/50" />
                   <span className="truncate">{saved.query}</span>
-                  <span className="shrink-0 text-[10px] text-white/40">
-                    {saved.results.length}
-                  </span>
+                  <span className="shrink-0 text-[10px] text-white/40">{saved.results.length}</span>
                 </button>
                 <button
                   onClick={(e) => handleDeleteSaved(e, saved.id)}
@@ -232,10 +222,7 @@ export function PreviousSearches({
           )
         ) : (
           filteredSearches.map((search) => (
-            <div
-              key={search.id}
-              className="group relative"
-            >
+            <div key={search.id} className="group relative">
               <button
                 onClick={() => onSearchSelect(search.query, search.platform)}
                 className="max-w-[180px] truncate rounded-lg border border-white/10 bg-white/5 px-3 py-2 pr-7 text-sm text-white/70 transition-all duration-150 hover:border-white/20 hover:bg-white/10 hover:text-white"
