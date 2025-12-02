@@ -37,9 +37,9 @@ export async function POST(_request: NextRequest) {
       return modality.includes('text') || modality === '' || !model.architecture?.modality;
     });
 
-    // Upsert all models
-    let synced = 0;
-    for (const model of textModels) {
+    // Batch upsert all models in a single transaction
+    // This reduces N database calls to a single atomic operation
+    const upsertOperations = textModels.map((model) => {
       // Parse provider from model ID (e.g., "openai/gpt-4" -> "OpenAI")
       const providerSlug = model.id.split('/')[0];
       const provider = providerSlug
@@ -52,7 +52,7 @@ export async function POST(_request: NextRequest) {
       const promptPrice = parseFloat(model.pricing.prompt) * 1_000_000;
       const completionPrice = parseFloat(model.pricing.completion) * 1_000_000;
 
-      await prisma.llmModel.upsert({
+      return prisma.llmModel.upsert({
         where: { modelId: model.id },
         update: {
           name: model.name,
@@ -71,8 +71,10 @@ export async function POST(_request: NextRequest) {
           contextLength: model.context_length || null,
         },
       });
-      synced++;
-    }
+    });
+
+    await prisma.$transaction(upsertOperations);
+    const synced = textModels.length;
 
     return NextResponse.json({
       success: true,

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { encrypt, decrypt, maskApiKey } from '@/lib/crypto';
 import { requireUserId, requireValidUser } from '@/lib/auth-utils';
+import { invalidateCachedApiKey } from '@/lib/cache';
 
 export type ApiKeyService = 'youtube' | 'rapidapi' | 'openrouter';
 
@@ -86,6 +87,9 @@ export async function POST(request: Request) {
       create: { userId, service, key: encryptedKey },
     });
 
+    // Invalidate cached key so next request fetches fresh data
+    invalidateCachedApiKey(userId, service);
+
     return NextResponse.json({
       success: true,
       service,
@@ -141,6 +145,9 @@ export async function DELETE(request: Request) {
         userId_service: { userId, service },
       },
     });
+
+    // Invalidate cached key
+    invalidateCachedApiKey(userId, service);
 
     return NextResponse.json({ success: true });
   } catch (error) {

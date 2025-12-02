@@ -127,6 +127,13 @@ export async function repurposeTranscript(
   // Chunk the transcript
   const chunks = chunkTranscript(transcript);
 
+  // Extract original hook for parallel hooks generation
+  const originalHook = extractOriginalHook(transcript);
+
+  // Start hooks generation immediately (runs in parallel with chunk processing)
+  // This is safe because hooks are generated from the original transcript, not repurposed output
+  const hooksPromise = generateHooks(userId, model, originalHook);
+
   // Process chunks sequentially to maintain flow
   const repurposedParts: string[] = [];
   let previousContext: string | null = null;
@@ -151,9 +158,8 @@ export async function repurposeTranscript(
   // Combine all repurposed parts
   const repurposedScript = repurposedParts.join('\n\n');
 
-  // Generate hooks from the original opening
-  const originalHook = extractOriginalHook(transcript);
-  const hooks = await generateHooks(userId, model, originalHook);
+  // Wait for hooks (may already be complete by now)
+  const hooks = await hooksPromise;
 
   return {
     repurposedScript,

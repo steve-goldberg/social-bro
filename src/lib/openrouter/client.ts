@@ -1,17 +1,26 @@
 import { prisma } from '@/lib/db';
 import { decrypt } from '@/lib/crypto';
 import { ApiError } from '@/lib/errors';
+import { getCachedApiKey, setCachedApiKey } from '@/lib/cache';
 
 const OPENROUTER_BASE_URL = 'https://openrouter.ai/api/v1';
 
 export async function getOpenRouterApiKey(userId: string): Promise<string> {
+  // Check cache first
+  const cached = getCachedApiKey(userId, 'openrouter');
+  if (cached) {
+    return cached;
+  }
+
   // Try to get from database for this user
   const apiKeyRecord = await prisma.apiKey.findUnique({
     where: { userId_service: { userId, service: 'openrouter' } },
   });
 
   if (apiKeyRecord) {
-    return decrypt(apiKeyRecord.key);
+    const decrypted = decrypt(apiKeyRecord.key);
+    setCachedApiKey(userId, 'openrouter', decrypted);
+    return decrypted;
   }
 
   // Fallback to environment variable
