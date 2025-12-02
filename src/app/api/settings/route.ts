@@ -24,12 +24,23 @@ export async function GET() {
     const response: ApiKeyResponse[] = services.map((service) => {
       const found = apiKeys.find((k: (typeof apiKeys)[number]) => k.service === service);
       if (found) {
-        const decrypted = decrypt(found.key);
-        return {
-          service,
-          maskedKey: maskApiKey(decrypted),
-          hasKey: true,
-        };
+        try {
+          const decrypted = decrypt(found.key);
+          return {
+            service,
+            maskedKey: maskApiKey(decrypted),
+            hasKey: true,
+          };
+        } catch {
+          // Key exists but can't be decrypted (wrong encryption secret)
+          // Treat as if no key exists - user will need to re-enter
+          console.warn(`Failed to decrypt ${service} API key - encryption secret may have changed`);
+          return {
+            service,
+            maskedKey: null,
+            hasKey: false,
+          };
+        }
       }
       return {
         service,
