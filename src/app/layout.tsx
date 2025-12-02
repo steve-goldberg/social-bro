@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter, Doto } from 'next/font/google';
 import { Toaster } from 'sonner';
 import { SessionProvider } from '@/components/providers/SessionProvider';
@@ -20,14 +20,21 @@ export const metadata: Metadata = {
   description: 'Discover and explore content across YouTube, TikTok, Instagram, and more',
 };
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${inter.variable} ${doto.variable} antialiased`}>
+    <html lang="en" className="dark bg-black">
+      <body className={`${inter.variable} ${doto.variable} antialiased bg-black min-h-screen`}>
         <SessionProvider>
           {children}
         </SessionProvider>

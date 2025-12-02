@@ -141,10 +141,26 @@
 }
 
 /* Base styles */
+html {
+  color-scheme: dark;
+  background-color: #000;
+}
+
 body {
+  background-color: #000;
   background: rgb(var(--bg-primary));
+  color: #f3f4f6;
   color: rgb(var(--text-primary));
   font-family: var(--font-sans);
+}
+
+/* Prevent mobile zoom on input focus - requires 16px+ font size */
+@media screen and (max-width: 768px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
 }
 
 /* Input field wrapper styles */
