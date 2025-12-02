@@ -4,7 +4,8 @@ import bcrypt from 'bcrypt';
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('Seeding database...');
+  // eslint-disable-next-line no-console
+  console.info('Seeding database...');
 
   // Create admin user
   const adminEmail = 'admin@socialbro.com';
@@ -15,7 +16,8 @@ async function main() {
   });
 
   if (existingAdmin) {
-    console.log('Admin user already exists, skipping...');
+    // eslint-disable-next-line no-console
+    console.info('Admin user already exists, skipping...');
   } else {
     const hashedPassword = await bcrypt.hash(adminPassword, 12);
 
@@ -29,10 +31,12 @@ async function main() {
       },
     });
 
-    console.log(`Created admin user: ${adminEmail}`);
+    // eslint-disable-next-line no-console
+    console.info(`Created admin user: ${adminEmail}`);
   }
 
-  console.log('Seeding complete!');
+  // eslint-disable-next-line no-console
+  console.info('Seeding complete!');
 }
 
 main()
