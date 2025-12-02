@@ -17,12 +17,14 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+# Set dummy DATABASE_URL for build time (prisma generate and next build need it)
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy"
+
 # Generate Prisma client
 RUN npx prisma generate
 
-# Build Next.js with dummy DATABASE_URL (actual URL injected at runtime)
-ENV NEXT_TELEMETRY_DISABLED=1
-ENV DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy"
+# Build Next.js
 RUN npm run build
 
 # ---- Runner ----
