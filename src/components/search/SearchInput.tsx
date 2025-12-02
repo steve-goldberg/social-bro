@@ -2,6 +2,7 @@
 
 import { useRef, useMemo } from 'react';
 import { Search, Loader2, AtSign } from 'lucide-react';
+import type { Platform } from '@/types';
 
 interface SearchInputProps {
   value: string;
@@ -10,6 +11,7 @@ interface SearchInputProps {
   placeholder?: string;
   disabled?: boolean;
   isLoading?: boolean;
+  platform?: Platform;
 }
 
 export function SearchInput({
@@ -19,6 +21,7 @@ export function SearchInput({
   placeholder = 'Search for content...',
   disabled = false,
   isLoading = false,
+  platform = 'youtube',
 }: SearchInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -26,6 +29,11 @@ export function SearchInput({
 
   // Detect @username mode
   const isChannelMode = useMemo(() => value.trim().startsWith('@'), [value]);
+
+  // Platform-specific labels
+  const modeLabel = platform === 'youtube' ? 'Channel Mode' : 'Username Mode';
+  const buttonLabel = platform === 'youtube' ? 'Get Channel' : 'Get Username';
+  const helperLabel = platform === 'youtube' ? 'channel' : 'username';
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && canSearch) {
@@ -43,7 +51,7 @@ export function SearchInput({
             isChannelMode ? 'text-white/50 opacity-100' : 'opacity-0'
           }`}
         >
-          Channel Mode
+          {modeLabel}
         </span>
       </div>
 
@@ -83,7 +91,7 @@ export function SearchInput({
                   : 'border-white/20 bg-transparent text-white/70 hover:border-white/40 hover:text-white'
               }`}
             >
-              {isChannelMode ? 'Get Channel' : 'Search'}
+              {isChannelMode ? buttonLabel : 'Search'}
             </button>
           )}
         </div>
@@ -96,7 +104,7 @@ export function SearchInput({
             <span className="text-white/40">@{value.trim().slice(1) || '...'}</span>
           ) : (
             <span>
-              Use <span className="text-white/40">@username</span> for channel
+              Use <span className="text-white/40">@username</span> for {helperLabel}
             </span>
           )}
         </p>

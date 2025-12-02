@@ -1,5 +1,6 @@
 import { getYouTubeClient } from './client';
 import { decodeHtmlEntities } from '../utils';
+import { parseYouTubeError, isApiError } from '../errors';
 
 export interface YouTubeSearchResult {
   id: string;
@@ -63,21 +64,26 @@ export async function searchYouTube({
     params.videoDuration = videoDuration;
   }
 
-  const response = await youtube.search.list(params);
+  try {
+    const response = await youtube.search.list(params);
 
-  const items = response.data.items || [];
+    const items = response.data.items || [];
 
-  return items.map((item) => ({
-    id: item.id?.videoId || item.id?.channelId || item.id?.playlistId || '',
-    title: decodeHtmlEntities(item.snippet?.title || ''),
-    description: decodeHtmlEntities(item.snippet?.description || ''),
-    thumbnail:
-      item.snippet?.thumbnails?.high?.url ||
-      item.snippet?.thumbnails?.medium?.url ||
-      item.snippet?.thumbnails?.default?.url ||
-      '',
-    channelTitle: decodeHtmlEntities(item.snippet?.channelTitle || ''),
-    publishedAt: item.snippet?.publishedAt || '',
-    videoUrl: item.id?.videoId ? `https://www.youtube.com/watch?v=${item.id.videoId}` : '',
-  }));
+    return items.map((item) => ({
+      id: item.id?.videoId || item.id?.channelId || item.id?.playlistId || '',
+      title: decodeHtmlEntities(item.snippet?.title || ''),
+      description: decodeHtmlEntities(item.snippet?.description || ''),
+      thumbnail:
+        item.snippet?.thumbnails?.high?.url ||
+        item.snippet?.thumbnails?.medium?.url ||
+        item.snippet?.thumbnails?.default?.url ||
+        '',
+      channelTitle: decodeHtmlEntities(item.snippet?.channelTitle || ''),
+      publishedAt: item.snippet?.publishedAt || '',
+      videoUrl: item.id?.videoId ? `https://www.youtube.com/watch?v=${item.id.videoId}` : '',
+    }));
+  } catch (error) {
+    if (isApiError(error)) throw error;
+    throw parseYouTubeError(error);
+  }
 }

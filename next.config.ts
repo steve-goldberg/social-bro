@@ -13,6 +13,16 @@ const nextConfig: NextConfig = {
         hostname: 'yt3.ggpht.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: '*.tiktokcdn.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.cdninstagram.com',
+        pathname: '/**',
+      },
     ],
   },
 };

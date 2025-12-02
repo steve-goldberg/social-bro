@@ -32,6 +32,30 @@ export interface YouTubeTableData {
   thumbnail?: string;
 }
 
+export interface TikTokTableData {
+  id: string;
+  username: string;
+  title: string;
+  views: number;
+  likes: number;
+  comments: number;
+  engagementScore: number;
+  url: string;
+  thumbnail?: string;
+}
+
+export interface InstagramTableData {
+  id: string;
+  username: string;
+  title: string;
+  views: number;
+  likes: number;
+  comments: number;
+  engagementScore: number;
+  url: string;
+  thumbnail?: string;
+}
+
 export interface SavedSearchWithResults {
   id: string;
   query: string;

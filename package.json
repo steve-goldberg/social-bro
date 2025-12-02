@@ -3,18 +3,22 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack 2>&1 | grep --line-buffered -v 'baseline-browser-mapping'",
-    "build": "prisma generate && next build",
+    "dev": "unset DATABASE_URL; next dev --turbopack 2>&1 | grep --line-buffered -v 'baseline-browser-mapping'",
+    "build": "unset DATABASE_URL; prisma generate && next build",
     "start": "next start",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css}\"",
     "typecheck": "tsc --noEmit",
-    "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate dev",
-    "db:push": "prisma db push",
-    "db:studio": "prisma studio"
+    "db:generate": "unset DATABASE_URL; prisma generate",
+    "db:migrate": "unset DATABASE_URL; prisma migrate dev",
+    "db:push": "unset DATABASE_URL; prisma db push",
+    "db:studio": "unset DATABASE_URL; prisma studio",
+    "db:seed": "unset DATABASE_URL; npx tsx prisma/seed.ts"
+  },
+  "prisma": {
+    "seed": "npx tsx prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.0",
@@ -45,6 +49,7 @@
     "prettier": "^3.7.3",
     "prisma": "^6.19.0",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }

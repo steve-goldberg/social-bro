@@ -1,6 +1,7 @@
 import { google, youtube_v3 } from 'googleapis';
 import { prisma } from '@/lib/db';
 import { decrypt } from '@/lib/crypto';
+import { ApiError } from '@/lib/errors';
 
 export async function getYouTubeApiKey(userId: string): Promise<string> {
   // First, try to get from database for this user
@@ -18,7 +19,7 @@ export async function getYouTubeApiKey(userId: string): Promise<string> {
     return envKey;
   }
 
-  throw new Error('YouTube API key not configured. Please add your API key in Settings.');
+  throw new ApiError('Add YouTube API key in Settings', 'YOUTUBE_NOT_CONFIGURED', 400);
 }
 
 export async function getYouTubeClient(userId: string): Promise<youtube_v3.Youtube> {

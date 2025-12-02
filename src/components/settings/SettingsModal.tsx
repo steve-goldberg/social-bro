@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { X, Eye, EyeOff, Check, Loader2, Trash2 } from 'lucide-react';
+import { X, Eye, EyeOff, Check, Loader2, Trash2, Info } from 'lucide-react';
 import { toast } from 'sonner';
 
 type ApiKeyService = 'youtube' | 'rapidapi';
@@ -201,6 +201,34 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                           </div>
                         )}
                       </div>
+
+                      {/* RapidAPI info section */}
+                      {service === 'rapidapi' && (
+                        <div className="mb-3 flex items-start gap-2.5 rounded-lg border border-white/5 bg-white/[0.02] px-3 py-2.5">
+                          <Info className="mt-px h-3 w-3 flex-shrink-0 text-white/30" />
+                          <div className="text-[11px] leading-relaxed text-white/40">
+                            <span>Subscribe to these APIs (free tier works):</span>
+                            <div className="mt-1.5 flex gap-3">
+                              <a
+                                href="https://rapidapi.com/irrors-apis/api/instagram-looter2/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-white/60 transition-colors hover:text-white"
+                              >
+                                Instagram Looter2
+                              </a>
+                              <a
+                                href="https://rapidapi.com/Lundehund/api/tiktok-api23/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-white/60 transition-colors hover:text-white"
+                              >
+                                TikTok API23
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      )}
 
                       {/* Edit form with smooth height animation */}
                       <div

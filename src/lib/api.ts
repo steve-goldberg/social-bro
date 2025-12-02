@@ -1,4 +1,4 @@
-import type { Platform, YouTubeTableData } from '@/types';
+import type { Platform, YouTubeTableData, TikTokTableData, InstagramTableData } from '@/types';
 import type { YouTubeSearchResult, YouTubeVideoDetails, YouTubeChannelDetails } from './youtube';
 import { calculateEngagement } from './utils';
 
@@ -28,6 +28,45 @@ export async function searchPlatform(platform: Platform, query: string): Promise
     default:
       return { results: [] };
   }
+}
+
+/**
+ * Fetch videos from a specific TikTok user by username
+ */
+export async function getTikTokUserVideos(username: string): Promise<TikTokTableData[]> {
+  const response = await fetch(
+    `/api/tiktok/user/username?username=${encodeURIComponent(username)}`
+  );
+
+  if (!response.ok) {
+    if (response.status === 404) {
+      return [];
+    }
+    const error = await response.json().catch(() => ({ error: 'Failed to fetch TikTok user' }));
+    throw new Error(error.error || 'Failed to fetch TikTok user');
+  }
+
+  const { results } = await response.json();
+  return results || [];
+}
+
+/**
+ * Search TikTok and return table-ready data
+ */
+export async function searchTikTokWithDetails(query: string): Promise<TikTokTableData[]> {
+  // Check if this is a @username query
+  if (isUsernameQuery(query)) {
+    const username = extractUsername(query);
+    return getTikTokUserVideos(username);
+  }
+
+  const response = await fetch(`/api/tiktok/search?q=${encodeURIComponent(query)}`);
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ error: 'Failed to search TikTok' }));
+    throw new Error(error.error || 'Failed to search TikTok');
+  }
+  const { results } = await response.json();
+  return results || [];
 }
 
 export async function getVideoDetails(videoIds: string[]): Promise<YouTubeVideoDetails[]> {
@@ -136,4 +175,43 @@ export async function searchYouTubeWithDetails(query: string): Promise<YouTubeTa
       thumbnail: result.thumbnail,
     };
   });
+}
+
+/**
+ * Fetch reels from a specific Instagram user by username
+ */
+export async function getInstagramUserReels(username: string): Promise<InstagramTableData[]> {
+  const response = await fetch(
+    `/api/instagram/user/username?username=${encodeURIComponent(username)}`
+  );
+
+  if (!response.ok) {
+    if (response.status === 404) {
+      return [];
+    }
+    const error = await response.json().catch(() => ({ error: 'Failed to fetch Instagram user' }));
+    throw new Error(error.error || 'Failed to fetch Instagram user');
+  }
+
+  const { results } = await response.json();
+  return results || [];
+}
+
+/**
+ * Search Instagram and return table-ready data
+ */
+export async function searchInstagramWithDetails(query: string): Promise<InstagramTableData[]> {
+  // Check if this is a @username query
+  if (isUsernameQuery(query)) {
+    const username = extractUsername(query);
+    return getInstagramUserReels(username);
+  }
+
+  const response = await fetch(`/api/instagram/search?q=${encodeURIComponent(query)}`);
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ error: 'Failed to search Instagram' }));
+    throw new Error(error.error || 'Failed to search Instagram');
+  }
+  const { results } = await response.json();
+  return results || [];
 }

@@ -14,8 +14,8 @@ import { PreLoader } from '@/components/preloader';
 import { DataTable, youtubeColumns } from '@/components/data-table';
 import { SettingsModal } from '@/components/settings';
 import { UserMenu } from '@/components/auth';
-import { searchYouTubeWithDetails } from '@/lib/api';
-import type { Platform, YouTubeTableData, SavedSearchWithResults } from '@/types';
+import { searchYouTubeWithDetails, searchTikTokWithDetails, searchInstagramWithDetails } from '@/lib/api';
+import type { Platform, YouTubeTableData, TikTokTableData, SavedSearchWithResults } from '@/types';
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -69,14 +69,23 @@ export default function Home() {
     addSearchToHistory(searchQuery.trim(), selectedPlatform);
 
     try {
-      const results = await searchYouTubeWithDetails(searchQuery);
+      let results: YouTubeTableData[] | TikTokTableData[];
+
+      if (selectedPlatform === 'tiktok') {
+        results = await searchTikTokWithDetails(searchQuery);
+      } else if (selectedPlatform === 'instagram') {
+        results = await searchInstagramWithDetails(searchQuery);
+      } else {
+        results = await searchYouTubeWithDetails(searchQuery);
+      }
+
       setTableData(results);
       if (results.length === 0) {
         toast.error('No results found');
       }
     } catch (error) {
       console.error('Search failed:', error);
-      toast.error('Search failed');
+      toast.error(error instanceof Error ? error.message : 'Search failed');
     } finally {
       setIsSearching(false);
     }
@@ -228,6 +237,7 @@ export default function Home() {
               onSearch={handleSearch}
               placeholder="Search for videos, creators, or topics..."
               isLoading={isSearching}
+              platform={selectedPlatform}
             />
           </div>
         </div>

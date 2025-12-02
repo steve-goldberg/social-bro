@@ -1,5 +1,6 @@
 import { getYouTubeClient } from './client';
 import { decodeHtmlEntities } from '../utils';
+import { parseYouTubeError, isApiError } from '../errors';
 
 export interface YouTubeVideoDetails {
   id: string;
@@ -21,32 +22,38 @@ export async function getVideoDetails(
   videoId: string
 ): Promise<YouTubeVideoDetails | null> {
   const youtube = await getYouTubeClient(userId);
-  const response = await youtube.videos.list({
-    part: ['snippet', 'statistics', 'contentDetails'],
-    id: [videoId],
-  });
 
-  const item = response.data.items?.[0];
-  if (!item) return null;
+  try {
+    const response = await youtube.videos.list({
+      part: ['snippet', 'statistics', 'contentDetails'],
+      id: [videoId],
+    });
 
-  return {
-    id: item.id || '',
-    title: decodeHtmlEntities(item.snippet?.title || ''),
-    description: decodeHtmlEntities(item.snippet?.description || ''),
-    thumbnail:
-      item.snippet?.thumbnails?.high?.url ||
-      item.snippet?.thumbnails?.medium?.url ||
-      item.snippet?.thumbnails?.default?.url ||
-      '',
-    channelId: item.snippet?.channelId || '',
-    channelTitle: decodeHtmlEntities(item.snippet?.channelTitle || ''),
-    publishedAt: item.snippet?.publishedAt || '',
-    viewCount: item.statistics?.viewCount || '0',
-    likeCount: item.statistics?.likeCount || '0',
-    commentCount: item.statistics?.commentCount || '0',
-    duration: item.contentDetails?.duration || '',
-    tags: item.snippet?.tags || [],
-  };
+    const item = response.data.items?.[0];
+    if (!item) return null;
+
+    return {
+      id: item.id || '',
+      title: decodeHtmlEntities(item.snippet?.title || ''),
+      description: decodeHtmlEntities(item.snippet?.description || ''),
+      thumbnail:
+        item.snippet?.thumbnails?.high?.url ||
+        item.snippet?.thumbnails?.medium?.url ||
+        item.snippet?.thumbnails?.default?.url ||
+        '',
+      channelId: item.snippet?.channelId || '',
+      channelTitle: decodeHtmlEntities(item.snippet?.channelTitle || ''),
+      publishedAt: item.snippet?.publishedAt || '',
+      viewCount: item.statistics?.viewCount || '0',
+      likeCount: item.statistics?.likeCount || '0',
+      commentCount: item.statistics?.commentCount || '0',
+      duration: item.contentDetails?.duration || '',
+      tags: item.snippet?.tags || [],
+    };
+  } catch (error) {
+    if (isApiError(error)) throw error;
+    throw parseYouTubeError(error);
+  }
 }
 
 export async function getMultipleVideoDetails(
@@ -54,29 +61,35 @@ export async function getMultipleVideoDetails(
   videoIds: string[]
 ): Promise<YouTubeVideoDetails[]> {
   const youtube = await getYouTubeClient(userId);
-  const response = await youtube.videos.list({
-    part: ['snippet', 'statistics', 'contentDetails'],
-    id: videoIds,
-  });
 
-  const items = response.data.items || [];
+  try {
+    const response = await youtube.videos.list({
+      part: ['snippet', 'statistics', 'contentDetails'],
+      id: videoIds,
+    });
 
-  return items.map((item) => ({
-    id: item.id || '',
-    title: decodeHtmlEntities(item.snippet?.title || ''),
-    description: decodeHtmlEntities(item.snippet?.description || ''),
-    thumbnail:
-      item.snippet?.thumbnails?.high?.url ||
-      item.snippet?.thumbnails?.medium?.url ||
-      item.snippet?.thumbnails?.default?.url ||
-      '',
-    channelId: item.snippet?.channelId || '',
-    channelTitle: decodeHtmlEntities(item.snippet?.channelTitle || ''),
-    publishedAt: item.snippet?.publishedAt || '',
-    viewCount: item.statistics?.viewCount || '0',
-    likeCount: item.statistics?.likeCount || '0',
-    commentCount: item.statistics?.commentCount || '0',
-    duration: item.contentDetails?.duration || '',
-    tags: item.snippet?.tags || [],
-  }));
+    const items = response.data.items || [];
+
+    return items.map((item) => ({
+      id: item.id || '',
+      title: decodeHtmlEntities(item.snippet?.title || ''),
+      description: decodeHtmlEntities(item.snippet?.description || ''),
+      thumbnail:
+        item.snippet?.thumbnails?.high?.url ||
+        item.snippet?.thumbnails?.medium?.url ||
+        item.snippet?.thumbnails?.default?.url ||
+        '',
+      channelId: item.snippet?.channelId || '',
+      channelTitle: decodeHtmlEntities(item.snippet?.channelTitle || ''),
+      publishedAt: item.snippet?.publishedAt || '',
+      viewCount: item.statistics?.viewCount || '0',
+      likeCount: item.statistics?.likeCount || '0',
+      commentCount: item.statistics?.commentCount || '0',
+      duration: item.contentDetails?.duration || '',
+      tags: item.snippet?.tags || [],
+    }));
+  } catch (error) {
+    if (isApiError(error)) throw error;
+    throw parseYouTubeError(error);
+  }
 }

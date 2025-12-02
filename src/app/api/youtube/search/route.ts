@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { searchYouTube } from '@/lib/youtube';
 import { prisma } from '@/lib/db';
 import { requireUserId } from '@/lib/auth-utils';
+import { isApiError } from '@/lib/errors';
 
 // Helper to calculate publishedAfter date from dateRange
 function getPublishedAfterDate(dateRange: string): string | undefined {
@@ -83,6 +84,9 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     if (error instanceof Error && error.message === 'Unauthorized') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    if (isApiError(error)) {
+      return NextResponse.json({ error: error.message }, { status: error.statusCode });
     }
     console.error('YouTube search error:', error);
     return NextResponse.json({ error: 'Failed to search YouTube' }, { status: 500 });
