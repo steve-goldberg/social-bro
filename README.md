@@ -9,16 +9,32 @@ Search YouTube, TikTok & Instagram from one place. Find content, grab transcript
 - **Hook Generator** - AI-powered opening lines to grab attention
 - **Search History** - Save and revisit your searches
 
-## Quick Start
+## Prerequisites
+
+- Node.js 18+
+- Docker
+
+## Setup
 
 ```bash
+# Clone it
+git clone https://github.com/KenKaiii/social-bro.git
+cd social-bro
+
 # Install deps
 npm install
 
-# Set up your database
+# Set up env
+cp .env.example .env
+# Edit .env with your secrets (generate with: openssl rand -base64 32)
+
+# Start database
+docker compose up -d
+
+# Run migrations
 npm run db:migrate
 
-# Run it
+# Start the app
 npm run dev
 ```
 
