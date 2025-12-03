@@ -11,11 +11,11 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css}\"",
     "typecheck": "tsc --noEmit",
-    "db:generate": "unset DATABASE_URL; prisma generate",
-    "db:migrate": "unset DATABASE_URL; prisma migrate dev",
-    "db:push": "unset DATABASE_URL; prisma db push",
-    "db:studio": "unset DATABASE_URL; prisma studio",
-    "db:seed": "unset DATABASE_URL; npx tsx prisma/seed.ts"
+    "db:generate": "dotenv -- prisma generate",
+    "db:migrate": "dotenv -- prisma migrate dev",
+    "db:push": "dotenv -- prisma db push",
+    "db:studio": "dotenv -- prisma studio",
+    "db:seed": "dotenv -- npx tsx prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.0.1",
@@ -43,6 +43,7 @@
     "@types/react-dom": "^19",
     "@typescript-eslint/eslint-plugin": "^8.48.0",
     "@typescript-eslint/parser": "^8.48.0",
+    "dotenv-cli": "^11.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.0.6",
     "eslint-config-prettier": "^10.1.8",
