@@ -13,9 +13,9 @@
 # testing
 /coverage
 
-# next.js (legacy, under docs/nextjs/)
-# /.next/
-# /out/
+# next.js build cache
+.next/
+/out/
 
 # production
 /build
@@ -39,7 +39,7 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-# next-env.d.ts (legacy, under docs/nextjs/)
+next-env.d.ts
 
 # playwright-cli artifacts
 .playwright-cli/
@@ -47,5 +47,5 @@ yarn-error.log*
 backend/*.png
 backend/*.yaml
 
-# /src/generated/prisma (legacy, under docs/nextjs/)
+src/generated/prisma
 .playwright/
