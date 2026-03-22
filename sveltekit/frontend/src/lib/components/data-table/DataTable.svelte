@@ -13,10 +13,8 @@
 		PaginationContent,
 		PaginationItem,
 		PaginationPrevButton,
-		PaginationNextButton,
-		PaginationEllipsis
+		PaginationNextButton
 	} from '$lib/components/ui/pagination/index.js';
-	import { Button } from '$lib/components/ui/button/index.js';
 	import { cn, formatNumber } from '$lib/utils';
 	import { type ColumnDef, getScoreColor } from './columns';
 	import ArrowUpDown from '@lucide/svelte/icons/arrow-up-down';
@@ -166,7 +164,7 @@
 	<!-- Mobile Card View -->
 	<div class="space-y-3 md:hidden">
 		{#if isLoading}
-			{#each Array(skeletonRows) as _, index}
+			{#each { length: skeletonRows } as _skItem, index (index)}
 				<div
 					class="animate-pulse rounded-xl border border-white/10 bg-white/[0.02] p-4"
 					style:animation-delay="{index * 50}ms"
@@ -251,6 +249,7 @@
 
 					<!-- Action Row -->
 					<div class="flex items-center justify-between gap-2">
+						<!-- svelte-ignore svelte_a11y_no_navigation_without_resolve -->
 						<a
 							href={item['url'] as string}
 							target="_blank"
@@ -283,7 +282,7 @@
 		<Table>
 			<TableHeader>
 				<TableRow>
-					{#each columns as col}
+					{#each columns as col (col.id)}
 						{@const isSortable = col.sortable !== false}
 						<TableHead
 							class={cn(
@@ -312,9 +311,10 @@
 			</TableHeader>
 			<TableBody>
 				{#if isLoading}
-					{#each Array(skeletonRows) as _, rowIndex}
+					{#each { length: skeletonRows } as _skRow, rowIndex (rowIndex)}
 						<TableRow>
-							{#each columns as _, colIndex}
+							{#each columns as skCol (skCol.id)}
+								{@const colIndex = columns.indexOf(skCol)}
 								<TableCell>
 									<Skeleton
 										class={cn(
@@ -329,7 +329,7 @@
 				{:else if paginatedData.length > 0}
 					{#each paginatedData as row, index (row['id'] ?? index)}
 						<TableRow>
-							{#each columns as col}
+							{#each columns as col (col.id)}
 								<TableCell>
 									{#if col.cellType === 'thumbnail-username'}
 										<div class="flex items-center gap-2">
@@ -372,6 +372,7 @@
 											{score.toFixed(2)}%
 										</span>
 									{:else if col.cellType === 'url'}
+										<!-- svelte-ignore svelte_a11y_no_navigation_without_resolve -->
 										<a
 											href={getCellValue(row, col.accessor) as string}
 											target="_blank"

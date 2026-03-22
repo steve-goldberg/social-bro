@@ -1,13 +1,9 @@
 <script lang="ts">
-	import { Input } from '$lib/components/ui/input/index.js';
-	import { Badge } from '$lib/components/ui/badge/index.js';
-	import { Button } from '$lib/components/ui/button/index.js';
-	import { Kbd } from '$lib/components/ui/kbd/index.js';
 	import type { Platform } from '$lib/types';
-	import Search from 'lucide-svelte/icons/search';
-	import Loader2 from 'lucide-svelte/icons/loader-2';
-	import AtSign from 'lucide-svelte/icons/at-sign';
-	import Link from 'lucide-svelte/icons/link';
+	import Search from '@lucide/svelte/icons/search';
+	import Loader2 from '@lucide/svelte/icons/loader-2';
+	import AtSign from '@lucide/svelte/icons/at-sign';
+	import Link from '@lucide/svelte/icons/link';
 
 	interface Props {
 		value: string;
@@ -140,7 +136,7 @@
 				<span>
 					Use <span class="text-white/40">@username</span> for {helperLabel}
 					{#if platform === 'youtube'}
-						{' '}or <span class="text-purple-400/40">paste a URL</span> to repurpose
+						 or <span class="text-purple-400/40">paste a URL</span> to repurpose
 					{/if}
 				</span>
 			{/if}

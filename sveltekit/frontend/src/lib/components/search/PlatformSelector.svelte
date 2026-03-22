@@ -1,20 +1,18 @@
 <script lang="ts">
-	import { ToggleGroup, ToggleGroupItem } from '$lib/components/ui/toggle-group/index.js';
-	import type { Platform, PlatformConfig } from '$lib/types';
+	import type { Platform } from '$lib/types';
 	import { PLATFORMS } from '$lib/constants';
-	import Youtube from 'lucide-svelte/icons/youtube';
-	import Instagram from 'lucide-svelte/icons/instagram';
-	import Music2 from 'lucide-svelte/icons/music-2';
-	import Settings2 from 'lucide-svelte/icons/settings-2';
+	import Youtube from '@lucide/svelte/icons/youtube';
+	import Instagram from '@lucide/svelte/icons/instagram';
+	import Music2 from '@lucide/svelte/icons/music-2';
+	import Settings2 from '@lucide/svelte/icons/settings-2';
 
 	interface Props {
 		selected: Platform;
 		onselect: (platform: Platform) => void;
+		onconfigopen?: () => void;
 	}
 
-	let { selected, onselect }: Props = $props();
-
-	let isConfigOpen = $state(false);
+	let { selected, onselect, onconfigopen }: Props = $props();
 
 	let isYouTubeSelected = $derived(selected === 'youtube');
 
@@ -23,18 +21,6 @@
 		instagram: Instagram,
 		tiktok: Music2,
 	};
-
-	const platformGradients: Record<Platform, string> = {
-		youtube: 'from-red-500 to-red-600',
-		instagram: 'from-purple-500 via-pink-500 to-orange-400',
-		tiktok: 'from-cyan-400 to-teal-500',
-	};
-
-	function handleValueChange(value: string | string[] | undefined) {
-		if (value && typeof value === 'string') {
-			onselect(value as Platform);
-		}
-	}
 </script>
 
 <div class="flex flex-wrap items-center gap-2">
@@ -59,7 +45,7 @@
 				>
 					<div class="overflow-hidden">
 						<button
-							onclick={() => (isConfigOpen = true)}
+							onclick={() => onconfigopen?.()}
 							class="ml-1 flex h-8 w-8 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white/80 transition-all hover:bg-white/15 hover:border-white/30 hover:text-white"
 							title="YouTube search settings"
 						>

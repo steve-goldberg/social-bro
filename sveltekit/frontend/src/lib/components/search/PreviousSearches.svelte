@@ -1,20 +1,6 @@
-<script lang="ts">
-	import { Tabs, TabsList, TabsTrigger, TabsContent } from '$lib/components/ui/tabs/index.js';
-	import { Badge } from '$lib/components/ui/badge/index.js';
-	import { Button } from '$lib/components/ui/button/index.js';
-	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
-	import type { Platform, SavedSearchWithResults, RepurposeVideo, Script } from '$lib/types';
+<script lang="ts" module>
+	import type { Platform } from '$lib/types';
 	import { writable } from 'svelte/store';
-	import { onMount } from 'svelte';
-	import Bookmark from 'lucide-svelte/icons/bookmark';
-	import RefreshCw from 'lucide-svelte/icons/refresh-cw';
-	import FileText from 'lucide-svelte/icons/file-text';
-	import X from 'lucide-svelte/icons/x';
-	import Loader2 from 'lucide-svelte/icons/loader-2';
-	import MessageSquareText from 'lucide-svelte/icons/message-square-text';
-	import { toast } from 'svelte-sonner';
-
-	// --- Search History Store (localStorage-synced) ---
 
 	export interface SearchHistory {
 		id: string;
@@ -53,7 +39,7 @@
 		}
 	}
 
-	const searchHistory = writable<SearchHistory[]>([]);
+	export const searchHistory = writable<SearchHistory[]>([]);
 
 	export function setSearchHistoryUserId(userId: string | null): void {
 		if (currentUserId !== userId) {
@@ -78,14 +64,25 @@
 		searchHistory.set(updated);
 	}
 
-	function removeSearchFromHistory(id: string): void {
+	export function removeSearchFromHistory(id: string): void {
 		const history = readHistory();
 		const filtered = history.filter((h) => h.id !== id);
 		writeHistory(filtered);
 		searchHistory.set(filtered);
 	}
+</script>
 
-	// --- Component Props ---
+<script lang="ts">
+	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
+	import type { SavedSearchWithResults, RepurposeVideo, Script } from '$lib/types';
+	import { onMount } from 'svelte';
+	import Bookmark from '@lucide/svelte/icons/bookmark';
+	import RefreshCw from '@lucide/svelte/icons/refresh-cw';
+	import FileText from '@lucide/svelte/icons/file-text';
+	import X from '@lucide/svelte/icons/x';
+	import Loader2 from '@lucide/svelte/icons/loader-2';
+	import MessageSquareText from '@lucide/svelte/icons/message-square-text';
+	import { toast } from 'svelte-sonner';
 
 	type TabId = Platform | 'all' | 'saved' | 'repurpose' | 'scripts';
 
@@ -138,7 +135,6 @@
 	onMount(() => {
 		setSearchHistoryUserId(userId ?? null);
 
-		// Listen for external updates (other tabs, etc.)
 		function handleStorageUpdate() {
 			searchHistory.set(readHistory());
 		}
@@ -330,11 +326,6 @@
 		activeTab = tabId;
 	}
 
-	function confirmDelete(id: string, type: 'history' | 'saved' | 'repurpose' | 'script') {
-		deleteConfirmId = id;
-		deleteConfirmType = type;
-	}
-
 	async function executeDelete(e: MouseEvent) {
 		if (!deleteConfirmId || !deleteConfirmType) return;
 		switch (deleteConfirmType) {
@@ -510,15 +501,15 @@
 	</div>
 
 	<!-- Delete confirmation dialog -->
-	<AlertDialog.AlertDialog bind:open={
-		() => deleteConfirmId !== null,
-		(v) => {
+	<AlertDialog.AlertDialog
+		open={deleteConfirmId !== null}
+		onOpenChange={(v) => {
 			if (!v) {
 				deleteConfirmId = null;
 				deleteConfirmType = null;
 			}
-		}
-	}>
+		}}
+	>
 		<AlertDialog.AlertDialogContent>
 			<AlertDialog.AlertDialogHeader>
 				<AlertDialog.AlertDialogTitle>Confirm deletion</AlertDialog.AlertDialogTitle>
