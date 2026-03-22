@@ -6,113 +6,113 @@
 > 2. Use Read(file, offset=LINE_NUMBER, limit=100) to jump to that section
 > 3. For specific h2/h3 topics, use Grep(pattern="## topic", path=file)
 
-L  413 | # Start of Svelte documentation
-L  416 | # Overview
-L  445 | # Getting started
+L  417 | # Start of Svelte documentation
+L  420 | # Overview
+L  449 | # Getting started
     Alternatives to SvelteKit · Editor tooling · Getting help
-L  476 | # .svelte files
+L  480 | # .svelte files
     `<script>` · `<script module>` · `<style>`
-L  546 | # .svelte.js and .svelte.ts files
-L  555 | # What are runes?
-L  578 | # $state
+L  550 | # .svelte.js and .svelte.ts files
+L  559 | # What are runes?
+L  582 | # $state
     `$state.raw` · `$state.snapshot` · Passing state into functions
     Passing state across modules
         (+2 sub-sections)
-L  909 | # $derived
+L  913 | # $derived
     `$derived.by` · Understanding dependencies · Overriding derived values
     Deriveds and reactivity · Update propagation
-L 1020 | # $effect
+L 1024 | # $effect
     `$effect.pre` · `$effect.tracking` · `$effect.root` · When not to use `$effect`
         (+2 sub-sections)
-L 1349 | # $props
+L 1353 | # $props
     Fallback values · Renaming props · Rest props · Updating props · Type safety
     `$props.id()`
-L 1570 | # $bindable
-L 1623 | # $inspect
+L 1574 | # $bindable
+L 1627 | # $inspect
     $inspect(...).with · $inspect.trace(...)
-L 1683 | # $host
-L 1719 | # Basic markup
+L 1687 | # $host
+L 1723 | # Basic markup
     Tags · Element attributes · Component props · Events · Text expressions · Comments
         (+1 sub-sections)
-L 1933 | # {#if ...}
-L 1972 | # {#each ...}
+L 1937 | # {#if ...}
+L 1976 | # {#each ...}
     Keyed each blocks · Each blocks without an item · Else blocks
-L 2085 | # {#key ...}
-L 2108 | # {#await ...}
-L 2185 | # {#snippet ...}
+L 2089 | # {#key ...}
+L 2112 | # {#await ...}
+L 2189 | # {#snippet ...}
     Snippet scope · Passing snippets to components · Typing snippets · Exporting snippets
     Programmatic snippets · Snippets and slots
         (+4 sub-sections)
-L 2464 | # {@render ...}
+L 2468 | # {@render ...}
     Optional snippets
-L 2502 | # {@html ...}
+L 2506 | # {@html ...}
     Styling
-L 2552 | # {@const ...}
-L 2565 | # {@debug ...}
-L 2598 | # bind:
+L 2556 | # {@const ...}
+L 2569 | # {@debug ...}
+L 2602 | # bind:
     Function bindings · `<input bind:value>` · `<input bind:checked>` · `<input bind:group>`
     `<input bind:files>` · `<select bind:value>` · `<audio>` · `<video>` · `<img>`
     `<details bind:open>` · Contenteditable bindings · Dimensions · bind:this
     bind:_property_ for components
-L 2961 | # use:
+L 2965 | # use:
     Typing
-L 3040 | # transition:
+L 3044 | # transition:
     Local vs global · Built-in transitions · Transition parameters · Custom transition functions
     Transition events
-L 3210 | # in: and out:
-L 3231 | # animate:
+L 3214 | # in: and out:
+L 3235 | # animate:
     Animation Parameters · Custom animation functions
-L 3344 | # style:
-L 3384 | # class
+L 3348 | # style:
+L 3388 | # class
     Attributes · The `class:` directive
         (+1 sub-sections)
-L 3485 | # Scoped styles
+L 3489 | # Scoped styles
     Specificity · Scoped keyframes
-L 3523 | # Global styles
+L 3527 | # Global styles
     :global(...) · :global
-L 3587 | # Custom properties
-L 3643 | # Nested <style> elements
-L 3663 | # <svelte:boundary>
+L 3591 | # Custom properties
+L 3647 | # Nested <style> elements
+L 3667 | # <svelte:boundary>
     Properties
         (+2 sub-sections)
-L 3744 | # <svelte:window>
-L 3787 | # <svelte:document>
-L 3814 | # <svelte:body>
-L 3828 | # <svelte:head>
-L 3845 | # <svelte:element>
-L 3877 | # <svelte:options>
-L 3903 | # Stores
+L 3748 | # <svelte:window>
+L 3791 | # <svelte:document>
+L 3818 | # <svelte:body>
+L 3832 | # <svelte:head>
+L 3849 | # <svelte:element>
+L 3881 | # <svelte:options>
+L 3907 | # Stores
     When to use stores · svelte/store · Store contract
         (+5 sub-sections)
-L 4209 | # Context
+L 4213 | # Context
     Using context with state · Type-safe context · Replacing global state
-L 4346 | # Lifecycle hooks
+L 4350 | # Lifecycle hooks
     `onMount` · `onDestroy` · `tick` · Deprecated: `beforeUpdate` / `afterUpdate`
         (+1 sub-sections)
-L 4510 | # Imperative component API
+L 4514 | # Imperative component API
     `mount` · `unmount` · `render` · `hydrate`
-L 4592 | # Testing
+L 4596 | # Testing
     Unit and integration testing using Vitest · E2E tests using Playwright
         (+2 sub-sections)
-L 4877 | # TypeScript
+L 4881 | # TypeScript
     `<script lang="ts">` · Preprocessor setup · tsconfig.json settings · Typing `$props`
     Generic `$props` · Typing wrapper components · Typing `$state` · The `Component` type
     Enhancing built-in DOM types
         (+2 sub-sections)
-L 5172 | # Custom elements
+L 5176 | # Custom elements
     Component lifecycle · Component options · Caveats and limitations
-L 5299 | # Svelte 4 migration guide
+L 5303 | # Svelte 4 migration guide
     Minimum version requirements · Browser conditions for bundlers · Removal of CJS related output
     Stricter types for Svelte functions · Custom Elements with Svelte
     SvelteComponentTyped is deprecated · Transitions are local by default · Default slot bindings
     Preprocessors · New eslint package · Other breaking changes
-L 5544 | # Svelte 5 migration guide
+L 5548 | # Svelte 5 migration guide
     Reactivity syntax changes · Event changes · Snippets instead of slots · Migration script
     Components are no longer classes · `<svelte:component>` is no longer necessary
     Whitespace handling changed · Modern browser required · Changes to compiler options
     The `children` prop is reserved · Breaking changes in runes mode · Other breaking changes
         (+46 sub-sections)
-L 6520 | # Frequently asked questions
+L 6524 | # Frequently asked questions
     I'm new to Svelte. Where should I start? · Where can I get support?
     Are there any third-party resources?
     How can I get VS Code to syntax-highlight my .svelte files?
@@ -121,187 +121,187 @@ L 6520 | # Frequently asked questions
     Is there a router? · How do I write a mobile app with Svelte?
     Can I tell Svelte not to remove my unused styles? · Is Svelte v2 still available?
     How do I do hot module reloading?
-L 6649 | # svelte
+L 6653 | # svelte
     SvelteComponent · SvelteComponentTyped · afterUpdate · beforeUpdate · createEventDispatcher
     createRawSnippet · flushSync · getAllContexts · getContext · hasContext · hydrate · mount
     onDestroy · onMount · setContext · tick · unmount · untrack · Component
     ComponentConstructorOptions · ComponentEvents · ComponentInternals · ComponentProps
     ComponentType · EventDispatcher · MountOptions · Snippet
         (+1 sub-sections)
-L 7582 | # svelte/action
+L 7586 | # svelte/action
     Action · ActionReturn
-L 7683 | # svelte/animate
+L 7687 | # svelte/animate
     flip · AnimationConfig · FlipParams
-L 7803 | # svelte/compiler
+L 7807 | # svelte/compiler
     VERSION · compile · compileModule · migrate · parse · preprocess · walk · AST
     CompileError · CompileOptions · CompileResult · MarkupPreprocessor · ModuleCompileOptions
     Preprocessor · PreprocessorGroup · Processed · Warning
-L 9178 | # svelte/easing
+L 9182 | # svelte/easing
     backIn · backInOut · backOut · bounceIn · bounceInOut · bounceOut · circIn · circInOut
     circOut · cubicIn · cubicInOut · cubicOut · elasticIn · elasticInOut · elasticOut
     expoIn · expoInOut · expoOut · linear · quadIn · quadInOut · quadOut · quartIn
     quartInOut · quartOut · quintIn · quintInOut · quintOut · sineIn · sineInOut · sineOut
-L 9587 | # svelte/events
+L 9591 | # svelte/events
     on
-L 9683 | # svelte/legacy
+L 9687 | # svelte/legacy
     asClassComponent · createBubbler · createClassComponent · handlers · nonpassive · once
     passive · preventDefault · run · self · stopImmediatePropagation · stopPropagation
     trusted · LegacyComponentType
-L 9983 | # svelte/motion
+L 9987 | # svelte/motion
     Spring · Tween · prefersReducedMotion · spring · tweened · Spring · Tweened
-L10426 | # svelte/reactivity/window
+L10430 | # svelte/reactivity/window
     devicePixelRatio · innerHeight · innerWidth · online · outerHeight · outerWidth
     screenLeft · screenTop · scrollX · scrollY
-L10658 | # svelte/reactivity
+L10662 | # svelte/reactivity
     MediaQuery · SvelteDate · SvelteMap · SvelteSet · SvelteURL · SvelteURLSearchParams
     createSubscriber
-L11051 | # svelte/server
+L11055 | # svelte/server
     render
-L11096 | # svelte/store
+L11100 | # svelte/store
     derived · fromStore · get · readable · readonly · toStore · writable · Readable
     StartStopNotifier · Subscriber · Unsubscriber · Updater · Writable
-L11385 | # svelte/transition
+L11389 | # svelte/transition
     blur · crossfade · draw · fade · fly · scale · slide · BlurParams · CrossfadeParams
     DrawParams · EasingFunction · FadeParams · FlyParams · ScaleParams · SlideParams
     TransitionConfig
-L11958 | # Compiler errors
+L11962 | # Compiler errors
         (+168 sub-sections)
-L13060 | # Compiler warnings
+L13064 | # Compiler warnings
         (+78 sub-sections)
-L14039 | # Runtime errors
+L14043 | # Runtime errors
     Client errors · Server errors · Shared errors
         (+27 sub-sections)
-L14331 | # Runtime warnings
+L14335 | # Runtime warnings
     Client warnings · Shared warnings
         (+16 sub-sections)
-L14600 | # Overview
-L14613 | # Reactive let/var declarations
-L14646 | # Reactive $: statements
+L14604 | # Overview
+L14617 | # Reactive let/var declarations
+L14650 | # Reactive $: statements
     Understanding dependencies · Browser-only code
-L14732 | # export let
+L14736 | # export let
     Component exports · Renaming props
-L14803 | # $$props and $$restProps
-L14832 | # on:
+L14807 | # $$props and $$restProps
+L14836 | # on:
     Component events
-L14967 | # <slot>
+L14971 | # <slot>
     Named slots · Fallback content · Passing data to slotted content
-L15086 | # $$slots
-L15112 | # <svelte:fragment>
-L15143 | # <svelte:component>
-L15155 | # <svelte:self>
-L15191 | # Imperative component API
+L15090 | # $$slots
+L15116 | # <svelte:fragment>
+L15147 | # <svelte:component>
+L15159 | # <svelte:self>
+L15195 | # Imperative component API
     Creating a component · `$set` · `$on` · `$destroy` · Component props
     Server-side component API
-L15389 | # Start of SvelteKit documentation
-L15392 | # Introduction
+L15393 | # Start of SvelteKit documentation
+L15396 | # Introduction
     Before we begin · What is SvelteKit? · What is Svelte? · SvelteKit vs Svelte
-L15418 | # Creating a project
+L15422 | # Creating a project
     Editor setup
-L15442 | # Project types
+L15446 | # Project types
     Default rendering · Static site generation · Single-page app · Multi-page app
     Separate backend · Serverless app · Your own server · Container · Library · Offline app
     Mobile app · Desktop app · Browser extension · Embedded device
-L15510 | # Project structure
+L15514 | # Project structure
     Project files · Other files
         (+8 sub-sections)
-L15601 | # Web standards
+L15605 | # Web standards
     Fetch APIs · FormData · Stream APIs · URL APIs · Web Crypto
         (+4 sub-sections)
-L15706 | # Routing
+L15710 | # Routing
     +page · +error · +layout · +server · $types · Other files · Further reading
         (+9 sub-sections)
-L16144 | # Loading data
+L16148 | # Loading data
     Page data · Layout data · page.data · Universal vs server · Using URL data
     Making fetch requests · Cookies · Headers · Using parent data · Errors · Redirects
     Streaming with promises · Parallel loading · Rerunning load functions
     Implications for authentication · Using `getRequestEvent` · Further reading
         (+10 sub-sections)
-L16931 | # Form actions
+L16935 | # Form actions
     Default actions · Named actions · Anatomy of an action · Loading data
     Progressive enhancement · Alternatives · GET vs POST · Further reading
         (+5 sub-sections)
-L17456 | # Page options
+L17460 | # Page options
     prerender · entries · ssr · csr · trailingSlash · config · Further reading
         (+4 sub-sections)
-L17679 | # State management
+L17683 | # State management
     Avoid shared state on the server · No side-effects in load
     Using state and stores with context · Component and page state is preserved
     Storing state in the URL · Storing ephemeral state in snapshots
-L17858 | # Building your app
+L17862 | # Building your app
     During the build · Preview your app
-L17887 | # Adapters
+L17891 | # Adapters
     Using adapters · Platform-specific context
-L17933 | # Zero-config deployments
+L17937 | # Zero-config deployments
     Environment-specific configuration · Adding community adapters
-L17954 | # Node servers
+L17958 | # Node servers
     Usage · Deploying · Environment variables · Options · Graceful shutdown · Socket activation
     Custom server
         (+10 sub-sections)
-L18218 | # Static site generation
+L18222 | # Static site generation
     Usage · Zero-config support · Options · GitHub Pages
         (+5 sub-sections)
-L18390 | # Single-page apps
+L18394 | # Single-page apps
     Usage · Apache · Prerendering individual pages
-L18452 | # Cloudflare Pages
+L18456 | # Cloudflare Pages
     Comparisons · Usage · Options · Cloudflare Workers · Cloudflare Pages · Runtime APIs
     Headers and redirects · Troubleshooting · Migrating from Workers Sites
         (+16 sub-sections)
-L18680 | # Cloudflare Workers
+L18684 | # Cloudflare Workers
     Usage · Options · Basic Configuration · Runtime APIs · Troubleshooting
         (+6 sub-sections)
-L18815 | # Netlify
+L18819 | # Netlify
     Usage · Netlify Edge Functions · Netlify alternatives to SvelteKit functionality
     Troubleshooting
         (+6 sub-sections)
-L18936 | # Vercel
+L18940 | # Vercel
     Usage · Deployment configuration · Image Optimization · Incremental Static Regeneration
     Environment variables · Skew protection · Notes · Troubleshooting
         (+6 sub-sections)
-L19134 | # Writing adapters
-L19193 | # Advanced routing
+L19138 | # Writing adapters
+L19197 | # Advanced routing
     Rest parameters · Optional parameters · Matching · Sorting · Encoding · Advanced layouts
     Further reading
         (+6 sub-sections)
-L19482 | # Hooks
+L19486 | # Hooks
     Server hooks · Shared hooks · Universal hooks · Further reading
         (+7 sub-sections)
-L19826 | # Errors
+L19830 | # Errors
     Error objects · Expected errors · Unexpected errors · Responses · Type safety
     Further reading
-L19978 | # Link options
+L19982 | # Link options
     data-sveltekit-preload-data · data-sveltekit-preload-code · data-sveltekit-reload
     data-sveltekit-replacestate · data-sveltekit-keepfocus · data-sveltekit-noscroll
     Disabling options
-L20106 | # Service workers
+L20110 | # Service workers
     Inside the service worker · During development · Type safety · Other solutions · References
-L20259 | # Server-only modules
+L20263 | # Server-only modules
     Private environment variables · Server-only utilities · Your modules · How it works
     Further reading
-L20322 | # Snapshots
-L20355 | # Shallow routing
+L20326 | # Snapshots
+L20359 | # Shallow routing
     API · Loading data for a route · Caveats
-L20458 | # Packaging
+L20462 | # Packaging
     Anatomy of a package.json · TypeScript · Best practices · Source maps · Options
     Publishing · Caveats
         (+6 sub-sections)
-L20724 | # Auth
+L20728 | # Auth
     Sessions vs tokens · Integration points · Guides
-L20746 | # Performance
+L20750 | # Performance
     Diagnosing issues · Optimizing assets · Reducing code size · Navigation · Hosting
     Further reading
         (+11 sub-sections)
-L20847 | # Icons
+L20851 | # Icons
     CSS · Svelte
-L20857 | # Images
+L20861 | # Images
     Vite's built-in handling · @sveltejs/enhanced-img · Loading images dynamically from a CDN
     Best practices
         (+6 sub-sections)
-L21020 | # Accessibility
+L21024 | # Accessibility
     Route announcements · Focus management · The "lang" attribute · Further reading
-L21108 | # SEO
+L21112 | # SEO
     Out of the box · Manual setup
         (+6 sub-sections)
-L21257 | # Frequently asked questions
+L21261 | # Frequently asked questions
     Other resources · What can I make with SvelteKit?
     How do I include details from package.json in my application?
     How do I fix the error I'm getting trying to include a package?
@@ -309,15 +309,15 @@ L21257 | # Frequently asked questions
     How do I use a client-side library accessing `document` or `window`?
     How do I use a different backend API server? · How do I use middleware? · How do I use Yarn?
         (+3 sub-sections)
-L21476 | # Integrations
+L21480 | # Integrations
     `vitePreprocess` · Adders · Directory · Additional integrations · Vite plugins
     Integration FAQs
         (+1 sub-sections)
-L21527 | # Breakpoint Debugging
+L21531 | # Breakpoint Debugging
     Visual Studio Code · Other Editors · Google Chrome and Microsoft Edge Developer Tools
     References
         (+1 sub-sections)
-L21594 | # Migrating to SvelteKit v2
+L21598 | # Migrating to SvelteKit v2
     `redirect` and `error` are no longer thrown by you · path is required when setting cookies
     Top-level promises are no longer awaited · goto(...) changes
     paths are now relative by default · Server fetches are not trackable anymore
@@ -328,14 +328,14 @@ L21594 | # Migrating to SvelteKit v2
     Generated `tsconfig.json` is more strict · `getRequest` no longer throws errors
     `vitePreprocess` is no longer exported from `@sveltejs/kit/vite`
     Updated dependency requirements · SvelteKit 2.12: $app/stores deprecated
-L21786 | # Migrating from Sapper
+L21790 | # Migrating from Sapper
     package.json · Project files · Pages and layouts · Endpoints · Integrations
         (+19 sub-sections)
-L21983 | # Additional resources
+L21987 | # Additional resources
     FAQs · Examples · Support
-L22005 | # Glossary
+L22009 | # Glossary
     CSR · Edge · Hydration · ISR · MPA · Prerendering · PWA · Routing · SPA · SSG · SSR
-L22071 | # @sveltejs/kit
+L22075 | # @sveltejs/kit
     Server · VERSION · error · fail · isActionFailure · isHttpError · isRedirect · json
     normalizeUrl · redirect · text · Action · ActionFailure · ActionResult · Actions
     Adapter · AfterNavigate · AwaitedActions · BeforeNavigate · Builder · ClientInit · Config
@@ -350,61 +350,65 @@ L22071 | # @sveltejs/kit
     PrerenderHttpErrorHandler · PrerenderHttpErrorHandlerValue · PrerenderMap
     PrerenderMissingIdHandler · PrerenderMissingIdHandlerValue · PrerenderOption · Prerendered
     RequestOptions · RouteSegment · TrailingSlash
-L25635 | # @sveltejs/kit/hooks
+L25639 | # @sveltejs/kit/hooks
     sequence
-L25722 | # @sveltejs/kit/node/polyfills
+L25726 | # @sveltejs/kit/node/polyfills
     installPolyfills
-L25743 | # @sveltejs/kit/node
+L25747 | # @sveltejs/kit/node
     createReadableStream · getRequest · setResponse
-L25807 | # @sveltejs/kit/vite
+L25811 | # @sveltejs/kit/vite
     sveltekit
-L25826 | # $app/environment
+L25830 | # $app/environment
     browser · building · dev · version
-L25887 | # $app/forms
+L25891 | # $app/forms
     applyAction · deserialize · enhance
-L25993 | # $app/navigation
+L25997 | # $app/navigation
     afterNavigate · beforeNavigate · disableScrollHandling · goto · invalidate · invalidateAll
     onNavigate · preloadCode · preloadData · pushState · replaceState
-L26253 | # $app/paths
+L26257 | # $app/paths
     assets · base · resolveRoute
-L26324 | # $app/server
+L26328 | # $app/server
     getRequestEvent · read
-L26383 | # $app/state
+L26387 | # $app/state
     navigating · page · updated
-L26482 | # $app/stores
+L26486 | # $app/stores
     getStores · navigating · page · updated
-L26583 | # $env/dynamic/private
-L26598 | # $env/dynamic/public
-L26611 | # $env/static/private
-L26633 | # $env/static/public
-L26643 | # $lib
-L26661 | # $service-worker
+L26587 | # $env/dynamic/private
+L26602 | # $env/dynamic/public
+L26615 | # $env/static/private
+L26637 | # $env/static/public
+L26647 | # $lib
+L26665 | # $service-worker
     base · build · files · prerendered · version
-L26741 | # Configuration
+L26745 | # Configuration
     Config · KitConfig · adapter · alias · appDir · csp · csrf · embedded · env · files
     inlineStyleThreshold · moduleExtensions · outDir · output · paths · prerender · router
     serviceWorker · typescript · version
-L28035 | # Command Line Interface
+L28039 | # Command Line Interface
     svelte-kit sync
-L28049 | # Types
+L28053 | # Types
     Generated types · $lib · app.d.ts · Error · Locals · PageData · PageState · Platform
         (+2 sub-sections)
-L28321 | # Start of the Svelte CLI documentation
-L28324 | # Overview
+L28325 | # Start of the Svelte CLI documentation
+L28328 | # Overview
     Usage · Acknowledgements
-L28342 | # Frequently asked questions
+L28346 | # Frequently asked questions
     How do I run the `sv` CLI? · `npx sv` is not working
-L28364 | # sv create
+L28368 | # sv create
     Usage · Options
         (+6 sub-sections)
-L28427 | # sv add
+L28431 | # sv add
     Usage · Options · Official add-ons
-L28466 | # sv check
+L28470 | # sv check
     Installation · Usage · Options · Troubleshooting · Machine-readable output · Credits · FAQ
         (+12 sub-sections)
-L28626 | # sv migrate
+L28630 | # sv migrate
     Usage · Migrations
         (+7 sub-sections)
+L28676 | # Remote Functions
+    Overview · query · query.batch · form · command · prerender · Handling validation errors
+    Using `getRequestEvent` · Redirects
+        (+14 sub-sections)
 
 <!-- TOC:END -->
 
@@ -28669,3 +28673,1186 @@ Upgrades a library using `@sveltejs/package` version 1 to version 2. See the [pu
 ### `routes`
 
 Upgrades a pre-release SvelteKit app to use the filesystem routing conventions in SvelteKit 1. See the [pull request](https://github.com/sveltejs/kit/discussions/5774) for more details.
+# Remote Functions
+
+
+<blockquote class="since note">
+	<p>Available since 2.27</p>
+</blockquote>
+
+Remote functions are a tool for type-safe communication between client and server. They can be _called_ anywhere in your app, but always _run_ on the server, meaning they can safely access [server-only modules](server-only-modules) containing things like environment variables and database clients.
+
+Combined with Svelte's experimental support for [`await`](/docs/svelte/await-expressions), it allows you to load and manipulate data directly inside your components.
+
+This feature is currently experimental, meaning it is likely to contain bugs and is subject to change without notice. You must opt in by adding the `kit.experimental.remoteFunctions` option in your `svelte.config.js` and optionally, the `compilerOptions.experimental.async` option to use `await` in components:
+
+```js
+/// file: svelte.config.js
+/** @type {import('@sveltejs/kit').Config} */
+const config = {
+	kit: {
+		experimental: {
+			+++remoteFunctions: true+++
+		}
+	},
+	compilerOptions: {
+		experimental: {
+			+++async: true+++
+		}
+	}
+};
+
+export default config;
+```
+
+## Overview
+
+Remote functions are exported from a `.remote.js` or `.remote.ts` file, and come in four flavours: `query`, `form`, `command` and `prerender`. On the client, the exported functions are transformed to `fetch` wrappers that invoke their counterparts on the server via a generated HTTP endpoint. Remote files can be placed anywhere in your `src` directory (except inside the `src/lib/server` directory), and third party libraries can provide them, too.
+
+## query
+
+The `query` function allows you to read dynamic data from the server (for _static_ data, consider using [`prerender`](#prerender) instead):
+
+```js
+/// file: src/routes/blog/data.remote.js
+// @filename: ambient.d.ts
+declare module '$lib/server/database' {
+	export function sql(strings: TemplateStringsArray, ...values: any[]): Promise<any[]>;
+}
+// @filename: index.js
+// ---cut---
+import { query } from '$app/server';
+import * as db from '$lib/server/database';
+
+export const getPosts = query(async () => {
+	const posts = await db.sql`
+		SELECT title, slug
+		FROM post
+		ORDER BY published_at
+		DESC
+	`;
+
+	return posts;
+});
+```
+
+> [!NOTE] Throughout this page, you'll see imports from fictional modules like `$lib/server/database` and `$lib/server/auth`. These are purely for illustrative purposes — you can use whatever database client and auth setup you like.
+>
+> The `db.sql` function above is a [tagged template function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates) that escapes any interpolated values.
+
+The query returned from `getPosts` works as a [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) that resolves to `posts`:
+
+```svelte
+<!--- file: src/routes/blog/+page.svelte --->
+<script>
+	import { getPosts } from './data.remote';
+</script>
+
+<h1>Recent posts</h1>
+
+<ul>
+	{#each await getPosts() as { title, slug }}
+		<li><a href="/blog/{slug}">{title}</a></li>
+	{/each}
+</ul>
+```
+
+Until the promise resolves — and if it errors — the nearest [`<svelte:boundary>`](../svelte/svelte-boundary) will be invoked.
+
+While using `await` is recommended, as an alternative the query also has `loading`, `error` and `current` properties:
+
+```svelte
+<!--- file: src/routes/blog/+page.svelte --->
+<script>
+	import { getPosts } from './data.remote';
+
+	const query = getPosts();
+</script>
+
+<h1>Recent posts</h1>
+
+{#if query.error}
+	<p>oops!</p>
+{:else if query.loading}
+	<p>loading...</p>
+{:else}
+	<ul>
+		{#each query.current as { title, slug }}
+			<li><a href="/blog/{slug}">{title}</a></li>
+		{/each}
+	</ul>
+{/if}
+```
+
+> [!NOTE] For the rest of this document, we'll use the `await` form.
+
+### Query arguments
+
+Query functions can accept an argument, such as the `slug` of an individual post:
+
+```svelte
+<!--- file: src/routes/blog/[slug]/+page.svelte --->
+<script>
+	import { getPost } from '../data.remote';
+
+	let { params } = $props();
+
+	const post = $derived(await getPost(params.slug));
+</script>
+
+<h1>{post.title}</h1>
+<div>{@html post.content}</div>
+```
+
+Since `getPost` exposes an HTTP endpoint, it's important to validate this argument to be sure that it's the correct type. For this, we can use any [Standard Schema](https://standardschema.dev/) validation library such as [Zod](https://zod.dev/) or [Valibot](https://valibot.dev/):
+
+```js
+/// file: src/routes/blog/data.remote.js
+// @filename: ambient.d.ts
+declare module '$lib/server/database' {
+	export function sql(strings: TemplateStringsArray, ...values: any[]): Promise<any[]>;
+}
+// @filename: index.js
+// ---cut---
+import * as v from 'valibot';
+import { error } from '@sveltejs/kit';
+import { query } from '$app/server';
+import * as db from '$lib/server/database';
+
+export const getPosts = query(async () => { /* ... */ });
+
+export const getPost = query(v.string(), async (slug) => {
+	const [post] = await db.sql`
+		SELECT * FROM post
+		WHERE slug = ${slug}
+	`;
+
+	if (!post) error(404, 'Not found');
+	return post;
+});
+```
+
+Both the argument and the return value are serialized with [devalue](https://github.com/sveltejs/devalue), which handles types like `Date` and `Map` (and custom types defined in your [transport hook](hooks#Universal-hooks-transport)) in addition to JSON.
+
+### Refreshing queries
+
+Any query can be re-fetched via its `refresh` method, which retrieves the latest value from the server:
+
+```svelte
+<button onclick={() => getPosts().refresh()}>
+	Check for new posts
+</button>
+```
+
+> [!NOTE] Queries are cached while they're on the page, meaning `getPosts() === getPosts()`. This means you don't need a reference like `const posts = getPosts()` in order to update the query.
+
+## query.batch
+
+`query.batch` works like `query` except that it batches requests that happen within the same macrotask. This solves the so-called n+1 problem: rather than each query resulting in a separate database call (for example), simultaneous queries are grouped together.
+
+On the server, the callback receives an array of the arguments the function was called with. It must return a function of the form `(input: Input, index: number) => Output`. SvelteKit will then call this with each of the input arguments to resolve the individual calls with their results.
+
+```js
+/// file: weather.remote.js
+// @filename: ambient.d.ts
+declare module '$lib/server/database' {
+	export function sql(strings: TemplateStringsArray, ...values: any[]): Promise<any[]>;
+}
+// @filename: index.js
+// ---cut---
+import * as v from 'valibot';
+import { query } from '$app/server';
+import * as db from '$lib/server/database';
+
+export const getWeather = query.batch(v.string(), async (cityIds) => {
+	const weather = await db.sql`
+		SELECT * FROM weather
+		WHERE city_id = ANY(${cityIds})
+	`;
+	const lookup = new Map(weather.map(w => [w.city_id, w]));
+
+	return (cityId) => lookup.get(cityId);
+});
+```
+
+```svelte
+<!--- file: Weather.svelte --->
+<script>
+	import CityWeather from './CityWeather.svelte';
+	import { getWeather } from './weather.remote';
+
+	let { cities } = $props();
+	let limit = $state(5);
+</script>
+
+<h2>Weather</h2>
+
+{#each cities.slice(0, limit) as city}
+	<h3>{city.name}</h3>
+	<CityWeather weather={await getWeather(city.id)} />
+{/each}
+
+{#if cities.length > limit}
+	<button onclick={() => limit += 5}>
+		Load more
+	</button>
+{/if}
+```
+
+## form
+
+The `form` function makes it easy to write data to the server. It takes a callback that receives `data` constructed from the submitted [`FormData`](https://developer.mozilla.org/en-US/docs/Web/API/FormData)...
+
+```ts
+/// file: src/routes/blog/data.remote.js
+// @filename: ambient.d.ts
+declare module '$lib/server/database' {
+	export function sql(strings: TemplateStringsArray, ...values: any[]): Promise<any[]>;
+}
+
+declare module '$lib/server/auth' {
+	interface User {
+		name: string;
+	}
+
+	/**
+	 * Gets a user's info from their cookies, using `getRequestEvent`
+	 */
+	export function getUser(): Promise<User | null>;
+}
+// @filename: index.js
+// ---cut---
+import * as v from 'valibot';
+import { error, redirect } from '@sveltejs/kit';
+import { query, form } from '$app/server';
+import * as db from '$lib/server/database';
+import * as auth from '$lib/server/auth';
+
+export const getPosts = query(async () => { /* ... */ });
+
+export const getPost = query(v.string(), async (slug) => { /* ... */ });
+
+export const createPost = form(
+	v.object({
+		title: v.pipe(v.string(), v.nonEmpty()),
+		content:v.pipe(v.string(), v.nonEmpty())
+	}),
+	async ({ title, content }) => {
+		// Check the user is logged in
+		const user = await auth.getUser();
+		if (!user) error(401, 'Unauthorized');
+
+		const slug = title.toLowerCase().replace(/ /g, '-');
+
+		// Insert into the database
+		await db.sql`
+			INSERT INTO post (slug, title, content)
+			VALUES (${slug}, ${title}, ${content})
+		`;
+
+		// Redirect to the newly created page
+		redirect(303, `/blog/${slug}`);
+	}
+);
+```
+
+...and returns an object that can be spread onto a `<form>` element. The callback is called whenever the form is submitted.
+
+```svelte
+<!--- file: src/routes/blog/new/+page.svelte --->
+<script>
+	import { createPost } from '../data.remote';
+</script>
+
+<h1>Create a new post</h1>
+
+<form {...createPost}>
+	<!-- form content goes here -->
+
+	<button>Publish!</button>
+</form>
+```
+
+The form object contains `method` and `action` properties that allow it to work without JavaScript (i.e. it submits data and reloads the page). It also has an [attachment](/docs/svelte/@attach) that progressively enhances the form when JavaScript is available, submitting data *without* reloading the entire page.
+
+As with `query`, if the callback uses the submitted `data`, it should be [validated](#query-Query-arguments) by passing a [Standard Schema](https://standardschema.dev) as the first argument to `form`.
+
+### Fields
+
+A form is composed of a set of _fields_, which are defined by the schema. In the case of `createPost`, we have two fields, `title` and `content`, which are both strings. To get the attributes for a field, call its `.as(...)` method, specifying which [input type](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#input_types) to use:
+
+```svelte
+<form {...createPost}>
+	<label>
+		<h2>Title</h2>
+		+++<input {...createPost.fields.title.as('text')} />+++
+	</label>
+
+	<label>
+		<h2>Write your post</h2>
+		+++<textarea {...createPost.fields.content.as('text')}></textarea>+++
+	</label>
+
+	<button>Publish!</button>
+</form>
+```
+
+These attributes allow SvelteKit to set the correct input type, set a `name` that is used to construct the `data` passed to the handler, populate the `value` of the form (for example following a failed submission, to save the user having to re-enter everything), and set the [`aria-invalid`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-invalid) state.
+
+> [!NOTE] The generated `name` attribute uses JS object notation (e.g. `nested.array[0].value`). String keys that require quotes such as `object['nested-array'][0].value` are not supported. Under the hood, boolean checkbox and number field names are prefixed with `b:` and `n:`, respectively, to signal SvelteKit to coerce the values from strings prior to validation.
+
+Fields can be nested in objects and arrays, and their values can be strings, numbers, booleans or `File` objects. For example, if your schema looked like this...
+
+```js
+/// file: data.remote.js
+import * as v from 'valibot';
+import { form } from '$app/server';
+// ---cut---
+const datingProfile = v.object({
+	name: v.string(),
+	photo: v.file(),
+	info: v.object({
+		height: v.number(),
+		likesDogs: v.optional(v.boolean(), false)
+	}),
+	attributes: v.array(v.string())
+});
+
+export const createProfile = form(datingProfile, (data) => { /* ... */ });
+```
+
+...your form could look like this:
+
+```svelte
+<script>
+	import { createProfile } from './data.remote';
+
+	const { name, photo, info, attributes } = createProfile.fields;
+</script>
+
+<form {...createProfile} enctype="multipart/form-data">
+	<label>
+		<input {...name.as('text')} /> Name
+	</label>
+
+	<label>
+		<input {...photo.as('file')} /> Photo
+	</label>
+
+	<label>
+		<input {...info.height.as('number')} /> Height (cm)
+	</label>
+
+	<label>
+		<input {...info.likesDogs.as('checkbox')} /> I like dogs
+	</label>
+
+	<h2>My best attributes</h2>
+	<input {...attributes[0].as('text')} />
+	<input {...attributes[1].as('text')} />
+	<input {...attributes[2].as('text')} />
+
+	<button>submit</button>
+</form>
+```
+
+Because our form contains a `file` input, we've added an `enctype="multipart/form-data"` attribute. The values for `info.height` and `info.likesDogs` are coerced to a number and a boolean respectively.
+
+> [!NOTE] If a `checkbox` input is unchecked, the value is not included in the [`FormData`](https://developer.mozilla.org/en-US/docs/Web/API/FormData) object that SvelteKit constructs the data from. As such, we have to make the value optional in our schema. In Valibot that means using `v.optional(v.boolean(), false)` instead of just `v.boolean()`, whereas in Zod it would mean using `z.coerce.boolean<boolean>()`.
+
+In the case of `radio` and `checkbox` inputs that all belong to the same field, the `value` must be specified as a second argument to `.as(...)`:
+
+```js
+/// file: data.remote.js
+import * as v from 'valibot';
+import { form } from '$app/server';
+// ---cut---
+export const operatingSystems = /** @type {const} */ (['windows', 'mac', 'linux']);
+export const languages = /** @type {const} */ (['html', 'css', 'js']);
+
+export const survey = form(
+	v.object({
+		operatingSystem: v.picklist(operatingSystems),
+		languages: v.optional(v.array(v.picklist(languages)), []),
+	}),
+	(data) => { /* ... */ },
+);
+```
+
+```svelte
+<form {...survey}>
+	<h2>Which operating system do you use?</h2>
+
+	{#each operatingSystems as os}
+		<label>
+			<input {...survey.fields.operatingSystem.as('radio', os)}>
+			{os}
+		</label>
+	{/each}
+
+	<h2>Which languages do you write code in?</h2>
+
+	{#each languages as language}
+		<label>
+			<input {...survey.fields.languages.as('checkbox', language)}>
+			{language}
+		</label>
+	{/each}
+
+	<button>submit</button>
+</form>
+```
+
+Alternatively, you could use `select` and `select multiple`:
+
+```svelte
+<form {...survey}>
+	<h2>Which operating system do you use?</h2>
+
+	<select {...survey.fields.operatingSystem.as('select')}>
+		{#each operatingSystems as os}
+			<option>{os}</option>
+		{/each}
+	</select>
+
+	<h2>Which languages do you write code in?</h2>
+
+	<select {...survey.fields.languages.as('select multiple')}>
+		{#each languages as language}
+			<option>{language}</option>
+		{/each}
+	</select>
+
+	<button>submit</button>
+</form>
+```
+
+> [!NOTE] As with unchecked `checkbox` inputs, if no selections are made then the data will be `undefined`. For this reason, the `languages` field uses `v.optional(v.array(...), [])` rather than just `v.array(...)`.
+
+### Programmatic validation
+
+In addition to declarative schema validation, you can programmatically mark fields as invalid inside the form handler using the `invalid` helper from `@sveltejs/kit`. This is useful for cases where you can't know if something is valid until you try to perform some action.
+
+- It throws just like `redirect` or `error`
+- It accepts multiple arguments that can be strings (for issues relating to the form as a whole — these will only show up in `fields.allIssues()`) or standard-schema-compliant issues (for those relating to a specific field). Use the `issue` parameter for type-safe creation of such issues:
+
+```js
+/// file: src/routes/shop/data.remote.js
+import * as v from 'valibot';
+import { invalid } from '@sveltejs/kit';
+import { form } from '$app/server';
+import * as db from '$lib/server/database';
+
+export const buyHotcakes = form(
+	v.object({
+		qty: v.pipe(
+			v.number(),
+			v.minValue(1, 'you must buy at least one hotcake')
+		)
+	}),
+	async (data, issue) => {
+		try {
+			await db.buy(data.qty);
+		} catch (e) {
+			if (e.code === 'OUT_OF_STOCK') {
+				invalid(
+					issue.qty(`we don't have enough hotcakes`)
+				);
+			}
+		}
+	}
+);
+```
+
+### Validation
+
+If the submitted data doesn't pass the schema, the callback will not run. Instead, each invalid field's `issues()` method will return an array of `{ message: string }` objects, and the `aria-invalid` attribute (returned from `as(...)`) will be set to `true`:
+
+```svelte
+<form {...createPost}>
+	<label>
+		<h2>Title</h2>
+
++++		{#each createPost.fields.title.issues() as issue}
+			<p class="issue">{issue.message}</p>
+		{/each}+++
+
+		<input {...createPost.fields.title.as('text')} />
+	</label>
+
+	<label>
+		<h2>Write your post</h2>
+
++++		{#each createPost.fields.content.issues() as issue}
+			<p class="issue">{issue.message}</p>
+		{/each}+++
+
+		<textarea {...createPost.fields.content.as('text')}></textarea>
+	</label>
+
+	<button>Publish!</button>
+</form>
+```
+
+You don't need to wait until the form is submitted to validate the data — you can call `validate()` programmatically, for example in an `oninput` callback (which will validate the data on every keystroke) or an `onchange` callback:
+
+```svelte
+<form {...createPost} oninput={() => createPost.validate()}>
+	<!-- -->
+</form>
+```
+
+By default, issues will be ignored if they belong to form controls that haven't yet been interacted with. To validate _all_ inputs, call `validate({ includeUntouched: true })`.
+
+For client-side validation, you can specify a _preflight_ schema which will populate `issues()` and prevent data being sent to the server if the data doesn't validate:
+
+```svelte
+<script>
+	import * as v from 'valibot';
+	import { createPost } from '../data.remote';
+
+	const schema = v.object({
+		title: v.pipe(v.string(), v.nonEmpty()),
+		content: v.pipe(v.string(), v.nonEmpty())
+	});
+</script>
+
+<h1>Create a new post</h1>
+
+<form {...+++createPost.preflight(schema)+++}>
+	<!-- -->
+</form>
+```
+
+> [!NOTE] The preflight schema can be the same object as your server-side schema, if appropriate, though it won't be able to do server-side checks like 'this value already exists in the database'. Note that you cannot export a schema from a `.remote.ts` or `.remote.js` file, so the schema must either be exported from a shared module, or from a `<script module>` block in the component containing the `<form>`.
+
+To get a list of _all_ issues, rather than just those belonging to a single field, you can use the `fields.allIssues()` method:
+
+```svelte
+{#each createPost.fields.allIssues() as issue}
+	<p>{issue.message}</p>
+{/each}
+```
+
+### Getting/setting inputs
+
+Each field has a `value()` method that reflects its current value. As the user interacts with the form, it is automatically updated:
+
+```svelte
+<form {...createPost}>
+	<!-- -->
+</form>
+
+<div class="preview">
+	<h2>{createPost.fields.title.value()}</h2>
+	<div>{@html render(createPost.fields.content.value())}</div>
+</div>
+```
+
+Alternatively, `createPost.fields.value()` would return a `{ title, content }` object.
+
+You can update a field (or a collection of fields) via the `set(...)` method:
+
+```svelte
+<script>
+	import { createPost } from '../data.remote';
+
+	// this...
+	createPost.fields.set({
+		title: 'My new blog post',
+		content: 'Lorem ipsum dolor sit amet...'
+	});
+
+	// ...is equivalent to this:
+	createPost.fields.title.set('My new blog post');
+	createPost.fields.content.set('Lorem ipsum dolor sit amet');
+</script>
+```
+
+### Handling sensitive data
+
+In the case of a non-progressively-enhanced form submission (i.e. where JavaScript is unavailable, for whatever reason) `value()` is also populated if the submitted data is invalid, so that the user does not need to fill the entire form out from scratch.
+
+You can prevent sensitive data (such as passwords and credit card numbers) from being sent back to the user by using a name with a leading underscore:
+
+```svelte
+<form {...register}>
+	<label>
+		Username
+		<input {...register.fields.username.as('text')} />
+	</label>
+
+	<label>
+		Password
+		<input +++{...register.fields._password.as('password')}+++ />
+	</label>
+
+	<button>Sign up!</button>
+</form>
+```
+
+In this example, if the data does not validate, only the first `<input>` will be populated when the page reloads.
+
+### Single-flight mutations
+
+By default, all queries used on the page (along with any `load` functions) are automatically refreshed following a successful form submission. This ensures that everything is up-to-date, but it's also inefficient: many queries will be unchanged, and it requires a second trip to the server to get the updated data.
+
+Instead, we can specify which queries should be refreshed in response to a particular form submission. This is called a _single-flight mutation_, and there are two ways to achieve it. The first is to refresh the query on the server, inside the form handler:
+
+```js
+import * as v from 'valibot';
+import { error, redirect } from '@sveltejs/kit';
+import { query, form } from '$app/server';
+const slug = '';
+const post = { id: '' };
+/** @type {any} */
+const externalApi = '';
+// ---cut---
+export const getPosts = query(async () => { /* ... */ });
+
+export const getPost = query(v.string(), async (slug) => { /* ... */ });
+
+export const createPost = form(
+	v.object({/* ... */}),
+	async (data) => {
+		// form logic goes here...
+
+		// Refresh `getPosts()` on the server, and send
+		// the data back with the result of `createPost`
+		+++await getPosts().refresh();+++
+
+		// Redirect to the newly created page
+		redirect(303, `/blog/${slug}`);
+	}
+);
+
+export const updatePost = form(
+	v.object({/* ... */}),
+	async (data) => {
+		// form logic goes here...
+		const result = externalApi.update(post);
+
+		// The API already gives us the updated post,
+		// no need to refresh it, we can set it directly
+		+++await getPost(post.id).set(result);+++
+	}
+);
+```
+
+The second is to drive the single-flight mutation from the client, which we'll see in the section on [`enhance`](#form-enhance).
+
+### Returns and redirects
+
+The example above uses [`redirect(...)`](@sveltejs-kit#redirect), which sends the user to the newly created page. Alternatively, the callback could return data, in which case it would be available as `createPost.result`:
+
+```ts
+/// file: src/routes/blog/data.remote.js
+// @filename: ambient.d.ts
+declare module '$lib/server/database' {
+	export function sql(strings: TemplateStringsArray, ...values: any[]): Promise<any[]>;
+}
+
+declare module '$lib/server/auth' {
+	interface User {
+		name: string;
+	}
+
+	/**
+	 * Gets a user's info from their cookies, using `getRequestEvent`
+	 */
+	export function getUser(): Promise<User | null>;
+}
+// @filename: index.js
+import * as v from 'valibot';
+import { error, redirect } from '@sveltejs/kit';
+import { query, form } from '$app/server';
+import * as db from '$lib/server/database';
+import * as auth from '$lib/server/auth';
+
+export const getPosts = query(async () => { /* ... */ });
+
+export const getPost = query(v.string(), async (slug) => { /* ... */ });
+
+// ---cut---
+export const createPost = form(
+	v.object({/* ... */}),
+	async (data) => {
+		// ...
+
+		return { success: true };
+	}
+);
+```
+
+```svelte
+<!--- file: src/routes/blog/new/+page.svelte --->
+<script>
+	import { createPost } from '../data.remote';
+</script>
+
+<h1>Create a new post</h1>
+
+<form {...createPost}>
+	<!-- -->
+</form>
+
+{#if createPost.result?.success}
+	<p>Successfully published!</p>
+{/if}
+```
+
+This value is _ephemeral_ — it will vanish if you resubmit, navigate away, or reload the page.
+
+> [!NOTE] The `result` value need not indicate success — it can also contain validation errors, along with any data that should repopulate the form on page reload.
+
+If an error occurs during submission, the nearest `+error.svelte` page will be rendered.
+
+### enhance
+
+We can customize what happens when the form is submitted with the `enhance` method:
+
+```svelte
+<!--- file: src/routes/blog/new/+page.svelte --->
+<script>
+	import { createPost } from '../data.remote';
+	import { showToast } from '$lib/toast';
+</script>
+
+<h1>Create a new post</h1>
+
+<form {...createPost.enhance(async ({ form, data, submit }) => {
+	try {
+		await submit();
+		form.reset();
+
+		showToast('Successfully published!');
+	} catch (error) {
+		showToast('Oh no! Something went wrong');
+	}
+})}>
+	<!-- -->
+</form>
+```
+
+> When using `enhance`, the `<form>` is not automatically reset — you must call `form.reset()` if you want to clear the inputs.
+
+The callback receives the `form` element, the `data` it contains, and a `submit` function.
+
+To enable client-driven [single-flight mutations](#form-Single-flight-mutations), use `submit().updates(...)`. For example, if the `getPosts()` query was used on this page, we could refresh it like so:
+
+```ts
+import type { RemoteQuery, RemoteQueryOverride } from '@sveltejs/kit';
+interface Post {}
+declare function submit(): Promise<any> & {
+	updates(...queries: Array<RemoteQuery<any> | RemoteQueryOverride>): Promise<any>;
+}
+
+declare function getPosts(): RemoteQuery<Post[]>;
+// ---cut---
+await submit().updates(getPosts());
+```
+
+We can also _override_ the current data while the submission is ongoing:
+
+```ts
+import type { RemoteQuery, RemoteQueryOverride } from '@sveltejs/kit';
+interface Post {}
+declare function submit(): Promise<any> & {
+	updates(...queries: Array<RemoteQuery<any> | RemoteQueryOverride>): Promise<any>;
+}
+
+declare function getPosts(): RemoteQuery<Post[]>;
+declare const newPost: Post;
+// ---cut---
+await submit().updates(
+	getPosts().withOverride((posts) => [newPost, ...posts])
+);
+```
+
+The override will be applied immediately, and released when the submission completes (or fails).
+
+### Multiple instances of a form
+
+Some forms may be repeated as part of a list. In this case you can create separate instances of a form function via `for(id)` to achieve isolation.
+
+```svelte
+<!--- file: src/routes/todos/+page.svelte --->
+<script>
+	import { getTodos, modifyTodo } from '../data.remote';
+</script>
+
+<h1>Todos</h1>
+
+{#each await getTodos() as todo}
+	{@const modify = modifyTodo.for(todo.id)}
+	<form {...modify}>
+		<!-- -->
+		<button disabled={!!modify.pending}>save changes</button>
+	</form>
+{/each}
+```
+
+### Multiple submit buttons
+
+It's possible for a `<form>` to have multiple submit buttons. For example, you might have a single form that allows you to log in or register depending on which button was clicked.
+
+To accomplish this, add a field to your schema for the button value, and use `as('submit', value)` to bind it:
+
+```svelte
+<!--- file: src/routes/login/+page.svelte --->
+<script>
+	import { loginOrRegister } from '$lib/auth';
+</script>
+
+<form {...loginOrRegister}>
+	<label>
+		Your username
+		<input {...loginOrRegister.fields.username.as('text')} />
+	</label>
+
+	<label>
+		Your password
+		<input {...loginOrRegister.fields._password.as('password')} />
+	</label>
+
+	<button {...loginOrRegister.fields.action.as('submit', 'login')}>login</button>
+	<button {...loginOrRegister.fields.action.as('submit', 'register')}>register</button>
+</form>
+```
+
+In your form handler, you can check which button was clicked:
+
+```js
+/// file: $lib/auth.js
+import * as v from 'valibot';
+import { form } from '$app/server';
+
+export const loginOrRegister = form(
+	v.object({
+		username: v.string(),
+		_password: v.string(),
+		action: v.picklist(['login', 'register'])
+	}),
+	async ({ username, _password, action }) => {
+		if (action === 'login') {
+			// handle login
+		} else {
+			// handle registration
+		}
+	}
+);
+```
+
+## command
+
+The `command` function, like `form`, allows you to write data to the server. Unlike `form`, it's not specific to an element and can be called from anywhere.
+
+> [!NOTE] Prefer `form` where possible, since it gracefully degrades if JavaScript is disabled or fails to load.
+
+As with `query` and `form`, if the function accepts an argument, it should be [validated](#query-Query-arguments) by passing a [Standard Schema](https://standardschema.dev) as the first argument to `command`.
+
+```ts
+/// file: likes.remote.js
+// @filename: ambient.d.ts
+declare module '$lib/server/database' {
+	export function sql(strings: TemplateStringsArray, ...values: any[]): Promise<any[]>;
+}
+// @filename: index.js
+// ---cut---
+import * as v from 'valibot';
+import { query, command } from '$app/server';
+import * as db from '$lib/server/database';
+
+export const getLikes = query(v.string(), async (id) => {
+	const [row] = await db.sql`
+		SELECT likes
+		FROM item
+		WHERE id = ${id}
+	`;
+
+	return row.likes;
+});
+
+export const addLike = command(v.string(), async (id) => {
+	await db.sql`
+		UPDATE item
+		SET likes = likes + 1
+		WHERE id = ${id}
+	`;
+});
+```
+
+Now simply call `addLike`, from (for example) an event handler:
+
+```svelte
+<!--- file: +page.svelte --->
+<script>
+	import { getLikes, addLike } from './likes.remote';
+	import { showToast } from '$lib/toast';
+
+	let { item } = $props();
+</script>
+
+<button
+	onclick={async () => {
+		try {
+			await addLike(item.id);
+		} catch (error) {
+			showToast('Something went wrong!');
+		}
+	}}
+>
+	add like
+</button>
+
+<p>likes: {await getLikes(item.id)}</p>
+```
+
+> [!NOTE] Commands cannot be called during render.
+
+### Updating queries
+
+To update `getLikes(item.id)`, or any other query, we need to tell SvelteKit _which_ queries need to be refreshed (unlike `form`, which by default invalidates everything, to approximate the behaviour of a native form submission).
+
+We either do that inside the command itself...
+
+```js
+/// file: likes.remote.js
+// @filename: ambient.d.ts
+declare module '$lib/server/database' {
+	export function sql(strings: TemplateStringsArray, ...values: any[]): Promise<any[]>;
+}
+// @filename: index.js
+// ---cut---
+import * as v from 'valibot';
+import { query, command } from '$app/server';
+import * as db from '$lib/server/database';
+// ---cut---
+export const getLikes = query(v.string(), async (id) => { /* ... */ });
+
+export const addLike = command(v.string(), async (id) => {
+	await db.sql`
+		UPDATE item
+		SET likes = likes + 1
+		WHERE id = ${id}
+	`;
+
+	+++getLikes(id).refresh();+++
+	// Just like within form functions you can also do
+	// getLikes(id).set(...)
+	// in case you have the result already
+});
+```
+
+...or when we call it:
+
+```ts
+import { RemoteCommand, RemoteQueryFunction } from '@sveltejs/kit';
+
+interface Item { id: string }
+
+declare const addLike: RemoteCommand<string, void>;
+declare const getLikes: RemoteQueryFunction<string, number>;
+declare function showToast(message: string): void;
+declare const item: Item;
+// ---cut---
+try {
+	await addLike(item.id).+++updates(getLikes(item.id))+++;
+} catch (error) {
+	showToast('Something went wrong!');
+}
+```
+
+As before, we can use `withOverride` for optimistic updates:
+
+```ts
+import { RemoteCommand, RemoteQueryFunction } from '@sveltejs/kit';
+
+interface Item { id: string }
+
+declare const addLike: RemoteCommand<string, void>;
+declare const getLikes: RemoteQueryFunction<string, number>;
+declare function showToast(message: string): void;
+declare const item: Item;
+// ---cut---
+try {
+	await addLike(item.id).updates(
+		getLikes(item.id).+++withOverride((n) => n + 1)+++
+	);
+} catch (error) {
+	showToast('Something went wrong!');
+}
+```
+
+## prerender
+
+The `prerender` function is similar to `query`, except that it will be invoked at build time to prerender the result. Use this for data that changes at most once per redeployment.
+
+```js
+/// file: src/routes/blog/data.remote.js
+// @filename: ambient.d.ts
+declare module '$lib/server/database' {
+	export function sql(strings: TemplateStringsArray, ...values: any[]): Promise<any[]>;
+}
+// @filename: index.js
+// ---cut---
+import { prerender } from '$app/server';
+import * as db from '$lib/server/database';
+
+export const getPosts = prerender(async () => {
+	const posts = await db.sql`
+		SELECT title, slug
+		FROM post
+		ORDER BY published_at
+		DESC
+	`;
+
+	return posts;
+});
+```
+
+You can use `prerender` functions on pages that are otherwise dynamic, allowing for partial prerendering of your data. This results in very fast navigation, since prerendered data can live on a CDN along with your other static assets.
+
+In the browser, prerendered data is saved using the [`Cache`](https://developer.mozilla.org/en-US/docs/Web/API/Cache) API. This cache survives page reloads, and will be cleared when the user first visits a new deployment of your app.
+
+> [!NOTE] When the entire page has `export const prerender = true`, you cannot use queries, as they are dynamic.
+
+### Prerender arguments
+
+As with queries, prerender functions can accept an argument, which should be [validated](#query-Query-arguments) with a [Standard Schema](https://standardschema.dev/):
+
+```js
+/// file: src/routes/blog/data.remote.js
+// @filename: ambient.d.ts
+declare module '$lib/server/database' {
+	export function sql(strings: TemplateStringsArray, ...values: any[]): Promise<any[]>;
+}
+// @filename: index.js
+// ---cut---
+import * as v from 'valibot';
+import { error } from '@sveltejs/kit';
+import { prerender } from '$app/server';
+import * as db from '$lib/server/database';
+
+export const getPosts = prerender(async () => { /* ... */ });
+
+export const getPost = prerender(v.string(), async (slug) => {
+	const [post] = await db.sql`
+		SELECT * FROM post
+		WHERE slug = ${slug}
+	`;
+
+	if (!post) error(404, 'Not found');
+	return post;
+});
+```
+
+Any calls to `getPost(...)` found by SvelteKit's crawler while [prerendering pages](page-options#prerender) will be saved automatically, but you can also specify which values it should be called with using the `inputs` option:
+
+```js
+/// file: src/routes/blog/data.remote.js
+import * as v from 'valibot';
+import { prerender } from '$app/server';
+// ---cut---
+
+export const getPost = prerender(
+	v.string(),
+	async (slug) => { /* ... */ },
+	{
+		inputs: () => [
+			'first-post',
+			'second-post',
+			'third-post'
+		]
+	}
+);
+```
+
+By default, prerender functions are excluded from your server bundle, which means that you cannot call them with any arguments that were _not_ prerendered. You can set `dynamic: true` to change this behaviour:
+
+```js
+/// file: src/routes/blog/data.remote.js
+import * as v from 'valibot';
+import { prerender } from '$app/server';
+// ---cut---
+
+export const getPost = prerender(
+	v.string(),
+	async (slug) => { /* ... */ },
+	{
+		+++dynamic: true+++,
+		inputs: () => [
+			'first-post',
+			'second-post',
+			'third-post'
+		]
+	}
+);
+```
+
+## Handling validation errors
+
+As long as _you're_ not passing invalid data to your remote functions, there are only two reasons why the argument passed to a `command`, `query` or `prerender` function would fail validation:
+
+- the function signature changed between deployments, and some users are currently on an older version of your app
+- someone is trying to attack your site by poking your exposed endpoints with bad data
+
+In the second case, we don't want to give the attacker any help, so SvelteKit will generate a generic [400 Bad Request](https://http.dog/400) response. You can control the message by implementing the [`handleValidationError`](hooks#Server-hooks-handleValidationError) server hook, which, like [`handleError`](hooks#Shared-hooks-handleError), must return an [`App.Error`](errors#Type-safety) (which defaults to `{ message: string }`):
+
+```js
+/// file: src/hooks.server.ts
+/** @type {import('@sveltejs/kit').HandleValidationError} */
+export function handleValidationError({ event, issues }) {
+	return {
+		message: 'Nice try, hacker!'
+	};
+}
+```
+
+If you know what you're doing and want to opt out of validation, you can pass the string `'unchecked'` in place of a schema:
+
+```ts
+/// file: data.remote.ts
+import { query } from '$app/server';
+
+export const getStuff = query('unchecked', async ({ id }: { id: string }) => {
+	// the shape might not actually be what TypeScript thinks
+	// since bad actors might call this function with other arguments
+});
+```
+
+## Using `getRequestEvent`
+
+Inside `query`, `form` and `command` you can use [`getRequestEvent`]($app-server#getRequestEvent) to get the current [`RequestEvent`](@sveltejs-kit#RequestEvent) object. This makes it easy to build abstractions for interacting with cookies, for example:
+
+```ts
+/// file: user.remote.ts
+import { getRequestEvent, query } from '$app/server';
+import { findUser } from '$lib/server/database';
+
+export const getProfile = query(async () => {
+	const user = await getUser();
+
+	return {
+		name: user.name,
+		avatar: user.avatar
+	};
+});
+
+// this query could be called from multiple places, but
+// the function will only run once per request
+const getUser = query(async () => {
+	const { cookies } = getRequestEvent();
+
+	return await findUser(cookies.get('session_id'));
+});
+```
+
+Note that some properties of `RequestEvent` are different inside remote functions:
+
+- you cannot set headers (other than writing cookies, and then only inside `form` and `command` functions)
+- `route`, `params` and `url` relate to the page the remote function was called from, _not_ the URL of the endpoint SvelteKit creates for the remote function. Queries are not re-run when the user navigates (unless the argument to the query changes as a result of navigation), and so you should be mindful of how you use these values. In particular, never use them to determine whether or not a user is authorized to access certain data.
+
+## Redirects
+
+Inside `query`, `form` and `prerender` functions it is possible to use the [`redirect(...)`](@sveltejs-kit#redirect) function. It is *not* possible inside `command` functions, as you should avoid redirecting here. (If you absolutely have to, you can return a `{ redirect: location }` object and deal with it in the client.)
