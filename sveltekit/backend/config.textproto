@@ -1,0 +1,110 @@
+# Social Bro — TrailBase Record API Configuration
+#
+# Copy this file to traildepot/config.textproto after first TrailBase startup.
+# Or configure via admin UI at http://localhost:4000/_/admin/
+#
+# Access rules:
+#   _USER_.id  = authenticated user's ID
+#   _REQ_      = request body fields
+#   _ROW_      = existing row (for read/update/delete)
+
+# --- User-scoped tables (user can only access their own rows) ---
+
+record_apis: [
+  {
+    name: "api_keys"
+    table_name: "api_keys"
+    acl_authenticated: [READ, CREATE, UPDATE, DELETE]
+    create_access_rule: "_REQ_.user_id = _USER_.id"
+    read_access_rule: "_ROW_.user_id = _USER_.id"
+    update_access_rule: "_ROW_.user_id = _USER_.id"
+    delete_access_rule: "_ROW_.user_id = _USER_.id"
+    autofill_missing_user_id_column: true
+  },
+  {
+    name: "youtube_configs"
+    table_name: "youtube_configs"
+    acl_authenticated: [READ, CREATE, UPDATE]
+    conflict_resolution: REPLACE
+    create_access_rule: "_REQ_.user_id = _USER_.id"
+    read_access_rule: "_ROW_.user_id = _USER_.id"
+    update_access_rule: "_ROW_.user_id = _USER_.id"
+    autofill_missing_user_id_column: true
+  },
+  {
+    name: "user_settings"
+    table_name: "user_settings"
+    acl_authenticated: [READ, CREATE, UPDATE]
+    conflict_resolution: REPLACE
+    create_access_rule: "_REQ_.user_id = _USER_.id"
+    read_access_rule: "_ROW_.user_id = _USER_.id"
+    update_access_rule: "_ROW_.user_id = _USER_.id"
+    autofill_missing_user_id_column: true
+  },
+  {
+    name: "searches"
+    table_name: "searches"
+    acl_authenticated: [READ, CREATE, DELETE]
+    create_access_rule: "_REQ_.user_id = _USER_.id"
+    read_access_rule: "_ROW_.user_id = _USER_.id"
+    delete_access_rule: "_ROW_.user_id = _USER_.id"
+    autofill_missing_user_id_column: true
+  },
+  {
+    name: "search_results"
+    table_name: "search_results"
+    acl_authenticated: [READ, CREATE]
+    # Access controlled via parent search ownership
+  },
+  {
+    name: "saved_searches"
+    table_name: "saved_searches"
+    acl_authenticated: [READ, CREATE, DELETE]
+    create_access_rule: "_REQ_.user_id = _USER_.id"
+    read_access_rule: "_ROW_.user_id = _USER_.id"
+    delete_access_rule: "_ROW_.user_id = _USER_.id"
+    autofill_missing_user_id_column: true
+  },
+  {
+    name: "saved_search_results"
+    table_name: "saved_search_results"
+    acl_authenticated: [READ, CREATE]
+  },
+  {
+    name: "saved_items"
+    table_name: "saved_items"
+    acl_authenticated: [READ, CREATE, DELETE]
+    create_access_rule: "_REQ_.user_id = _USER_.id"
+    read_access_rule: "_ROW_.user_id = _USER_.id"
+    delete_access_rule: "_ROW_.user_id = _USER_.id"
+    autofill_missing_user_id_column: true
+  },
+  {
+    name: "repurpose_videos"
+    table_name: "repurpose_videos"
+    acl_authenticated: [READ, CREATE, DELETE]
+    create_access_rule: "_REQ_.user_id = _USER_.id"
+    read_access_rule: "_ROW_.user_id = _USER_.id"
+    delete_access_rule: "_ROW_.user_id = _USER_.id"
+    autofill_missing_user_id_column: true
+  },
+  {
+    name: "scripts"
+    table_name: "scripts"
+    acl_authenticated: [READ, CREATE, UPDATE, DELETE]
+    create_access_rule: "_REQ_.user_id = _USER_.id"
+    read_access_rule: "_ROW_.user_id = _USER_.id"
+    update_access_rule: "_ROW_.user_id = _USER_.id"
+    delete_access_rule: "_ROW_.user_id = _USER_.id"
+    autofill_missing_user_id_column: true
+  },
+
+  # --- Shared tables ---
+
+  {
+    name: "llm_models"
+    table_name: "llm_models"
+    acl_authenticated: [READ]
+    # Only writable via server-side sync route (Phase 4.8)
+  }
+]
