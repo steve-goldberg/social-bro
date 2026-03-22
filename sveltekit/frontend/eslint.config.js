@@ -27,6 +27,15 @@ export default ts.config(
 		}
 	},
 	{
+		files: [
+			'src/lib/components/data-table/**/*.svelte',
+			'src/lib/components/settings/**/*.svelte'
+		],
+		rules: {
+			'svelte/no-navigation-without-resolve': 'off'
+		}
+	},
+	{
 		ignores: ['build/', '.svelte-kit/', 'dist/']
 	}
 );

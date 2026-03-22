@@ -1,4 +1,3 @@
-<!-- eslint-disable svelte/no-navigation-without-resolve -->
 <script lang="ts">
 	import {
 		Dialog,
@@ -559,7 +558,6 @@
 																{step.description}
 															</p>
 															{#if step.link}
-																<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- external link -->
 																<a
 																	href={step.link.url}
 																	target="_blank"
@@ -711,7 +709,6 @@
 												{step.description}
 											</p>
 											{#if step.link}
-												<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- external link -->
 												<a
 													href={step.link.url}
 													target="_blank"
