@@ -2,7 +2,7 @@ import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { requireUserId } from '$lib/auth-utils';
 import { getTrailBaseClient } from '$lib/trailbase';
-import { getYouTubeTranscript } from '$lib/rapidapi';
+import { getYouTubeTranscriptFast } from '$lib/rapidapi';
 import { isApiError } from '$lib/errors';
 import { checkRateLimit, RATE_LIMITS } from '$lib/rate-limit';
 
@@ -106,7 +106,7 @@ export const POST: RequestHandler = async (event) => {
 		}
 
 		// Extract transcript
-		const result = await getYouTubeTranscript({
+		const result = await getYouTubeTranscriptFast({
 			userId,
 			videoUrl: repurposeVideo.url,
 			lang

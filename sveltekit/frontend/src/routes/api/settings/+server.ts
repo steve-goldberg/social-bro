@@ -55,7 +55,7 @@ export async function GET(event: RequestEvent) {
 			};
 		});
 
-		return json(response);
+		return json(response, { headers: { 'Cache-Control': 'private, max-age=300' } });
 	} catch (error) {
 		if (error instanceof Error && error.message === 'Unauthorized') {
 			return json({ error: 'Unauthorized' }, { status: 401 });

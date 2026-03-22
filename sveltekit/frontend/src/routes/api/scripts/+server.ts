@@ -39,7 +39,10 @@ export const GET: RequestHandler = async (event) => {
 			updatedAt: script.updated_at
 		}));
 
-		return json({ scripts: transformed });
+		return json(
+			{ scripts: transformed },
+			{ headers: { 'Cache-Control': 'private, max-age=300' } }
+		);
 	} catch (err) {
 		if (err instanceof Error && err.message === 'Unauthorized') {
 			return json({ error: 'Unauthorized' }, { status: 401 });

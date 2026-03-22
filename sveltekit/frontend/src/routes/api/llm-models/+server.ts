@@ -37,7 +37,8 @@ export async function GET(event: RequestEvent) {
 			updatedAt: m.updated_at
 		}));
 
-		return json({ models });
+		// Models rarely change, cache for 1 hour
+		return json({ models }, { headers: { 'Cache-Control': 'private, max-age=3600' } });
 	} catch (error) {
 		if (error instanceof Error && error.message === 'Unauthorized') {
 			return json({ error: 'Unauthorized' }, { status: 401 });

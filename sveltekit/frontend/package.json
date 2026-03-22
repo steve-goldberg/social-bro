@@ -17,7 +17,6 @@
 		"@lucide/svelte": "^0.577.0",
 		"bits-ui": "^1.0.0",
 		"clsx": "^2.1.1",
-		"googleapis": "^166.0.0",
 		"lru-cache": "^11.2.4",
 		"svelte-sonner": "^0.3.0",
 		"tailwind-merge": "^3.4.0",

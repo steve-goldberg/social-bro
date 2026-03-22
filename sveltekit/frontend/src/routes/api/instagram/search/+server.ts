@@ -3,6 +3,7 @@ import type { RequestHandler } from './$types';
 import { searchInstagram, getUserReels, transformReelsToTableData } from '$lib/rapidapi';
 import { requireUserId } from '$lib/auth-utils';
 import { isApiError } from '$lib/errors';
+import { checkRateLimit, RATE_LIMITS } from '$lib/rate-limit';
 
 export const GET: RequestHandler = async (event) => {
 	const query = event.url.searchParams.get('q');
@@ -13,6 +14,14 @@ export const GET: RequestHandler = async (event) => {
 
 	try {
 		const userId = await requireUserId(event);
+
+		const rateLimit = checkRateLimit(`instagram:${userId}`, RATE_LIMITS.search);
+		if (!rateLimit.success) {
+			return json(
+				{ error: 'Rate limit exceeded. Please try again later.' },
+				{ status: 429 }
+			);
+		}
 
 		// Search for users
 		const users = await searchInstagram({

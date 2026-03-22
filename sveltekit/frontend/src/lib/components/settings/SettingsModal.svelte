@@ -154,9 +154,9 @@
 				{
 					title: 'Subscribe to Transcript API',
 					description:
-						'Visit the YouTube Transcript3 page and subscribe to the free plan.',
+						'Visit the YouTube Transcribe page and subscribe to the free plan.',
 					link: {
-						url: 'https://rapidapi.com/solid-api-solid-api-default/api/youtube-transcript3/',
+						url: 'https://rapidapi.com/Reza-Rg/api/youtube-transcribe-fastest-youtube-transcriber/',
 						text: 'Transcript API'
 					}
 				},

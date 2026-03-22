@@ -2,7 +2,7 @@ import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { requireUserId } from '$lib/auth-utils';
 import { getTrailBaseClient } from '$lib/trailbase';
-import { getYouTubeTranscript } from '$lib/rapidapi';
+import { getYouTubeTranscriptFast } from '$lib/rapidapi';
 import { repurposeTranscript, type ProgressUpdate } from '$lib/repurpose';
 import { isApiError } from '$lib/errors';
 import { checkRateLimit, RATE_LIMITS } from '$lib/rate-limit';
@@ -168,7 +168,7 @@ async function handleStreamingRequest(event: Parameters<RequestHandler>[0]) {
 			// Get video title and transcript
 			const [videoTitle, transcriptResult] = await Promise.all([
 				getYouTubeTitle(url),
-				getYouTubeTranscript({ userId, videoUrl: url, lang })
+				getYouTubeTranscriptFast({ userId, videoUrl: url, lang })
 			]);
 
 			// Create script record
@@ -311,7 +311,7 @@ async function handleNonStreamingRequest(event: Parameters<RequestHandler>[0]) {
 		// Get video title and extract transcript in parallel
 		const [videoTitle, transcriptResult] = await Promise.all([
 			getYouTubeTitle(url),
-			getYouTubeTranscript({
+			getYouTubeTranscriptFast({
 				userId,
 				videoUrl: url,
 				lang
