@@ -2,6 +2,25 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## What This Project Is
+
+**Social Bro** is a multi-platform social media search and content repurposing tool. Users search YouTube, Instagram, and TikTok from a single interface, save results, extract video transcripts, and use AI (via OpenRouter) to repurpose transcripts into new written content with generated hooks.
+
+**What we're doing:** Migrating the entire stack from **Next.js + Prisma + PostgreSQL + NextAuth** to **SvelteKit + TrailBase (SQLite, auto-generated REST APIs, built-in auth) + shadcn-svelte UI**. The original app lives in `nextjs/` as a read-only reference. The new app is being built from scratch in `sveltekit/`.
+
+### Migration Architecture
+
+| Layer | Old (nextjs/) | New (sveltekit/) |
+|-------|--------------|-----------------|
+| Frontend | React + Next.js | SvelteKit (`sveltekit/frontend/`) |
+| UI library | Custom components + Sonner | shadcn-svelte + Sonner |
+| Backend/API | Next.js API routes | SvelteKit `+server.ts` routes + TrailBase record APIs |
+| Database | Prisma + PostgreSQL | TrailBase (SQLite, auto-CRUD) (`sveltekit/backend/`) |
+| Auth | NextAuth v5 (JWT, invite tokens) | TrailBase native auth |
+| API keys | Encrypted in Postgres via Prisma | Encrypted in SQLite via TrailBase |
+
+The migration plan is in `docs/plans/` — refer to it for phase-by-phase breakdown.
+
 ## Repository Structure — READ THIS FIRST
 
 ```
