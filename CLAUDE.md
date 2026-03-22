@@ -39,6 +39,10 @@ social-bro/
 2. **`frontend/` and `backend/` are where ALL code goes.** No exceptions.
 3. **Do not import from `docs/nextjs/`** into `frontend/`.
 
+### Original App Reference
+
+`ARCHITECTURE.md` documents the original Next.js app in detail: backend/frontend architecture, all 23 API routes, database schema, external API integrations, component structure, and state management patterns. Read it when you need to understand how a feature was originally implemented.
+
 ## Architecture
 
 ### Multi-Platform Search
