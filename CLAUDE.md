@@ -86,14 +86,16 @@ To rebuild the index after updating the docs: `node docs/build-doc-index.js docs
 - Local docs index: `docs/trailbase/INDEX.md` (start here for navigation)
 - GitHub releases (changelog): https://github.com/trailbaseio/trailbase/releases
 
-## UI Components
+### shadcn-svelte Docs (local — `docs/shadcn-svelte/`)
 
-This project uses **shadcn-svelte** for UI primitives. Before building custom components, check if a shadcn component exists.
+**IMPORTANT: Read the index first, then go directly to the specific file you need.**
 
-- Docs: https://shadcn-svelte.com/docs
-- LLM reference: https://shadcn-svelte.com/llms.txt
-- Install components: `npx shadcn-svelte@next add <component>`
-- Installed components live in `src/lib/components/ui/`
+1. **Start here**: `Read(file="docs/shadcn-svelte/INDEX.md")` — lists every doc file with descriptions.
+2. **Read a component doc**: `Read(file="docs/shadcn-svelte/components/<name>.md")` — e.g. `dialog.md`, `data-table.md`.
+3. **NEVER glob or grep across all docs/shadcn-svelte/ files** — the index tells you exactly which file to open.
+
+Install components: `npx shadcn-svelte@next add <component>`
+Installed components live in `src/lib/components/ui/`
 
 ## Code Quality
 
