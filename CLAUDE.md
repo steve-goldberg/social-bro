@@ -75,7 +75,7 @@ src/types/index.ts          # Shared TypeScript types
 
 ## TrailBase (Backend)
 
-- Local docs: `docs/trailbase/` (getting-started, documentation, reference, examples, OpenAPI schema)
+- Local docs index: `docs/trailbase/INDEX.md` (start here for navigation)
 - GitHub releases (changelog): https://github.com/trailbaseio/trailbase/releases
 
 ## UI Components
