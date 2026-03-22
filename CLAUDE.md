@@ -73,6 +73,11 @@ src/types/index.ts          # Shared TypeScript types
 
 - Svelte/SvelteKit/CLI LLM reference (full): https://svelte.dev/llms-full.txt
 
+## TrailBase (Backend)
+
+- Local docs: `docs/trailbase/` (getting-started, documentation, reference, examples, OpenAPI schema)
+- GitHub releases (changelog): https://github.com/trailbaseio/trailbase/releases
+
 ## UI Components
 
 This project uses **shadcn-svelte** for UI primitives. Before building custom components, check if a shadcn component exists.
