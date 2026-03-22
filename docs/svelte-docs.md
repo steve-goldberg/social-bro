@@ -1,3 +1,413 @@
+<!-- TOC:START -->
+# Document Index — Svelte & SvelteKit Reference
+
+> LLM INSTRUCTIONS:
+> 1. Read this index to find the section you need
+> 2. Use Read(file, offset=LINE_NUMBER, limit=100) to jump to that section
+> 3. For specific h2/h3 topics, use Grep(pattern="## topic", path=file)
+
+L  413 | # Start of Svelte documentation
+L  416 | # Overview
+L  445 | # Getting started
+    Alternatives to SvelteKit · Editor tooling · Getting help
+L  476 | # .svelte files
+    `<script>` · `<script module>` · `<style>`
+L  546 | # .svelte.js and .svelte.ts files
+L  555 | # What are runes?
+L  578 | # $state
+    `$state.raw` · `$state.snapshot` · Passing state into functions
+    Passing state across modules
+        (+2 sub-sections)
+L  909 | # $derived
+    `$derived.by` · Understanding dependencies · Overriding derived values
+    Deriveds and reactivity · Update propagation
+L 1020 | # $effect
+    `$effect.pre` · `$effect.tracking` · `$effect.root` · When not to use `$effect`
+        (+2 sub-sections)
+L 1349 | # $props
+    Fallback values · Renaming props · Rest props · Updating props · Type safety
+    `$props.id()`
+L 1570 | # $bindable
+L 1623 | # $inspect
+    $inspect(...).with · $inspect.trace(...)
+L 1683 | # $host
+L 1719 | # Basic markup
+    Tags · Element attributes · Component props · Events · Text expressions · Comments
+        (+1 sub-sections)
+L 1933 | # {#if ...}
+L 1972 | # {#each ...}
+    Keyed each blocks · Each blocks without an item · Else blocks
+L 2085 | # {#key ...}
+L 2108 | # {#await ...}
+L 2185 | # {#snippet ...}
+    Snippet scope · Passing snippets to components · Typing snippets · Exporting snippets
+    Programmatic snippets · Snippets and slots
+        (+4 sub-sections)
+L 2464 | # {@render ...}
+    Optional snippets
+L 2502 | # {@html ...}
+    Styling
+L 2552 | # {@const ...}
+L 2565 | # {@debug ...}
+L 2598 | # bind:
+    Function bindings · `<input bind:value>` · `<input bind:checked>` · `<input bind:group>`
+    `<input bind:files>` · `<select bind:value>` · `<audio>` · `<video>` · `<img>`
+    `<details bind:open>` · Contenteditable bindings · Dimensions · bind:this
+    bind:_property_ for components
+L 2961 | # use:
+    Typing
+L 3040 | # transition:
+    Local vs global · Built-in transitions · Transition parameters · Custom transition functions
+    Transition events
+L 3210 | # in: and out:
+L 3231 | # animate:
+    Animation Parameters · Custom animation functions
+L 3344 | # style:
+L 3384 | # class
+    Attributes · The `class:` directive
+        (+1 sub-sections)
+L 3485 | # Scoped styles
+    Specificity · Scoped keyframes
+L 3523 | # Global styles
+    :global(...) · :global
+L 3587 | # Custom properties
+L 3643 | # Nested <style> elements
+L 3663 | # <svelte:boundary>
+    Properties
+        (+2 sub-sections)
+L 3744 | # <svelte:window>
+L 3787 | # <svelte:document>
+L 3814 | # <svelte:body>
+L 3828 | # <svelte:head>
+L 3845 | # <svelte:element>
+L 3877 | # <svelte:options>
+L 3903 | # Stores
+    When to use stores · svelte/store · Store contract
+        (+5 sub-sections)
+L 4209 | # Context
+    Using context with state · Type-safe context · Replacing global state
+L 4346 | # Lifecycle hooks
+    `onMount` · `onDestroy` · `tick` · Deprecated: `beforeUpdate` / `afterUpdate`
+        (+1 sub-sections)
+L 4510 | # Imperative component API
+    `mount` · `unmount` · `render` · `hydrate`
+L 4592 | # Testing
+    Unit and integration testing using Vitest · E2E tests using Playwright
+        (+2 sub-sections)
+L 4877 | # TypeScript
+    `<script lang="ts">` · Preprocessor setup · tsconfig.json settings · Typing `$props`
+    Generic `$props` · Typing wrapper components · Typing `$state` · The `Component` type
+    Enhancing built-in DOM types
+        (+2 sub-sections)
+L 5172 | # Custom elements
+    Component lifecycle · Component options · Caveats and limitations
+L 5299 | # Svelte 4 migration guide
+    Minimum version requirements · Browser conditions for bundlers · Removal of CJS related output
+    Stricter types for Svelte functions · Custom Elements with Svelte
+    SvelteComponentTyped is deprecated · Transitions are local by default · Default slot bindings
+    Preprocessors · New eslint package · Other breaking changes
+L 5544 | # Svelte 5 migration guide
+    Reactivity syntax changes · Event changes · Snippets instead of slots · Migration script
+    Components are no longer classes · `<svelte:component>` is no longer necessary
+    Whitespace handling changed · Modern browser required · Changes to compiler options
+    The `children` prop is reserved · Breaking changes in runes mode · Other breaking changes
+        (+46 sub-sections)
+L 6520 | # Frequently asked questions
+    I'm new to Svelte. Where should I start? · Where can I get support?
+    Are there any third-party resources?
+    How can I get VS Code to syntax-highlight my .svelte files?
+    Is there a tool to automatically format my .svelte files? · How do I document my components?
+    Does Svelte scale? · Is there a UI component library? · How do I test Svelte apps?
+    Is there a router? · How do I write a mobile app with Svelte?
+    Can I tell Svelte not to remove my unused styles? · Is Svelte v2 still available?
+    How do I do hot module reloading?
+L 6649 | # svelte
+    SvelteComponent · SvelteComponentTyped · afterUpdate · beforeUpdate · createEventDispatcher
+    createRawSnippet · flushSync · getAllContexts · getContext · hasContext · hydrate · mount
+    onDestroy · onMount · setContext · tick · unmount · untrack · Component
+    ComponentConstructorOptions · ComponentEvents · ComponentInternals · ComponentProps
+    ComponentType · EventDispatcher · MountOptions · Snippet
+        (+1 sub-sections)
+L 7582 | # svelte/action
+    Action · ActionReturn
+L 7683 | # svelte/animate
+    flip · AnimationConfig · FlipParams
+L 7803 | # svelte/compiler
+    VERSION · compile · compileModule · migrate · parse · preprocess · walk · AST
+    CompileError · CompileOptions · CompileResult · MarkupPreprocessor · ModuleCompileOptions
+    Preprocessor · PreprocessorGroup · Processed · Warning
+L 9178 | # svelte/easing
+    backIn · backInOut · backOut · bounceIn · bounceInOut · bounceOut · circIn · circInOut
+    circOut · cubicIn · cubicInOut · cubicOut · elasticIn · elasticInOut · elasticOut
+    expoIn · expoInOut · expoOut · linear · quadIn · quadInOut · quadOut · quartIn
+    quartInOut · quartOut · quintIn · quintInOut · quintOut · sineIn · sineInOut · sineOut
+L 9587 | # svelte/events
+    on
+L 9683 | # svelte/legacy
+    asClassComponent · createBubbler · createClassComponent · handlers · nonpassive · once
+    passive · preventDefault · run · self · stopImmediatePropagation · stopPropagation
+    trusted · LegacyComponentType
+L 9983 | # svelte/motion
+    Spring · Tween · prefersReducedMotion · spring · tweened · Spring · Tweened
+L10426 | # svelte/reactivity/window
+    devicePixelRatio · innerHeight · innerWidth · online · outerHeight · outerWidth
+    screenLeft · screenTop · scrollX · scrollY
+L10658 | # svelte/reactivity
+    MediaQuery · SvelteDate · SvelteMap · SvelteSet · SvelteURL · SvelteURLSearchParams
+    createSubscriber
+L11051 | # svelte/server
+    render
+L11096 | # svelte/store
+    derived · fromStore · get · readable · readonly · toStore · writable · Readable
+    StartStopNotifier · Subscriber · Unsubscriber · Updater · Writable
+L11385 | # svelte/transition
+    blur · crossfade · draw · fade · fly · scale · slide · BlurParams · CrossfadeParams
+    DrawParams · EasingFunction · FadeParams · FlyParams · ScaleParams · SlideParams
+    TransitionConfig
+L11958 | # Compiler errors
+        (+168 sub-sections)
+L13060 | # Compiler warnings
+        (+78 sub-sections)
+L14039 | # Runtime errors
+    Client errors · Server errors · Shared errors
+        (+27 sub-sections)
+L14331 | # Runtime warnings
+    Client warnings · Shared warnings
+        (+16 sub-sections)
+L14600 | # Overview
+L14613 | # Reactive let/var declarations
+L14646 | # Reactive $: statements
+    Understanding dependencies · Browser-only code
+L14732 | # export let
+    Component exports · Renaming props
+L14803 | # $$props and $$restProps
+L14832 | # on:
+    Component events
+L14967 | # <slot>
+    Named slots · Fallback content · Passing data to slotted content
+L15086 | # $$slots
+L15112 | # <svelte:fragment>
+L15143 | # <svelte:component>
+L15155 | # <svelte:self>
+L15191 | # Imperative component API
+    Creating a component · `$set` · `$on` · `$destroy` · Component props
+    Server-side component API
+L15389 | # Start of SvelteKit documentation
+L15392 | # Introduction
+    Before we begin · What is SvelteKit? · What is Svelte? · SvelteKit vs Svelte
+L15418 | # Creating a project
+    Editor setup
+L15442 | # Project types
+    Default rendering · Static site generation · Single-page app · Multi-page app
+    Separate backend · Serverless app · Your own server · Container · Library · Offline app
+    Mobile app · Desktop app · Browser extension · Embedded device
+L15510 | # Project structure
+    Project files · Other files
+        (+8 sub-sections)
+L15601 | # Web standards
+    Fetch APIs · FormData · Stream APIs · URL APIs · Web Crypto
+        (+4 sub-sections)
+L15706 | # Routing
+    +page · +error · +layout · +server · $types · Other files · Further reading
+        (+9 sub-sections)
+L16144 | # Loading data
+    Page data · Layout data · page.data · Universal vs server · Using URL data
+    Making fetch requests · Cookies · Headers · Using parent data · Errors · Redirects
+    Streaming with promises · Parallel loading · Rerunning load functions
+    Implications for authentication · Using `getRequestEvent` · Further reading
+        (+10 sub-sections)
+L16931 | # Form actions
+    Default actions · Named actions · Anatomy of an action · Loading data
+    Progressive enhancement · Alternatives · GET vs POST · Further reading
+        (+5 sub-sections)
+L17456 | # Page options
+    prerender · entries · ssr · csr · trailingSlash · config · Further reading
+        (+4 sub-sections)
+L17679 | # State management
+    Avoid shared state on the server · No side-effects in load
+    Using state and stores with context · Component and page state is preserved
+    Storing state in the URL · Storing ephemeral state in snapshots
+L17858 | # Building your app
+    During the build · Preview your app
+L17887 | # Adapters
+    Using adapters · Platform-specific context
+L17933 | # Zero-config deployments
+    Environment-specific configuration · Adding community adapters
+L17954 | # Node servers
+    Usage · Deploying · Environment variables · Options · Graceful shutdown · Socket activation
+    Custom server
+        (+10 sub-sections)
+L18218 | # Static site generation
+    Usage · Zero-config support · Options · GitHub Pages
+        (+5 sub-sections)
+L18390 | # Single-page apps
+    Usage · Apache · Prerendering individual pages
+L18452 | # Cloudflare Pages
+    Comparisons · Usage · Options · Cloudflare Workers · Cloudflare Pages · Runtime APIs
+    Headers and redirects · Troubleshooting · Migrating from Workers Sites
+        (+16 sub-sections)
+L18680 | # Cloudflare Workers
+    Usage · Options · Basic Configuration · Runtime APIs · Troubleshooting
+        (+6 sub-sections)
+L18815 | # Netlify
+    Usage · Netlify Edge Functions · Netlify alternatives to SvelteKit functionality
+    Troubleshooting
+        (+6 sub-sections)
+L18936 | # Vercel
+    Usage · Deployment configuration · Image Optimization · Incremental Static Regeneration
+    Environment variables · Skew protection · Notes · Troubleshooting
+        (+6 sub-sections)
+L19134 | # Writing adapters
+L19193 | # Advanced routing
+    Rest parameters · Optional parameters · Matching · Sorting · Encoding · Advanced layouts
+    Further reading
+        (+6 sub-sections)
+L19482 | # Hooks
+    Server hooks · Shared hooks · Universal hooks · Further reading
+        (+7 sub-sections)
+L19826 | # Errors
+    Error objects · Expected errors · Unexpected errors · Responses · Type safety
+    Further reading
+L19978 | # Link options
+    data-sveltekit-preload-data · data-sveltekit-preload-code · data-sveltekit-reload
+    data-sveltekit-replacestate · data-sveltekit-keepfocus · data-sveltekit-noscroll
+    Disabling options
+L20106 | # Service workers
+    Inside the service worker · During development · Type safety · Other solutions · References
+L20259 | # Server-only modules
+    Private environment variables · Server-only utilities · Your modules · How it works
+    Further reading
+L20322 | # Snapshots
+L20355 | # Shallow routing
+    API · Loading data for a route · Caveats
+L20458 | # Packaging
+    Anatomy of a package.json · TypeScript · Best practices · Source maps · Options
+    Publishing · Caveats
+        (+6 sub-sections)
+L20724 | # Auth
+    Sessions vs tokens · Integration points · Guides
+L20746 | # Performance
+    Diagnosing issues · Optimizing assets · Reducing code size · Navigation · Hosting
+    Further reading
+        (+11 sub-sections)
+L20847 | # Icons
+    CSS · Svelte
+L20857 | # Images
+    Vite's built-in handling · @sveltejs/enhanced-img · Loading images dynamically from a CDN
+    Best practices
+        (+6 sub-sections)
+L21020 | # Accessibility
+    Route announcements · Focus management · The "lang" attribute · Further reading
+L21108 | # SEO
+    Out of the box · Manual setup
+        (+6 sub-sections)
+L21257 | # Frequently asked questions
+    Other resources · What can I make with SvelteKit?
+    How do I include details from package.json in my application?
+    How do I fix the error I'm getting trying to include a package?
+    How do I use the view transitions API? · How do I set up a database?
+    How do I use a client-side library accessing `document` or `window`?
+    How do I use a different backend API server? · How do I use middleware? · How do I use Yarn?
+        (+3 sub-sections)
+L21476 | # Integrations
+    `vitePreprocess` · Adders · Directory · Additional integrations · Vite plugins
+    Integration FAQs
+        (+1 sub-sections)
+L21527 | # Breakpoint Debugging
+    Visual Studio Code · Other Editors · Google Chrome and Microsoft Edge Developer Tools
+    References
+        (+1 sub-sections)
+L21594 | # Migrating to SvelteKit v2
+    `redirect` and `error` are no longer thrown by you · path is required when setting cookies
+    Top-level promises are no longer awaited · goto(...) changes
+    paths are now relative by default · Server fetches are not trackable anymore
+    `preloadCode` arguments must be prefixed with `base` · `resolvePath` has been removed
+    Improved error handling · Dynamic environment variables cannot be used during prerendering
+    `form` and `data` have been removed from `use:enhance` callbacks
+    Forms containing file inputs must use `multipart/form-data`
+    Generated `tsconfig.json` is more strict · `getRequest` no longer throws errors
+    `vitePreprocess` is no longer exported from `@sveltejs/kit/vite`
+    Updated dependency requirements · SvelteKit 2.12: $app/stores deprecated
+L21786 | # Migrating from Sapper
+    package.json · Project files · Pages and layouts · Endpoints · Integrations
+        (+19 sub-sections)
+L21983 | # Additional resources
+    FAQs · Examples · Support
+L22005 | # Glossary
+    CSR · Edge · Hydration · ISR · MPA · Prerendering · PWA · Routing · SPA · SSG · SSR
+L22071 | # @sveltejs/kit
+    Server · VERSION · error · fail · isActionFailure · isHttpError · isRedirect · json
+    normalizeUrl · redirect · text · Action · ActionFailure · ActionResult · Actions
+    Adapter · AfterNavigate · AwaitedActions · BeforeNavigate · Builder · ClientInit · Config
+    Cookies · Emulator · Handle · HandleClientError · HandleFetch · HandleServerError
+    HttpError · KitConfig · LessThan · Load · LoadEvent · LoadProperties · Navigation
+    NavigationEvent · NavigationTarget · NavigationType · NumericRange · OnNavigate · Page
+    ParamMatcher · PrerenderOption · Redirect · RequestEvent · RequestHandler · Reroute
+    ResolveOptions · RouteDefinition · SSRManifest · ServerInit · ServerInitOptions
+    ServerLoad · ServerLoadEvent · Snapshot · SubmitFunction · Transport · Transporter
+    Private types · AdapterEntry · Csp · CspDirectives · HttpMethod · Logger · MaybePromise
+    PrerenderEntryGeneratorMismatchHandler · PrerenderEntryGeneratorMismatchHandlerValue
+    PrerenderHttpErrorHandler · PrerenderHttpErrorHandlerValue · PrerenderMap
+    PrerenderMissingIdHandler · PrerenderMissingIdHandlerValue · PrerenderOption · Prerendered
+    RequestOptions · RouteSegment · TrailingSlash
+L25635 | # @sveltejs/kit/hooks
+    sequence
+L25722 | # @sveltejs/kit/node/polyfills
+    installPolyfills
+L25743 | # @sveltejs/kit/node
+    createReadableStream · getRequest · setResponse
+L25807 | # @sveltejs/kit/vite
+    sveltekit
+L25826 | # $app/environment
+    browser · building · dev · version
+L25887 | # $app/forms
+    applyAction · deserialize · enhance
+L25993 | # $app/navigation
+    afterNavigate · beforeNavigate · disableScrollHandling · goto · invalidate · invalidateAll
+    onNavigate · preloadCode · preloadData · pushState · replaceState
+L26253 | # $app/paths
+    assets · base · resolveRoute
+L26324 | # $app/server
+    getRequestEvent · read
+L26383 | # $app/state
+    navigating · page · updated
+L26482 | # $app/stores
+    getStores · navigating · page · updated
+L26583 | # $env/dynamic/private
+L26598 | # $env/dynamic/public
+L26611 | # $env/static/private
+L26633 | # $env/static/public
+L26643 | # $lib
+L26661 | # $service-worker
+    base · build · files · prerendered · version
+L26741 | # Configuration
+    Config · KitConfig · adapter · alias · appDir · csp · csrf · embedded · env · files
+    inlineStyleThreshold · moduleExtensions · outDir · output · paths · prerender · router
+    serviceWorker · typescript · version
+L28035 | # Command Line Interface
+    svelte-kit sync
+L28049 | # Types
+    Generated types · $lib · app.d.ts · Error · Locals · PageData · PageState · Platform
+        (+2 sub-sections)
+L28321 | # Start of the Svelte CLI documentation
+L28324 | # Overview
+    Usage · Acknowledgements
+L28342 | # Frequently asked questions
+    How do I run the `sv` CLI? · `npx sv` is not working
+L28364 | # sv create
+    Usage · Options
+        (+6 sub-sections)
+L28427 | # sv add
+    Usage · Options · Official add-ons
+L28466 | # sv check
+    Installation · Usage · Options · Troubleshooting · Machine-readable output · Credits · FAQ
+        (+12 sub-sections)
+L28626 | # sv migrate
+    Usage · Migrations
+        (+7 sub-sections)
+
+<!-- TOC:END -->
+
 <SYSTEM>This is the full developer documentation for Svelte and SvelteKit.</SYSTEM>
 
 # Start of Svelte documentation
