@@ -1,0 +1,10 @@
+var R=require("../../../chunks/[turbopack]_runtime.js")("server/app/api/llm-models/route.js")
+R.c("server/chunks/[root-of-the-server]__59fffa90._.js")
+R.c("server/chunks/node_modules_next_081e4be7._.js")
+R.c("server/chunks/node_modules_@auth_core_36df0127._.js")
+R.c("server/chunks/node_modules_jose_dist_webapi_868b124b._.js")
+R.c("server/chunks/node_modules_b0f1850b._.js")
+R.c("server/chunks/[root-of-the-server]__71781a22._.js")
+R.c("server/chunks/_next-internal_server_app_api_llm-models_route_actions_e3fbbd7a.js")
+R.m("[project]/node_modules/next/dist/esm/build/templates/app-route.js { INNER_APP_ROUTE => \"[project]/src/app/api/llm-models/route.ts [app-route] (ecmascript)\" } [app-route] (ecmascript)")
+module.exports=R.m("[project]/node_modules/next/dist/esm/build/templates/app-route.js { INNER_APP_ROUTE => \"[project]/src/app/api/llm-models/route.ts [app-route] (ecmascript)\" } [app-route] (ecmascript)").exports
