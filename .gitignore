@@ -48,3 +48,4 @@ sveltekit/backend/*.png
 sveltekit/backend/*.yaml
 
 /src/generated/prisma
+.playwright/
