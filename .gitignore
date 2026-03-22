@@ -41,4 +41,11 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# playwright-cli artifacts
+.playwright-cli/
+# playwright screenshots and snapshots (generated during testing)
+sveltekit/backend/*.png
+sveltekit/backend/*.yaml
+
 /src/generated/prisma
+.playwright/
