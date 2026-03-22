@@ -13,24 +13,17 @@ export const GET: RequestHandler = async (event) => {
 
 		const client = getTrailBaseClient();
 
-		const videos = await client
-			.records('repurpose_videos')
-			.list({
-				filters: [`user_id = '${userId}'`],
-				order: ['-saved_at'],
-				limit,
-				offset,
-			}) as Record<string, unknown>[];
+		const response = await client.records<Record<string, unknown>>('repurpose_videos').list({
+			filters: [{ column: 'user_id', value: userId }],
+			pagination: { limit, offset }
+		});
 
-		// For each video, check if it has a script (transcript)
 		const transformed = await Promise.all(
-			videos.map(async (video) => {
-				const scripts = await client
-					.records('scripts')
-					.list({
-						filters: [`repurpose_video_id = '${video.id}'`],
-						limit: 1,
-					});
+			response.records.map(async (video) => {
+				const scripts = await client.records('scripts').list({
+					filters: [{ column: 'repurpose_video_id', value: video.id as string }],
+					pagination: { limit: 1 }
+				});
 
 				return {
 					id: video.id,
@@ -46,7 +39,7 @@ export const GET: RequestHandler = async (event) => {
 					likeCount: video.like_count ? Number(video.like_count) : null,
 					commentCount: video.comment_count ? Number(video.comment_count) : null,
 					savedAt: video.saved_at,
-					hasTranscript: scripts.length > 0,
+					hasTranscript: scripts.records.length > 0
 				};
 			})
 		);
@@ -68,29 +61,13 @@ export const POST: RequestHandler = async (event) => {
 
 		const body = await event.request.json();
 		const {
-			externalId,
-			platform,
-			title,
-			description,
-			thumbnail,
-			url,
-			creatorId,
-			creatorName,
-			viewCount,
-			likeCount,
-			commentCount,
+			externalId, platform, title, description, thumbnail, url,
+			creatorId, creatorName, viewCount, likeCount, commentCount
 		} = body as {
-			externalId: string;
-			platform: string;
-			title: string;
-			description?: string;
-			thumbnail?: string;
-			url: string;
-			creatorId?: string;
-			creatorName?: string;
-			viewCount?: number;
-			likeCount?: number;
-			commentCount?: number;
+			externalId: string; platform: string; title: string;
+			description?: string; thumbnail?: string; url: string;
+			creatorId?: string; creatorName?: string;
+			viewCount?: number; likeCount?: number; commentCount?: number;
 		};
 
 		if (!externalId || !platform || !title || !url) {
@@ -99,19 +76,15 @@ export const POST: RequestHandler = async (event) => {
 
 		const client = getTrailBaseClient();
 
-		// Check if video already exists for this user
-		const existing = await client
-			.records('repurpose_videos')
-			.list({
-				filters: [
-					`user_id = '${userId}'`,
-					`external_id = '${externalId}'`,
-					`platform = '${platform}'`,
-				],
-				limit: 1,
-			}) as Record<string, unknown>[];
+		const existing = await client.records<Record<string, unknown>>('repurpose_videos').list({
+			filters: [
+				{ column: 'user_id', value: userId },
+				{ column: 'external_id', value: externalId },
+				{ column: 'platform', value: platform }
+			],
+			pagination: { limit: 1 }
+		});
 
-		let video: Record<string, unknown>;
 		const videoData = {
 			title,
 			description: description || null,
@@ -121,48 +94,35 @@ export const POST: RequestHandler = async (event) => {
 			creator_name: creatorName || null,
 			view_count: viewCount !== undefined ? viewCount : null,
 			like_count: likeCount !== undefined ? likeCount : null,
-			comment_count: commentCount !== undefined ? commentCount : null,
+			comment_count: commentCount !== undefined ? commentCount : null
 		};
 
-		if (existing.length > 0) {
-			// Update existing
-			await client.records('repurpose_videos').update(existing[0].id as string, {
+		if (existing.records.length > 0) {
+			const existingId = existing.records[0].id as string;
+			await client.records('repurpose_videos').update(existingId, {
 				...videoData,
-				saved_at: new Date().toISOString(),
+				saved_at: new Date().toISOString()
 			});
-			video = (await client
-				.records('repurpose_videos')
-				.read(existing[0].id as string)) as Record<string, unknown>;
+			const updated = await client
+				.records<Record<string, unknown>>('repurpose_videos')
+				.read(existingId);
+			return json({
+				success: true,
+				video: { id: updated.id, externalId: updated.external_id, title: updated.title, savedAt: updated.saved_at }
+			});
 		} else {
-			// Create new
-			video = (await client.records('repurpose_videos').create({
-				user_id: userId,
-				external_id: externalId,
-				platform,
-				...videoData,
-			})) as Record<string, unknown>;
+			const newId = await client.records('repurpose_videos').create({
+				user_id: userId, external_id: externalId, platform, ...videoData
+			});
+			return json({
+				success: true,
+				video: { id: newId, externalId, title, savedAt: new Date().toISOString() }
+			});
 		}
-
-		return json({
-			success: true,
-			video: {
-				id: video.id,
-				externalId: video.external_id,
-				title: video.title,
-				savedAt: video.saved_at,
-			},
-		});
 	} catch (err) {
 		if (err instanceof Error) {
-			if (err.message === 'Unauthorized') {
-				return json({ error: 'Unauthorized' }, { status: 401 });
-			}
-			if (err.message === 'InvalidSession') {
-				return json(
-					{ error: 'Session invalid. Please log out and log in again.' },
-					{ status: 401 }
-				);
-			}
+			if (err.message === 'Unauthorized') return json({ error: 'Unauthorized' }, { status: 401 });
+			if (err.message === 'InvalidSession') return json({ error: 'Session invalid. Please log out and log in again.' }, { status: 401 });
 		}
 		console.error('Error saving repurpose video:', err);
 		return json({ error: 'Failed to save video' }, { status: 500 });
@@ -173,31 +133,17 @@ export const POST: RequestHandler = async (event) => {
 export const DELETE: RequestHandler = async (event) => {
 	try {
 		const userId = await requireUserId(event);
-
 		const id = event.url.searchParams.get('id');
-
-		if (!id) {
-			return json({ error: 'Missing video ID' }, { status: 400 });
-		}
+		if (!id) return json({ error: 'Missing video ID' }, { status: 400 });
 
 		const client = getTrailBaseClient();
-
-		// Make sure the video belongs to this user
-		const existing = await client
-			.records('repurpose_videos')
-			.read(id) as Record<string, unknown>;
-
-		if (!existing || existing.user_id !== userId) {
-			return json({ error: 'Video not found' }, { status: 404 });
-		}
+		const existing = await client.records<Record<string, unknown>>('repurpose_videos').read(id);
+		if (!existing || existing.user_id !== userId) return json({ error: 'Video not found' }, { status: 404 });
 
 		await client.records('repurpose_videos').delete(id);
-
 		return json({ success: true });
 	} catch (err) {
-		if (err instanceof Error && err.message === 'Unauthorized') {
-			return json({ error: 'Unauthorized' }, { status: 401 });
-		}
+		if (err instanceof Error && err.message === 'Unauthorized') return json({ error: 'Unauthorized' }, { status: 401 });
 		console.error('Error deleting repurpose video:', err);
 		return json({ error: 'Failed to delete video' }, { status: 500 });
 	}

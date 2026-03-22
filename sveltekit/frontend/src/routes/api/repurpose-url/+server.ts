@@ -7,6 +7,19 @@ import { repurposeTranscript, type ProgressUpdate } from '$lib/repurpose';
 import { isApiError } from '$lib/errors';
 import { checkRateLimit, RATE_LIMITS } from '$lib/rate-limit';
 
+interface ScriptRecord {
+	id: string;
+	user_id: string;
+	title: string;
+	script: string;
+	repurposed_script: string | null;
+	hooks: string[] | null;
+	status: string;
+	source_url: string | null;
+	created_at: string;
+	updated_at: string;
+}
+
 /**
  * Extract YouTube video ID from various URL formats
  */
@@ -16,7 +29,7 @@ function extractVideoId(url: string): string | null {
 		/(?:youtu\.be\/)([^&\n?#]+)/,
 		/(?:youtube\.com\/embed\/)([^&\n?#]+)/,
 		/(?:youtube\.com\/shorts\/)([^&\n?#]+)/,
-		/(?:m\.youtube\.com\/watch\?v=)([^&\n?#]+)/,
+		/(?:m\.youtube\.com\/watch\?v=)([^&\n?#]+)/
 	];
 
 	for (const pattern of patterns) {
@@ -84,7 +97,9 @@ async function handleStreamingRequest(event: Parameters<RequestHandler>[0]) {
 			// Rate limit expensive operations
 			const rateLimit = checkRateLimit(`repurpose:${userId}`, RATE_LIMITS.expensive);
 			if (!rateLimit.success) {
-				await writeEvent('error', { error: 'Rate limit exceeded. Please try again later.' });
+				await writeEvent('error', {
+					error: 'Rate limit exceeded. Please try again later.'
+				});
 				await writer.close();
 				return;
 			}
@@ -115,16 +130,15 @@ async function handleStreamingRequest(event: Parameters<RequestHandler>[0]) {
 			const client = getTrailBaseClient();
 
 			// Check for existing script
-			const existingScripts = await client
-				.records('scripts')
-				.list({
-					filters: [`source_url = '${url}'`, `user_id = '${userId}'`],
-					limit: 1,
-				});
+			const existingResponse = await client.records<ScriptRecord>('scripts').list({
+				filters: [
+					{ column: 'source_url', value: url },
+					{ column: 'user_id', value: userId }
+				]
+			});
 
-			const existingScript = existingScripts.length > 0
-				? (existingScripts[0] as Record<string, unknown>)
-				: null;
+			const existingScript =
+				existingResponse.records.length > 0 ? existingResponse.records[0] : null;
 
 			if (existingScript?.repurposed_script) {
 				await writeEvent('complete', {
@@ -137,9 +151,9 @@ async function handleStreamingRequest(event: Parameters<RequestHandler>[0]) {
 						hooks: existingScript.hooks,
 						status: existingScript.status,
 						createdAt: existingScript.created_at,
-						updatedAt: existingScript.updated_at,
+						updatedAt: existingScript.updated_at
 					},
-					alreadyExists: true,
+					alreadyExists: true
 				});
 				await writer.close();
 				return;
@@ -148,27 +162,29 @@ async function handleStreamingRequest(event: Parameters<RequestHandler>[0]) {
 			// Send progress: extracting
 			await writeEvent('progress', {
 				step: 'extracting',
-				message: 'Extracting transcript from YouTube',
+				message: 'Extracting transcript from YouTube'
 			});
 
 			// Get video title and transcript
 			const [videoTitle, transcriptResult] = await Promise.all([
 				getYouTubeTitle(url),
-				getYouTubeTranscript({ userId, videoUrl: url, lang }),
+				getYouTubeTranscript({ userId, videoUrl: url, lang })
 			]);
 
 			// Create script record
-			let script: Record<string, unknown>;
+			let scriptId: string;
 			if (existingScript) {
-				script = existingScript;
+				scriptId = existingScript.id;
 			} else {
-				script = (await client.records('scripts').create({
-					user_id: userId,
-					title: videoTitle || `YouTube Video ${videoId}`,
-					script: transcriptResult.transcript,
-					source_url: url,
-					status: 'draft',
-				})) as Record<string, unknown>;
+				scriptId = String(
+					await client.records('scripts').create({
+						user_id: userId,
+						title: videoTitle || `YouTube Video ${videoId}`,
+						script: transcriptResult.transcript,
+						source_url: url,
+						status: 'draft'
+					})
+				);
 			}
 
 			// Repurpose with progress callback
@@ -181,15 +197,17 @@ async function handleStreamingRequest(event: Parameters<RequestHandler>[0]) {
 			);
 
 			// Update script with repurposed content
-			await client.records('scripts').update(script.id as string, {
+			await client.records('scripts').update(scriptId, {
 				repurposed_script: repurposeResult.repurposedScript,
 				hooks: repurposeResult.hooks,
-				status: 'in_progress',
+				status: 'in_progress'
 			});
 
-			const updatedScript = await client
-				.records('scripts')
-				.read(script.id as string) as Record<string, unknown>;
+			// Re-read updated script
+			const updatedResponse = await client.records<ScriptRecord>('scripts').list({
+				filters: [{ column: 'id', value: scriptId }]
+			});
+			const updatedScript = updatedResponse.records[0];
 
 			// Send completion event
 			await writeEvent('complete', {
@@ -202,10 +220,10 @@ async function handleStreamingRequest(event: Parameters<RequestHandler>[0]) {
 					hooks: updatedScript.hooks,
 					status: updatedScript.status,
 					createdAt: updatedScript.created_at,
-					updatedAt: updatedScript.updated_at,
+					updatedAt: updatedScript.updated_at
 				},
 				chunksProcessed: repurposeResult.chunksProcessed,
-				alreadyExists: false,
+				alreadyExists: false
 			});
 
 			await writer.close();
@@ -231,8 +249,8 @@ async function handleStreamingRequest(event: Parameters<RequestHandler>[0]) {
 			'Content-Type': 'text/event-stream',
 			'Cache-Control': 'no-cache, no-transform',
 			Connection: 'keep-alive',
-			'X-Accel-Buffering': 'no',
-		},
+			'X-Accel-Buffering': 'no'
+		}
 	});
 }
 
@@ -260,16 +278,15 @@ async function handleNonStreamingRequest(event: Parameters<RequestHandler>[0]) {
 		const client = getTrailBaseClient();
 
 		// Check if a script already exists for this URL
-		const existingScripts = await client
-			.records('scripts')
-			.list({
-				filters: [`source_url = '${url}'`, `user_id = '${userId}'`],
-				limit: 1,
-			});
+		const existingResponse = await client.records<ScriptRecord>('scripts').list({
+			filters: [
+				{ column: 'source_url', value: url },
+				{ column: 'user_id', value: userId }
+			]
+		});
 
-		const existingScript = existingScripts.length > 0
-			? (existingScripts[0] as Record<string, unknown>)
-			: null;
+		const existingScript =
+			existingResponse.records.length > 0 ? existingResponse.records[0] : null;
 
 		if (existingScript) {
 			// If already repurposed, return it
@@ -284,9 +301,9 @@ async function handleNonStreamingRequest(event: Parameters<RequestHandler>[0]) {
 						hooks: existingScript.hooks,
 						status: existingScript.status,
 						createdAt: existingScript.created_at,
-						updatedAt: existingScript.updated_at,
+						updatedAt: existingScript.updated_at
 					},
-					alreadyExists: true,
+					alreadyExists: true
 				});
 			}
 		}
@@ -297,37 +314,41 @@ async function handleNonStreamingRequest(event: Parameters<RequestHandler>[0]) {
 			getYouTubeTranscript({
 				userId,
 				videoUrl: url,
-				lang,
-			}),
+				lang
+			})
 		]);
 
 		// Create or use existing script
-		let script: Record<string, unknown>;
+		let scriptId: string;
 		if (existingScript) {
-			script = existingScript;
+			scriptId = existingScript.id;
 		} else {
-			script = (await client.records('scripts').create({
-				user_id: userId,
-				title: videoTitle || `YouTube Video ${videoId}`,
-				script: transcriptResult.transcript,
-				source_url: url,
-				status: 'draft',
-			})) as Record<string, unknown>;
+			scriptId = String(
+				await client.records('scripts').create({
+					user_id: userId,
+					title: videoTitle || `YouTube Video ${videoId}`,
+					script: transcriptResult.transcript,
+					source_url: url,
+					status: 'draft'
+				})
+			);
 		}
 
 		// Repurpose the transcript
 		const repurposeResult = await repurposeTranscript(userId, transcriptResult.transcript);
 
 		// Update script with repurposed content
-		await client.records('scripts').update(script.id as string, {
+		await client.records('scripts').update(scriptId, {
 			repurposed_script: repurposeResult.repurposedScript,
 			hooks: repurposeResult.hooks,
-			status: 'in_progress',
+			status: 'in_progress'
 		});
 
-		const updatedScript = await client
-			.records('scripts')
-			.read(script.id as string) as Record<string, unknown>;
+		// Re-read updated script
+		const updatedResponse = await client.records<ScriptRecord>('scripts').list({
+			filters: [{ column: 'id', value: scriptId }]
+		});
+		const updatedScript = updatedResponse.records[0];
 
 		return json({
 			success: true,
@@ -339,10 +360,10 @@ async function handleNonStreamingRequest(event: Parameters<RequestHandler>[0]) {
 				hooks: updatedScript.hooks,
 				status: updatedScript.status,
 				createdAt: updatedScript.created_at,
-				updatedAt: updatedScript.updated_at,
+				updatedAt: updatedScript.updated_at
 			},
 			chunksProcessed: repurposeResult.chunksProcessed,
-			alreadyExists: false,
+			alreadyExists: false
 		});
 	} catch (err) {
 		if (err instanceof Error) {

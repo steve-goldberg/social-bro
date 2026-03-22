@@ -6,6 +6,26 @@ import { getYouTubeTranscript } from '$lib/rapidapi';
 import { isApiError } from '$lib/errors';
 import { checkRateLimit, RATE_LIMITS } from '$lib/rate-limit';
 
+interface RepurposeVideoRecord {
+	id: string;
+	user_id: string;
+	platform: string;
+	title: string;
+	url: string;
+}
+
+interface ScriptRecord {
+	id: string;
+	user_id: string;
+	title: string;
+	script: string;
+	status: string;
+	source_url: string | null;
+	repurpose_video_id: string | null;
+	created_at: string;
+	updated_at: string;
+}
+
 // POST - Extract transcript from a repurpose video and save as script
 export const POST: RequestHandler = async (event) => {
 	try {
@@ -35,13 +55,20 @@ export const POST: RequestHandler = async (event) => {
 		const client = getTrailBaseClient();
 
 		// Get the repurpose video
-		const repurposeVideo = await client
-			.records('repurpose_videos')
-			.read(repurposeVideoId) as Record<string, unknown>;
+		const videosResponse = await client
+			.records<RepurposeVideoRecord>('repurpose_videos')
+			.list({
+				filters: [
+					{ column: 'id', value: repurposeVideoId },
+					{ column: 'user_id', value: userId }
+				]
+			});
 
-		if (!repurposeVideo || repurposeVideo.user_id !== userId) {
+		if (videosResponse.records.length === 0) {
 			return json({ error: 'Video not found' }, { status: 404 });
 		}
+
+		const repurposeVideo = videosResponse.records[0];
 
 		// Only YouTube videos support transcript extraction
 		if (repurposeVideo.platform !== 'youtube') {
@@ -52,15 +79,17 @@ export const POST: RequestHandler = async (event) => {
 		}
 
 		// Check if a script already exists for this video
-		const existingScripts = await client
-			.records('scripts')
+		const existingScriptsResponse = await client
+			.records<ScriptRecord>('scripts')
 			.list({
-				filters: [`repurpose_video_id = '${repurposeVideoId}'`, `user_id = '${userId}'`],
-				limit: 1,
+				filters: [
+					{ column: 'repurpose_video_id', value: repurposeVideoId },
+					{ column: 'user_id', value: userId }
+				]
 			});
 
-		if (existingScripts.length > 0) {
-			const existingScript = existingScripts[0] as Record<string, unknown>;
+		if (existingScriptsResponse.records.length > 0) {
+			const existingScript = existingScriptsResponse.records[0];
 			return json({
 				success: true,
 				script: {
@@ -70,30 +99,38 @@ export const POST: RequestHandler = async (event) => {
 					status: existingScript.status,
 					sourceUrl: existingScript.source_url,
 					createdAt: existingScript.created_at,
-					updatedAt: existingScript.updated_at,
+					updatedAt: existingScript.updated_at
 				},
-				alreadyExists: true,
+				alreadyExists: true
 			});
 		}
 
 		// Extract transcript
 		const result = await getYouTubeTranscript({
 			userId,
-			videoUrl: repurposeVideo.url as string,
-			lang,
+			videoUrl: repurposeVideo.url,
+			lang
 		});
 
 		// Create script with the transcript
-		const script = await client
-			.records('scripts')
-			.create({
+		const scriptId = String(
+			await client.records('scripts').create({
 				user_id: userId,
 				title: repurposeVideo.title,
 				script: result.transcript,
 				source_url: repurposeVideo.url,
 				repurpose_video_id: repurposeVideo.id,
-				status: 'draft',
-			}) as Record<string, unknown>;
+				status: 'draft'
+			})
+		);
+
+		// Re-read the created script to get all fields
+		const createdScriptsResponse = await client
+			.records<ScriptRecord>('scripts')
+			.list({
+				filters: [{ column: 'id', value: scriptId }]
+			});
+		const script = createdScriptsResponse.records[0];
 
 		return json({
 			success: true,
@@ -104,9 +141,9 @@ export const POST: RequestHandler = async (event) => {
 				status: script.status,
 				sourceUrl: script.source_url,
 				createdAt: script.created_at,
-				updatedAt: script.updated_at,
+				updatedAt: script.updated_at
 			},
-			alreadyExists: false,
+			alreadyExists: false
 		});
 	} catch (err) {
 		if (err instanceof Error) {

@@ -15,9 +15,7 @@ export const POST: RequestHandler = async (event) => {
 		const client = getTrailBaseClient();
 
 		// Get the script
-		const script = await client
-			.records('scripts')
-			.read(id) as Record<string, unknown>;
+		const script = await client.records<Record<string, unknown>>('scripts').read(id);
 
 		if (!script) {
 			return json({ error: 'Script not found' }, { status: 404 });
@@ -28,14 +26,14 @@ export const POST: RequestHandler = async (event) => {
 		}
 
 		// Get user's selected model
-		const settingsList = await client
-			.records('user_settings')
+		const settingsResponse = await client
+			.records<Record<string, unknown>>('user_settings')
 			.list({
-				filters: [`user_id = '${userId}'`],
-				limit: 1,
-			}) as Record<string, unknown>[];
+				filters: [{ column: 'user_id', value: userId }],
+				pagination: { limit: 1 }
+			});
 
-		const settings = settingsList.length > 0 ? settingsList[0] : null;
+		const settings = settingsResponse.records.length > 0 ? settingsResponse.records[0] : null;
 
 		if (!settings?.selected_model_id) {
 			return json(
@@ -54,9 +52,9 @@ export const POST: RequestHandler = async (event) => {
 			model: settings.selected_model_id as string,
 			messages: [
 				{ role: 'system', content: HOOKS_SYSTEM_PROMPT },
-				{ role: 'user', content: prompt },
+				{ role: 'user', content: prompt }
 			],
-			temperature: 0.9, // Higher temperature for more variation
+			temperature: 0.9
 		});
 
 		const content = response.choices[0]?.message?.content || '[]';
@@ -79,12 +77,9 @@ export const POST: RequestHandler = async (event) => {
 		}
 
 		// Update the script with new hooks
-		await client.records('scripts').update(id, { hooks });
+		await client.records('scripts').update(id, { hooks: JSON.stringify(hooks) });
 
-		return json({
-			success: true,
-			hooks,
-		});
+		return json({ success: true, hooks });
 	} catch (err) {
 		console.error('Error regenerating hooks:', err);
 		return json({ error: 'Failed to regenerate hooks' }, { status: 500 });

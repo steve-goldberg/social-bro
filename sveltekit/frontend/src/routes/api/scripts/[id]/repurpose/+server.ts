@@ -26,7 +26,7 @@ export const POST: RequestHandler = async (event) => {
 			success: true,
 			repurposedScript: result.repurposedScript,
 			hooks: result.hooks,
-			chunksProcessed: result.chunksProcessed,
+			chunksProcessed: result.chunksProcessed
 		});
 	} catch (err) {
 		if (err instanceof Error) {
