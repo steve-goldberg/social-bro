@@ -403,12 +403,8 @@
 	}
 
 	// Derived columns
-	const currentRepurposeColumns = $derived(
-		repurposeColumns(() => fetchScripts(), handleDeleteRepurpose, handleScriptsTabClick)
-	);
-	const currentScriptsColumns = $derived(
-		scriptsColumns(handleViewOriginalScript, handleViewRepurposedScript, handleDeleteScript, handleScriptRepurposed, handleStartRepurpose)
-	);
+	const currentRepurposeColumns = repurposeColumns;
+	const currentScriptsColumns = scriptsColumns;
 	const currentColumns = $derived(
 		selectedPlatform === 'tiktok' ? tiktokColumns : selectedPlatform === 'instagram' ? instagramColumns : youtubeColumns
 	);
@@ -574,7 +570,7 @@
 					value={searchQuery}
 					onchange={(v) => (searchQuery = v)}
 					onsearch={handleSearch}
-					onurlrepurpose={handleUrlRepurpose}
+					onrepurpose={handleUrlRepurpose}
 					placeholder="Search for videos, creators, or topics..."
 					isLoading={isSearching || isProcessing}
 					platform={selectedPlatform}
@@ -585,12 +581,12 @@
 		<!-- Previous Searches -->
 		<div class="absolute bottom-4 left-0 right-0 flex justify-center px-3 sm:bottom-8 sm:px-4">
 			<PreviousSearches
-				onSearchSelect={handleSearchSelect}
-				onSavedSearchSelect={handleSavedSearchSelect}
-				onRepurposeTabClick={handleRepurposeTabClick}
-				onScriptsTabClick={handleScriptsTabClick}
+				onsearchselect={handleSearchSelect}
+				onsavedsearchselect={handleSavedSearchSelect}
+				onrepurposetabclick={handleRepurposeTabClick}
+				onscriptstabclick={handleScriptsTabClick}
 			/>
 		</div>
 	</div>
-	<SettingsModal isOpen={isSettingsOpen} onclose={() => (isSettingsOpen = false)} />
+	<SettingsModal open={isSettingsOpen} onClose={() => (isSettingsOpen = false)} />
 {/if}

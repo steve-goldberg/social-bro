@@ -1,3 +1,4 @@
+<!-- eslint-disable svelte/no-navigation-without-resolve -->
 <script lang="ts">
 	import {
 		Dialog,
@@ -68,7 +69,8 @@
 		onClose: () => void;
 	}
 
-	let { open = $bindable(false), onClose: _onClose }: Props = $props();
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	let { open = $bindable(false), onClose }: Props = $props();
 
 	const SERVICE_CONFIG: Record<ApiKeyService, { label: string; placeholder: string }> = {
 		youtube: {
@@ -222,6 +224,11 @@
 
 	// Guide state
 	let activeGuide = $state<ApiKeyService | null>(null);
+
+	// OpenRouter derived state
+	let orKeyState = $derived(apiKeys.find((k) => k.service === 'openrouter'));
+	const orConfig = SERVICE_CONFIG.openrouter;
+	let orIsEditing = $derived(editingService === 'openrouter');
 
 	let filteredModels = $derived(
 		llmModels.filter(
@@ -552,7 +559,7 @@
 																{step.description}
 															</p>
 															{#if step.link}
-																<!-- svelte-ignore svelte_a11y_no_navigation_without_resolve -->
+																<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- external link -->
 																<a
 																	href={step.link.url}
 																	target="_blank"
@@ -587,9 +594,6 @@
 				</h3>
 
 				<!-- OpenRouter API Key -->
-				{@const orKeyState = apiKeys.find((k) => k.service === 'openrouter')}
-				{@const orConfig = SERVICE_CONFIG.openrouter}
-				{@const orIsEditing = editingService === 'openrouter'}
 				<div
 					class="rounded-lg border border-white/10 bg-white/[0.03] p-3 sm:rounded-xl sm:p-4"
 				>
@@ -707,6 +711,7 @@
 												{step.description}
 											</p>
 											{#if step.link}
+												<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- external link -->
 												<a
 													href={step.link.url}
 													target="_blank"

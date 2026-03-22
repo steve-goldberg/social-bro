@@ -21,7 +21,8 @@
 		onClose: () => void;
 	}
 
-	let { open = $bindable(false), onClose: _onClose }: Props = $props();
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	let { open = $bindable(false), onClose }: Props = $props();
 
 	interface ConfigState {
 		maxResults: number;
@@ -169,7 +170,7 @@
 						Results per search
 					</label>
 					<div class="flex flex-wrap gap-1.5 sm:gap-2">
-						{#each MAX_RESULTS_OPTIONS as num}
+						{#each MAX_RESULTS_OPTIONS as num (num)}
 							<button
 								class="min-h-[40px] min-w-[40px] flex-1 rounded-lg text-xs font-medium transition-all active:scale-95 sm:text-sm {config.maxResults ===
 								num
@@ -205,7 +206,7 @@
 								{getLabel(DATE_RANGE_OPTIONS, config.dateRange)}
 							</SelectTrigger>
 							<SelectContent>
-								{#each DATE_RANGE_OPTIONS as option}
+								{#each DATE_RANGE_OPTIONS as option (option.value)}
 									<SelectItem value={option.value}>{option.label}</SelectItem>
 								{/each}
 							</SelectContent>
@@ -232,7 +233,7 @@
 								{getLabel(VIDEO_DURATION_OPTIONS, config.videoDuration)}
 							</SelectTrigger>
 							<SelectContent>
-								{#each VIDEO_DURATION_OPTIONS as option}
+								{#each VIDEO_DURATION_OPTIONS as option (option.value)}
 									<SelectItem value={option.value}>{option.label}</SelectItem>
 								{/each}
 							</SelectContent>
@@ -259,7 +260,7 @@
 								{getLabel(ORDER_OPTIONS, config.order)}
 							</SelectTrigger>
 							<SelectContent>
-								{#each ORDER_OPTIONS as option}
+								{#each ORDER_OPTIONS as option (option.value)}
 									<SelectItem value={option.value}>{option.label}</SelectItem>
 								{/each}
 							</SelectContent>
@@ -286,7 +287,7 @@
 								{getLabel(REGION_OPTIONS, config.region)}
 							</SelectTrigger>
 							<SelectContent>
-								{#each REGION_OPTIONS as option}
+								{#each REGION_OPTIONS as option (option.value)}
 									<SelectItem value={option.value}>{option.label}</SelectItem>
 								{/each}
 							</SelectContent>

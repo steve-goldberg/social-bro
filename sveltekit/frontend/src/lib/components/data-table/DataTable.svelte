@@ -1,3 +1,4 @@
+<!-- eslint-disable svelte/no-navigation-without-resolve -->
 <script lang="ts">
 	import {
 		Table,
@@ -25,13 +26,15 @@
 	import Check from '@lucide/svelte/icons/check';
 
 	interface Props {
-		data: Record<string, unknown>[];
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		data: Record<string, any>[];
 		columns: ColumnDef[];
 		isLoading?: boolean;
 		skeletonRows?: number;
 		perPage?: number;
 		platform?: string;
-		onAction?: (actionType: string, row: Record<string, unknown>) => void;
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		onAction?: (actionType: string, row: Record<string, any>) => void;
 	}
 
 	let {
@@ -164,7 +167,7 @@
 	<!-- Mobile Card View -->
 	<div class="space-y-3 md:hidden">
 		{#if isLoading}
-			{#each { length: skeletonRows } as _skItem, index (index)}
+			{#each Array.from({ length: skeletonRows }, (_, i) => i) as index (index)}
 				<div
 					class="animate-pulse rounded-xl border border-white/10 bg-white/[0.02] p-4"
 					style:animation-delay="{index * 50}ms"
@@ -249,8 +252,7 @@
 
 					<!-- Action Row -->
 					<div class="flex items-center justify-between gap-2">
-						<!-- svelte-ignore svelte_a11y_no_navigation_without_resolve -->
-						<a
+							<a
 							href={item['url'] as string}
 							target="_blank"
 							rel="noopener noreferrer"
@@ -311,7 +313,7 @@
 			</TableHeader>
 			<TableBody>
 				{#if isLoading}
-					{#each { length: skeletonRows } as _skRow, rowIndex (rowIndex)}
+					{#each Array.from({ length: skeletonRows }, (_, i) => i) as rowIndex (rowIndex)}
 						<TableRow>
 							{#each columns as skCol (skCol.id)}
 								{@const colIndex = columns.indexOf(skCol)}
@@ -372,7 +374,6 @@
 											{score.toFixed(2)}%
 										</span>
 									{:else if col.cellType === 'url'}
-										<!-- svelte-ignore svelte_a11y_no_navigation_without_resolve -->
 										<a
 											href={getCellValue(row, col.accessor) as string}
 											target="_blank"
