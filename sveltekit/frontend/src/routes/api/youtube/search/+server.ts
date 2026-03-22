@@ -5,6 +5,16 @@ import { requireUserId } from '$lib/auth-utils';
 import { isApiError } from '$lib/errors';
 import { getTrailBaseClient } from '$lib/trailbase';
 
+interface YouTubeConfigRecord {
+	id: string;
+	user_id: string;
+	maxResults: number;
+	dateRange: string;
+	region: string;
+	videoDuration: string;
+	order: string;
+}
+
 // Helper to calculate publishedAfter date from dateRange
 function getPublishedAfterDate(dateRange: string): string | undefined {
 	if (dateRange === 'any') return undefined;
@@ -53,12 +63,12 @@ export async function GET(event: RequestEvent) {
 
 		try {
 			const client = getTrailBaseClient();
-			const records = await client.records('youtube_configs').list({
-				filters: `user_id = '${userId}'`,
-				pageSize: 1
+			const response = await client.records<YouTubeConfigRecord>('youtube_configs').list({
+				filters: [{ column: 'user_id', value: userId }],
+				pagination: { limit: 1 }
 			});
-			if (records.length > 0) {
-				const dbConfig = records[0];
+			if (response.records.length > 0) {
+				const dbConfig = response.records[0];
 				config = {
 					maxResults: dbConfig.maxResults ?? defaultConfig.maxResults,
 					dateRange: dbConfig.dateRange ?? defaultConfig.dateRange,

@@ -5,6 +5,16 @@ import { requireUserId } from '$lib/auth-utils';
 import { isApiError } from '$lib/errors';
 import { getTrailBaseClient } from '$lib/trailbase';
 
+interface YouTubeConfigRecord {
+	id: string;
+	user_id: string;
+	maxResults: number;
+	dateRange: string;
+	region: string;
+	videoDuration: string;
+	order: string;
+}
+
 export async function GET(event: RequestEvent) {
 	const username = event.url.searchParams.get('username');
 
@@ -19,12 +29,12 @@ export async function GET(event: RequestEvent) {
 		let maxResults = 25;
 		try {
 			const client = getTrailBaseClient();
-			const records = await client.records('youtube_configs').list({
-				filters: `user_id = '${userId}'`,
-				pageSize: 1
+			const response = await client.records<YouTubeConfigRecord>('youtube_configs').list({
+				filters: [{ column: 'user_id', value: userId }],
+				pagination: { limit: 1 }
 			});
-			if (records.length > 0) {
-				maxResults = records[0].maxResults ?? 25;
+			if (response.records.length > 0) {
+				maxResults = response.records[0].maxResults ?? 25;
 			}
 		} catch (dbError) {
 			console.error('Failed to fetch YouTube config:', dbError);

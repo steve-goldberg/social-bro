@@ -11,6 +11,16 @@ export interface YouTubeConfigData {
 	order: string;
 }
 
+interface YouTubeConfigRecord {
+	id: string;
+	user_id: string;
+	maxResults: number;
+	dateRange: string;
+	region: string;
+	videoDuration: string;
+	order: string;
+}
+
 const DEFAULT_CONFIG: YouTubeConfigData = {
 	maxResults: 25,
 	dateRange: 'any',
@@ -25,16 +35,16 @@ export async function GET(event: RequestEvent) {
 		const userId = await requireUserId(event);
 
 		const client = getTrailBaseClient();
-		const records = await client.records('youtube_configs').list({
-			filters: `user_id = '${userId}'`,
-			pageSize: 1
+		const response = await client.records<YouTubeConfigRecord>('youtube_configs').list({
+			filters: [{ column: 'user_id', value: userId }],
+			pagination: { limit: 1 }
 		});
 
-		if (records.length === 0) {
+		if (response.records.length === 0) {
 			return json(DEFAULT_CONFIG);
 		}
 
-		const config = records[0];
+		const config = response.records[0];
 		return json({
 			maxResults: config.maxResults,
 			dateRange: config.dateRange,
@@ -126,9 +136,9 @@ export async function POST(event: RequestEvent) {
 		const client = getTrailBaseClient();
 
 		// Check if config exists for this user
-		const existing = await client.records('youtube_configs').list({
-			filters: `user_id = '${userId}'`,
-			pageSize: 1
+		const existing = await client.records<YouTubeConfigRecord>('youtube_configs').list({
+			filters: [{ column: 'user_id', value: userId }],
+			pagination: { limit: 1 }
 		});
 
 		const configData = {
@@ -140,21 +150,24 @@ export async function POST(event: RequestEvent) {
 			order: validOrder
 		};
 
-		let config;
-		if (existing.length > 0) {
+		if (existing.records.length > 0) {
 			// Update existing
-			config = await client.records('youtube_configs').update(existing[0].id, configData);
+			await client
+				.records<YouTubeConfigRecord>('youtube_configs')
+				.update(existing.records[0].id, configData);
 		} else {
 			// Create new
-			config = await client.records('youtube_configs').create(configData);
+			await client
+				.records<YouTubeConfigRecord>('youtube_configs')
+				.create(configData as YouTubeConfigRecord);
 		}
 
 		return json({
-			maxResults: config.maxResults ?? validMaxResults,
-			dateRange: config.dateRange ?? validDateRange,
-			region: config.region ?? validRegion,
-			videoDuration: config.videoDuration ?? validDuration,
-			order: config.order ?? validOrder
+			maxResults: validMaxResults,
+			dateRange: validDateRange,
+			region: validRegion,
+			videoDuration: validDuration,
+			order: validOrder
 		});
 	} catch (error) {
 		if (error instanceof Error) {
