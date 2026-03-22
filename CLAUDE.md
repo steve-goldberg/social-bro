@@ -71,7 +71,15 @@ src/types/index.ts          # Shared TypeScript types
 
 ## Framework Reference
 
-- Svelte/SvelteKit/CLI LLM reference (full): https://svelte.dev/llms-full.txt
+### Svelte/SvelteKit Docs (local — `docs/svelte-docs.md`)
+
+**IMPORTANT: This file is ~29,000 lines. NEVER read or grep the full file.**
+
+1. **Read the index first**: `Read(file="docs/svelte-docs.md", limit=410)` — the first 410 lines are a structured table of contents with line numbers for every major section and inline topic lists.
+2. **Jump to a section**: Find the `L<number>` in the index, then `Read(file="docs/svelte-docs.md", offset=<number>, limit=100)`.
+3. **Find a specific topic**: `Grep(pattern="## <topic>", path="docs/svelte-docs.md")` to locate h2/h3 headings not individually listed in the index.
+
+To rebuild the index after updating the docs: `node docs/build-doc-index.js docs/svelte-docs.md`
 
 ## TrailBase (Backend)
 
