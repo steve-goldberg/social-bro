@@ -41,4 +41,11 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# playwright-cli artifacts
+.playwright-cli/
+homepage.png
+instagram.png
+settings.png
+tiktok.png
+
 /src/generated/prisma
