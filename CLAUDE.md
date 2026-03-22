@@ -69,6 +69,10 @@ src/components/{feature}/   # Components grouped by feature, barrel exports
 src/types/index.ts          # Shared TypeScript types
 ```
 
+## Framework Reference
+
+- Svelte/SvelteKit/CLI LLM reference (full): https://svelte.dev/llms-full.txt
+
 ## UI Components
 
 This project uses **shadcn-svelte** for UI primitives. Before building custom components, check if a shadcn component exists.
