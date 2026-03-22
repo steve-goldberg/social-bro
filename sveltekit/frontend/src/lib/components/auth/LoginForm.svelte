@@ -6,9 +6,9 @@
 	import { Label } from '$lib/components/ui/label/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { cn } from '$lib/utils.js';
-	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
-	import Mail from 'lucide-svelte/icons/mail';
-	import Lock from 'lucide-svelte/icons/lock';
+	import LoaderCircle from '@lucide/svelte/icons/loader-circle';
+	import Mail from '@lucide/svelte/icons/mail';
+	import Lock from '@lucide/svelte/icons/lock';
 
 	let email = $state('');
 	let password = $state('');

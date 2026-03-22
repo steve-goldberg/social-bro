@@ -8,7 +8,7 @@
 		DropdownMenuTrigger
 	} from '$lib/components/ui/dropdown-menu/index.js';
 	import { Avatar, AvatarFallback, AvatarImage } from '$lib/components/ui/avatar/index.js';
-	import LogOut from 'lucide-svelte/icons/log-out';
+	import LogOut from '@lucide/svelte/icons/log-out';
 
 	interface Props {
 		name?: string;
