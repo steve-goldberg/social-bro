@@ -69,6 +69,15 @@ src/components/{feature}/   # Components grouped by feature, barrel exports
 src/types/index.ts          # Shared TypeScript types
 ```
 
+## UI Components
+
+This project uses **shadcn-svelte** for UI primitives. Before building custom components, check if a shadcn component exists.
+
+- Docs: https://shadcn-svelte.com/docs
+- LLM reference: https://shadcn-svelte.com/llms.txt
+- Install components: `npx shadcn-svelte@next add <component>`
+- Installed components live in `src/lib/components/ui/`
+
 ## Code Quality
 
 After editing ANY file, run: `npm run lint && npm run typecheck`
