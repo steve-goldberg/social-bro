@@ -50,7 +50,9 @@ export async function GET() {
       };
     });
 
-    return NextResponse.json(response);
+    return NextResponse.json(response, {
+      headers: { 'Cache-Control': 'private, max-age=300' },
+    });
   } catch (error) {
     if (error instanceof Error && error.message === 'Unauthorized') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -65,7 +67,12 @@ export async function POST(request: Request) {
   try {
     const userId = await requireValidUser();
 
-    const body = await request.json();
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+    }
     const { service, key } = body as { service: ApiKeyService; key: string };
 
     if (!service || !key) {

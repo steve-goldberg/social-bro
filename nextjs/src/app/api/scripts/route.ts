@@ -36,7 +36,10 @@ export async function GET(request: NextRequest) {
       updatedAt: script.updatedAt.toISOString(),
     }));
 
-    return NextResponse.json({ scripts: transformed });
+    return NextResponse.json(
+      { scripts: transformed },
+      { headers: { 'Cache-Control': 'private, max-age=300' } }
+    );
   } catch (error) {
     if (error instanceof Error && error.message === 'Unauthorized') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -51,7 +54,12 @@ export async function POST(request: NextRequest) {
   try {
     const userId = await requireValidUser();
 
-    const body = await request.json();
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+    }
     const { title, caption, script, notes, status } = body as {
       title: string;
       caption?: string;
@@ -110,7 +118,12 @@ export async function PUT(request: NextRequest) {
   try {
     const userId = await requireValidUser();
 
-    const body = await request.json();
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+    }
     const { id, title, caption, script, notes, status } = body as {
       id: string;
       title?: string;

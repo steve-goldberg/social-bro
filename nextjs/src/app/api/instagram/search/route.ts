@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { searchInstagram, getUserReels, transformReelsToTableData } from '@/lib/rapidapi';
 import { requireUserId } from '@/lib/auth-utils';
 import { isApiError } from '@/lib/errors';
+import { checkRateLimit, RATE_LIMITS } from '@/lib/rate-limit';
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -13,6 +14,14 @@ export async function GET(request: NextRequest) {
 
   try {
     const userId = await requireUserId();
+
+    const rateLimit = checkRateLimit(`instagram:${userId}`, RATE_LIMITS.standard);
+    if (!rateLimit.success) {
+      return NextResponse.json(
+        { error: 'Rate limit exceeded. Please try again later.' },
+        { status: 429 }
+      );
+    }
 
     // Search for users
     const users = await searchInstagram({

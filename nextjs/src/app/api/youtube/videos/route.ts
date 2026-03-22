@@ -24,6 +24,10 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'No valid video IDs provided' }, { status: 400 });
     }
 
+    if (videoIds.length > 50) {
+      return NextResponse.json({ error: 'Maximum 50 video IDs per request' }, { status: 400 });
+    }
+
     const videos = await getMultipleVideoDetails(userId, videoIds);
     return NextResponse.json({ videos });
   } catch (error) {
