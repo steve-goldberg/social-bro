@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
+	import { logoutForm } from '../../../routes/(auth)/auth.remote.js';
 	import {
 		DropdownMenu,
 		DropdownMenuContent,
@@ -43,7 +43,7 @@
 		</div>
 	</DropdownMenuTrigger>
 	<DropdownMenuContent align="end" class="w-48 border-white/10 bg-[#1a1a1a]">
-		<form method="POST" action="/logout" use:enhance>
+		<form {...logoutForm}>
 			<DropdownMenuItem
 				class="cursor-pointer text-white/70 hover:text-white focus:text-white"
 			>
