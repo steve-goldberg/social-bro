@@ -17,11 +17,15 @@
 		"@lucide/svelte": "^0.577.0",
 		"bits-ui": "^1.0.0",
 		"clsx": "^2.1.1",
+		"formsnap": "^2.0.1",
+		"jwt-decode": "^4.0.0",
 		"lru-cache": "^11.2.4",
 		"svelte-sonner": "^0.3.0",
+		"sveltekit-superforms": "^2.30.0",
 		"tailwind-merge": "^3.4.0",
 		"tailwind-variants": "^3.2.0",
-		"trailbase": "^0.10.0"
+		"trailbase": "^0.10.0",
+		"zod": "^4.3.6"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-node": "^5.0.0",

@@ -9,4 +9,17 @@ services:
       ADDRESS: '0.0.0.0:4000'
     volumes:
       - ./traildepot:/app/traildepot
-    command: /app/trail
+    command: /app/trail run
+    depends_on:
+      - mailpit
+
+  mailpit:
+    image: axllent/mailpit
+    container_name: social-bro-mailpit
+    restart: unless-stopped
+    ports:
+      - '8025:8025'   # Web UI
+      - '1025:1025'   # SMTP
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1

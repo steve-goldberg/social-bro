@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { LoginForm } from '$lib/components/auth/index.js';
+	import { RegisterForm } from '$lib/components/auth/index.js';
 	import type { PageData } from './$types.js';
 	import { page } from '$app/state';
 
@@ -11,5 +11,5 @@
 </script>
 
 <div class="flex min-h-screen items-center justify-center bg-background p-4">
-	<LoginForm {data} error={actionError} />
+	<RegisterForm {data} error={actionError} />
 </div>

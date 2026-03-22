@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import { resolve } from '$app/paths';
+	import { enhance } from '$app/forms';
 	import {
 		DropdownMenu,
 		DropdownMenuContent,
@@ -27,43 +26,32 @@
 			.toUpperCase()
 			.slice(0, 2)
 	);
-
-	async function handleLogout() {
-		try {
-			await fetch('/api/auth/logout', { method: 'POST' });
-			await goto(resolve('/login'));
-		} catch {
-			await goto(resolve('/login'));
-		}
-	}
 </script>
 
 <DropdownMenu>
 	<DropdownMenuTrigger>
-		<div class="flex items-center gap-3 cursor-pointer">
+		<div class="flex cursor-pointer items-center gap-3">
 			<span class="hidden text-xs font-medium text-white/50 sm:inline">{displayName}</span>
 			<Avatar class="h-8 w-8">
 				{#if avatarUrl}
 					<AvatarImage src={avatarUrl} alt={displayName} />
 				{/if}
-				<AvatarFallback
-					class="bg-white/10 text-xs font-medium text-white/70"
-				>
+				<AvatarFallback class="bg-white/10 text-xs font-medium text-white/70">
 					{initials}
 				</AvatarFallback>
 			</Avatar>
 		</div>
 	</DropdownMenuTrigger>
-	<DropdownMenuContent
-		align="end"
-		class="w-48 border-white/10 bg-[#1a1a1a]"
-	>
-		<DropdownMenuItem
-			onclick={handleLogout}
-			class="cursor-pointer text-white/70 hover:text-white focus:text-white"
-		>
-			<LogOut class="mr-2 h-3.5 w-3.5" />
-			Logout
-		</DropdownMenuItem>
+	<DropdownMenuContent align="end" class="w-48 border-white/10 bg-[#1a1a1a]">
+		<form method="POST" action="/logout" use:enhance>
+			<DropdownMenuItem
+				class="cursor-pointer text-white/70 hover:text-white focus:text-white"
+			>
+				<button type="submit" class="flex w-full items-center">
+					<LogOut class="mr-2 h-3.5 w-3.5" />
+					Logout
+				</button>
+			</DropdownMenuItem>
+		</form>
 	</DropdownMenuContent>
 </DropdownMenu>
