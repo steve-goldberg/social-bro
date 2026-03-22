@@ -1,0 +1,2 @@
+# TrailBase data directory (created at runtime, contains SQLite DBs and secrets)
+traildepot/
