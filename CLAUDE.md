@@ -25,11 +25,16 @@ The migration plan is in `docs/plans/` — refer to it for phase-by-phase breakd
 
 ```
 social-bro/
-├── nextjs/          # ORIGINAL app (Next.js + Prisma) — READ-ONLY REFERENCE
-├── sveltekit/       # MIGRATION TARGET — ALL new code goes here
-│   ├── frontend/    # SvelteKit app
-│   └── backend/     # TrailBase config and schema
-├── docs/            # Framework reference docs
+├── nextjs/              # ORIGINAL app (Next.js + Prisma) — READ-ONLY REFERENCE
+├── sveltekit/           # MIGRATION TARGET — ALL new code goes here
+│   ├── frontend/        # SvelteKit app (its own package.json, svelte.config.js, src/, etc.)
+│   │   ├── src/
+│   │   │   ├── routes/  # SvelteKit pages and API routes (+page.svelte, +server.ts)
+│   │   │   └── lib/     # Shared code ($lib/), components, platform clients, utils
+│   │   ├── static/      # Static assets
+│   │   └── package.json
+│   └── backend/         # TrailBase config (docker-compose.yml, schema, migrations, CORS config)
+├── docs/                # Framework reference docs (svelte, shadcn-svelte, trailbase)
 └── CLAUDE.md
 ```
 
